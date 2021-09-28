@@ -1,0 +1,5 @@
+#ignore
+.expo
+.expo-shared
+.husky
+node_modules
