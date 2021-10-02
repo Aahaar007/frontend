@@ -23,7 +23,8 @@
     "react-native-vector-icons": "6.6.0",
     "react-native-web": "~0.13.12",
     "typescript": "2.7",
-    "validate-color": "2.1.1"
+    "validate-color": "2.1.1",
+    "yarn": "^1.22.15"
   },
   "devDependencies": {
     "@babel/core": "^7.15.5",
