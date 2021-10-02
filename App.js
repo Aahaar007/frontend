@@ -7,7 +7,9 @@ export default function App() {
   return (
     <ThemeProvider>
       <View>
-        <Text color="red">Open up App.js to start working on your app!</Text>
+        <Text color="red">
+          Open up App.js to start working on your app! Try not to add any bugs!
+        </Text>
       </View>
     </ThemeProvider>
   );
