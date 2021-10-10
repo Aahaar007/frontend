@@ -1,7 +1,6 @@
 import React from "react";
-import { AppRegistry, View } from "react-native";
+import { AppRegistry } from "react-native";
 import { ThemeProvider } from "react-native-magnus";
-import { Text } from "react-native-magnus";
 import { theme } from "./styles/theme";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from "@react-navigation/native";
