@@ -2,15 +2,21 @@ import React from "react";
 import { AppRegistry, View } from "react-native";
 import { ThemeProvider } from "react-native-magnus";
 import { Text } from "react-native-magnus";
+import { theme } from "./styles/theme";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { NavigationContainer } from "@react-navigation/native";
+import SignUpScreen from "./screens/SignUpScreen";
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    <ThemeProvider>
-      <View>
-        <Text color="red">
-          Open up App.js to start working on your app! Try not to add any bugs!
-        </Text>
-      </View>
+    <ThemeProvider theme={theme}>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen name="Sign Up" component={SignUpScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
     </ThemeProvider>
   );
 }
