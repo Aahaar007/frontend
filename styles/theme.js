@@ -1,7 +1,7 @@
 export const theme = {
   colors: {
-    primary: "#ffc50f",
-    bgGray: "#242424",
-    dimGray: "#636363",
+    primary: "rgba(255,197,15,1.0)",
+    bgGray: "rgba(36,36,36, 1.0)",
+    dimGray: "rgba(99,99,99,1.0)",
   },
 };

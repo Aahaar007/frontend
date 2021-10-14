@@ -4,8 +4,7 @@ import { ThemeProvider } from "react-native-magnus";
 import { theme } from "./styles/theme";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from "@react-navigation/native";
-import SignUpScreen from "./screens/SignUpScreen";
-
+import HomeScreen from "./screens/HomeScreen";
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -13,7 +12,9 @@ export default function App() {
     <ThemeProvider theme={theme}>
       <NavigationContainer>
         <Stack.Navigator>
-          <Stack.Screen name="Sign Up" component={SignUpScreen} />
+          <Stack.Group screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="Home" component={HomeScreen} />
+          </Stack.Group>
         </Stack.Navigator>
       </NavigationContainer>
     </ThemeProvider>
