@@ -1,24 +1,62 @@
 import React from "react";
+import { Controller, useForm } from "react-hook-form";
 
 import { Div, Input, Text } from "react-native-magnus";
 
 const FormInput = (props) => {
+  //from props
+  const {
+    name,
+    control,
+    placeHolder,
+    isPass,
+    inputProp,
+    rules,
+    defaultValue = "",
+    errors = {},
+    errorMessage = "Field Required",
+  } = props;
   return (
-    <Div {...props}>
-      <Text px={4} color="dimGray">
+    <Div position="relative">
+      <Text px={4} color="dimGray" {...props}>
         {props.label}
       </Text>
-      <Input
-        bg="transparent"
-        borderColor="dimGray"
-        borderWidth={0}
-        borderBottomWidth={1}
-        placeholder={props.placeHolder}
-        color="white"
-        py={0}
-        mt={10}
-        secureTextEntry={props.isPass}
+      <Controller
+        control={control}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <Input
+            bg="transparent"
+            borderColor="dimGray"
+            borderWidth={0}
+            borderBottomWidth={1}
+            placeholder={placeHolder}
+            color="white"
+            py={0}
+            mt={10}
+            secureTextEntry={isPass}
+            onBlur={onBlur}
+            onChangeText={(value) => onChange(value)}
+            value={value}
+            {...inputProp}
+          />
+        )}
+        name={name}
+        rules={rules}
+        defaultValue={defaultValue}
       />
+      {errors[name] && (
+        <Div
+          position="absolute"
+          right={0}
+          bottom={-25}
+          alignItems="flex-end"
+          px={5}
+        >
+          <Text alignSelf="right" color="error" mt={5}>
+            {errorMessage}
+          </Text>
+        </Div>
+      )}
     </Div>
   );
 };
