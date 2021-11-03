@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 
 import { Button, Div } from "react-native-magnus";
 import FormInput from "../../components/form/FormInput";
+import { Regex } from "../../constants/regex";
 
 const SignInForm = (props) => {
   const {
@@ -17,8 +18,7 @@ const SignInForm = (props) => {
         name="email"
         rules={{
           required: true,
-          pattern:
-            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$|^[7-9][0-9]{9}$/,
+          pattern: Regex.emailPattern,
         }}
         errors={errors}
         errorMessage="Phone/Email Required"
