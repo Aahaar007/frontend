@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 
 import { Button, Div } from "react-native-magnus";
 import FormInput from "../../components/form/FormInput";
-import { Regex } from "../../constants/regex";
+import { Regex } from "../../constants/Regex";
 
 const SignInForm = (props) => {
   const {
