@@ -1,5 +1,5 @@
 import React from "react";
-import { Controller, useForm } from "react-hook-form";
+import { Controller } from "react-hook-form";
 
 import { Div, Input, Text } from "react-native-magnus";
 
@@ -53,7 +53,7 @@ const FormInput = (props) => {
           px={5}
         >
           <Text alignSelf="right" color="error" mt={5}>
-            {errorMessage}
+            {errors[name].message ? errors[name].message : errorMessage}
           </Text>
         </Div>
       )}
