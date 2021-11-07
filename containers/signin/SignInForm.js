@@ -1,45 +1,44 @@
 import React from "react";
 import { useForm } from "react-hook-form";
+import { isValidPhoneNumber } from "libphonenumber-js";
 
 import { Button, Div } from "react-native-magnus";
 import FormInput from "../../components/form/FormInput";
-import { Regex } from "../../constants/Regex";
 
 const SignInForm = (props) => {
   const {
     control,
     handleSubmit,
     formState: { errors },
+    setError,
   } = useForm();
+
+  const submitData = (data) => {
+    if (!isValidPhoneNumber(data.phone, "IN")) {
+      setError("phone", {
+        type: "manual",
+        message: "Enter a valid phone number",
+      });
+    }
+    console.table(data);
+  };
+
   return (
     <Div {...props}>
       <FormInput
         control={control}
-        name="email"
+        name="phone"
         rules={{
           required: true,
-          pattern: Regex.emailPattern,
         }}
         errors={errors}
-        errorMessage="Phone/Email Required"
-        label="Enter your phone number or email address"
-        placeHolder="Phone/Email"
+        errorMessage="Phone Required"
+        label="Enter your phone number"
+        placeHolder="Phone"
       />
-      <FormInput
-        control={control}
-        name="password"
-        rules={{ required: true }}
-        errors={errors}
-        errorMessage="Password Required"
-        label="Enter your password"
-        placeHolder="Password"
-        mt={40}
-        isPass={true}
-      />
-
       <Button
         title="Submit"
-        onPress={handleSubmit((data) => console.log(data))}
+        onPress={handleSubmit((data) => submitData(data))}
         bg="primary"
         w="100%"
         h={55}
