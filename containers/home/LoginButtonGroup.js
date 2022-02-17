@@ -29,38 +29,6 @@ const LoginButtonGroup = () => {
         >
           Sign In
         </Button>
-        <Text my={5} color="primary">
-          OR
-        </Text>
-        <Div
-          flexDir="row"
-          alignItems="center"
-          position="relative"
-          bg="white"
-          color="black"
-          w={180}
-          alignSelf="center"
-          rounded={3}
-        >
-          <ImageBox
-            h={35}
-            w={30}
-            left="2%"
-            position="absolute"
-            zIndex={1}
-            src={require("./img/google-color.png")}
-          />
-          <Button
-            bg="white"
-            color="black"
-            w={180}
-            pl={35}
-            rounded={3}
-            alignSelf="center"
-          >
-            Sign in with Google
-          </Button>
-        </Div>
       </Div>
     </Div>
   );
