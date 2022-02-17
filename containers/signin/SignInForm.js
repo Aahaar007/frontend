@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { isValidPhoneNumber } from "libphonenumber-js";
-
+import { useNavigation } from "@react-navigation/core";
 import { Button, Div } from "react-native-magnus";
 import FormInput from "../../components/form/FormInput";
 
 const SignInForm = (props) => {
+  const [touchSignIn, setTouchSignIn] = useState(false);
+  const navigation = useNavigation();
   const {
     control,
     handleSubmit,
@@ -45,6 +47,20 @@ const SignInForm = (props) => {
         mt={40}
       >
         Submit
+      </Button>
+      <Button
+        bg={touchSignIn ? "primary" : "transparent"}
+        borderWidth={2}
+        borderColor={touchSignIn ? "transparent" : "primary"}
+        color={touchSignIn ? "black" : "primary"}
+        w="100%"
+        mt={20}
+        alignSelf="center"
+        onTouchStart={() => setTouchSignIn(true)}
+        onTouchEnd={() => setTouchSignIn(false)}
+        onPress={() => navigation.navigate("MailSignIn")}
+      >
+        Login using Email
       </Button>
     </Div>
   );
