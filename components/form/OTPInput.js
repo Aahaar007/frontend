@@ -1,6 +1,6 @@
 import React from "react";
 import { SafeAreaView, Text, View } from "react-native";
-import { Text as TextField, Div } from "react-native-magnus";
+import { Text as TextField } from "react-native-magnus";
 import { theme } from "../../styles/theme";
 
 import {
