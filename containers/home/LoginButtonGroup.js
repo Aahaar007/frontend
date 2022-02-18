@@ -10,7 +10,13 @@ const LoginButtonGroup = () => {
   return (
     <Div>
       <Div mt={30} alignItems="center">
-        <Button bg="primary" color="black" w={180} alignSelf="center">
+        <Button
+          bg="primary"
+          color="black"
+          w={180}
+          alignSelf="center"
+          onPress={() => navigation.navigate("SignUp")}
+        >
           Sign Up
         </Button>
         <Text my={5} color="primary">
