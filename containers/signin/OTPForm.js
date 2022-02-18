@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useForm } from "react-hook-form";
 import { Button, Div, Text } from "react-native-magnus";
 import OTPInput from "../../components/form/OTPInput";
 import { theme } from "../../styles/theme";
@@ -7,13 +6,6 @@ import { Regex } from "../../constants/Regex";
 
 const OTPForm = (props) => {
   const [value, setValue] = useState("");
-
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-    setError,
-  } = useForm();
 
   const submitData = () => {
     if (!Regex.OTPPattern.test(value)) {
