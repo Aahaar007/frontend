@@ -2,7 +2,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { Button, Div, Input, Text } from "react-native-magnus";
 import FormInput from "../../components/form/FormInput";
-import { theme } from "./../../styles/theme";
+import { Regex } from "../../constants/Regex";
 
 const MailSignInForm = (props) => {
   const {
@@ -22,7 +22,7 @@ const MailSignInForm = (props) => {
           name="Email"
           rules={{
             required: true,
-            pattern: /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/,
+            pattern: Regex.emailPattern,
           }}
           errors={errors}
           errorMessage="Enter Valid Email"
@@ -40,11 +40,11 @@ const MailSignInForm = (props) => {
         errorMessage="Password Required"
         label="Enter your Password"
         placeHolder="12345678"
-        isPass="Yes"
+        isPass={true}
       />
       <Div row justifyContent="flex-end" mt={10}>
         <Text
-          color={theme.colors.grey}
+          color="grey"
           fontSize="lg"
           textDecorLine="underline"
           fontWeight="bold"
@@ -63,8 +63,8 @@ const MailSignInForm = (props) => {
         Submit
       </Button>
       <Div row flex={2} flexDir="column" mt={50}>
-        <Text color={theme.colors.grey}>No account?.</Text>
-        <Text color={theme.colors.white} textDecorLine="underline">
+        <Text color="grey">No account?.</Text>
+        <Text color="white" textDecorLine="underline">
           Sign Up
         </Text>
       </Div>
