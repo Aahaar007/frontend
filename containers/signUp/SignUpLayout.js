@@ -6,6 +6,7 @@ import HeroSignUp from "./HeroSignUp";
 const SignUpLayout = () => {
   const [step, setStep] = useState(0);
   const [userData, setUserData] = useState({});
+
   const modifyData = useCallback((val) => {
     const temp = { ...userData, ...val };
     setUserData(temp);
@@ -16,6 +17,8 @@ const SignUpLayout = () => {
     <Div>
       <HeroSignUp mt={157} />
       <PhoneInput mt={100} setData={modifyData} />
+      //TODO: Add OTP Component to verify OTP here //TODO: Add Email, password
+      Component to add email, pass data to userData
       <Button
         title="Submit"
         //onPress={handleSubmit((data) => submitData(data))}
