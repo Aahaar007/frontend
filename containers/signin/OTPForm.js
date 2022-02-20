@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Button, Div, Text } from "react-native-magnus";
 import OTPInput from "../../components/form/OTPInput";
-import { theme } from "../../styles/theme";
 import { Regex } from "../../constants/Regex";
 
 const OTPForm = (props) => {
@@ -19,7 +18,7 @@ const OTPForm = (props) => {
     <Div {...props}>
       <OTPInput value={value} setValue={setValue} />
       <Div alignSelf="center">
-        <Text color={theme.colors.dimGray} textAlign="center">
+        <Text color="dimGray" textAlign="center">
           Didn't recieve OTP?
         </Text>
         <Text
