@@ -1,6 +1,6 @@
 import Layout from "../components/wrappers/Layout";
 import React from "react";
-import HomeLayout from "../containers/signup/HomeLayout";
+import HomeLayout from "../containers/home/HomeLayout";
 
 const HomeScreen = () => {
   return (

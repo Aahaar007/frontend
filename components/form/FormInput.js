@@ -18,9 +18,11 @@ const FormInput = (props) => {
   } = props;
   return (
     <Div position="relative">
-      <Text px={4} color="dimGray" {...props}>
-        {props.label}
-      </Text>
+      {props.label && (
+        <Text px={4} color="dimGray" {...props}>
+          {props.label}
+        </Text>
+      )}
       <Controller
         control={control}
         render={({ field: { onChange, onBlur, value } }) => (

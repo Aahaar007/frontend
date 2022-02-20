@@ -7,6 +7,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import HomeScreen from "./screens/HomeScreen";
 import SignInScreen from "./screens/SignInScreen";
 import MailSignInScreen from "./screens/MailSignInScreen";
+import OTPScreen from "./screens/OTPScreen";
+import SignUpScreen from "./screens/SignUpScreen";
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -16,8 +18,10 @@ export default function App() {
         <Stack.Navigator>
           <Stack.Group screenOptions={{ headerShown: false }}>
             <Stack.Screen name="Home" component={HomeScreen} />
+            <Stack.Screen name="SignUp" component={SignUpScreen} />
             <Stack.Screen name="SignIn" component={SignInScreen} />
             <Stack.Screen name="MailSignIn" component={MailSignInScreen} />
+            <Stack.Screen name="OTP" component={OTPScreen} />
           </Stack.Group>
         </Stack.Navigator>
       </NavigationContainer>

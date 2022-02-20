@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { isValidPhoneNumber } from "libphonenumber-js";
 import { useNavigation } from "@react-navigation/core";
+import { useNavigation } from "@react-navigation/native";
+
 import { Button, Div } from "react-native-magnus";
 import FormInput from "../../components/form/FormInput";
 
@@ -23,6 +25,7 @@ const SignInForm = (props) => {
       });
     }
     console.table(data);
+    navigation.navigate("OTP");
   };
 
   return (
