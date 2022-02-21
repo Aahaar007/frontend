@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Controller } from "react-hook-form";
 
 import { Div, Input, Text } from "react-native-magnus";
@@ -16,6 +16,10 @@ const FormInput = (props) => {
     errors = {},
     errorMessage = "Field Required",
   } = props;
+  useEffect(() => {
+    console.log("Rules:", rules);
+  }, []);
+
   return (
     <Div position="relative">
       {props.label && (
