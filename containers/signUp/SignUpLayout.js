@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from "react";
 import { Div, Button } from "react-native-magnus";
 import PhoneInput from "../../components/form/PhoneInput";
+import EmailPasswordInput from "./EmailPasswordInput";
 import HeroSignUp from "./HeroSignUp";
 
 const SignUpLayout = () => {
@@ -16,19 +17,10 @@ const SignUpLayout = () => {
   return (
     <Div>
       <HeroSignUp mt={157} />
-      <PhoneInput mt={100} setData={modifyData} />
-      //TODO: Add OTP Component to verify OTP here //TODO: Add Email, password
-      Component to add email, pass data to userData
-      <Button
-        title="Submit"
-        //onPress={handleSubmit((data) => submitData(data))}
-        bg="primary"
-        w="100%"
-        h={55}
-        mt={40}
-      >
-        Submit
-      </Button>
+      {/* <PhoneInput mt={100} setData={modifyData} /> */}
+      {/* TODO: Add OTP Component to verify OTP here TODO: Add Email, password
+      Component to add email, pass data to userData */}
+      <EmailPasswordInput mt={60}></EmailPasswordInput>
     </Div>
   );
 };
