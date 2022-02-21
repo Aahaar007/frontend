@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import { Button, Div, Text } from "react-native-magnus";
 import OTPInput from "../../components/form/OTPInput";
 import { Regex } from "../../constants/Regex";
+import { useNavigation } from "@react-navigation/core";
 
 const OTPForm = (props) => {
+  const navigation = useNavigation();
   const [value, setValue] = useState("");
 
   const submitData = () => {
@@ -12,6 +14,7 @@ const OTPForm = (props) => {
     }
     //TODO: backend OTP test
     console.table(value);
+    navigation.navigate("Profile");
   };
 
   return (

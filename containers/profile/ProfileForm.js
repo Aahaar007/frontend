@@ -94,7 +94,7 @@ const ProfileForm = (props) => {
             borderStyle="solid"
             borderTopColor="transparent"
             borderRightColor="green600"
-            borderBottomColor="transparent"
+            borderBottomColor="green600"
             borderLeftColor="transparent"
             size={100}
           >
