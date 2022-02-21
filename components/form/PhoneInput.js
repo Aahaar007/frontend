@@ -1,4 +1,4 @@
-import React, { createRef, useState } from "react";
+import React, { createRef, useEffect, useState } from "react";
 import { Dimensions } from "react-native";
 import { useForm } from "react-hook-form";
 import { Button, Div, Select, Text, Icon } from "react-native-magnus";
@@ -9,21 +9,17 @@ import countryNames from "../../constants/countryNames.json";
 import { getEmojiFlag } from "@cprecioso/country-flag-emoji";
 
 const PhoneInput = (props) => {
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-    setError,
-  } = useForm();
+  const { control, errors } = props;
+
   const windowWidth = Dimensions.get("window").width;
-  const windowHeight = Dimensions.get("window").height;
-  const [code, setCode] = useState("IN");
-  const selectRef = createRef();
   const countries = Object.keys(codes).sort();
-  const handleCountry = (val) => {
-    setCode(val);
-    console.log(val);
-  };
+
+  const selectRef = createRef();
+  const [code, setCode] = useState("IN");
+  useEffect(() => {
+    props.setData({ code: code });
+  }, [code]);
+
   return (
     <Div {...props}>
       <Text color="dimGray">Enter your phone number</Text>
@@ -61,7 +57,7 @@ const PhoneInput = (props) => {
         />
       </Div>
       <Select
-        onSelect={handleCountry}
+        onSelect={(val) => setCode(val)}
         ref={selectRef}
         //multiple={false}
         value={code}
