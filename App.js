@@ -9,6 +9,7 @@ import SignInScreen from "./screens/SignInScreen";
 import MailSignInScreen from "./screens/MailSignInScreen";
 import OTPScreen from "./screens/OTPScreen";
 import SignUpScreen from "./screens/SignUpScreen";
+import Profile from "./containers/profile/Profile";
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -20,7 +21,7 @@ export default function App() {
             <Stack.Screen name="Home" component={HomeScreen} />
             <Stack.Screen name="SignUp" component={SignUpScreen} />
             <Stack.Screen name="SignIn" component={SignInScreen} />
-            <Stack.Screen name="MailSignIn" component={MailSignInScreen} />
+            <Stack.Screen name="MailSignIn" component={Profile} />
             <Stack.Screen name="OTP" component={OTPScreen} />
           </Stack.Group>
         </Stack.Navigator>
