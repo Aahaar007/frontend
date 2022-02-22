@@ -21,7 +21,7 @@ export default function App() {
             <Stack.Screen name="Home" component={HomeScreen} />
             <Stack.Screen name="SignUp" component={SignUpScreen} />
             <Stack.Screen name="SignIn" component={SignInScreen} />
-            <Stack.Screen name="MailSignIn" component={Profile} />
+            <Stack.Screen name="MailSignIn" component={MailSignInScreen} />
             <Stack.Screen name="OTP" component={OTPScreen} />
           </Stack.Group>
         </Stack.Navigator>
