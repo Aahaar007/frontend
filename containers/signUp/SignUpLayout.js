@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { Div, Button, Text } from "react-native-magnus";
 import PhoneInput from "../../components/form/PhoneInput";
+import EmailPasswordInput from "./EmailPasswordInput";
 import HeroSignUp from "./HeroSignUp";
 import { useForm } from "react-hook-form";
 import { isValidPhoneNumber } from "libphonenumber-js";
@@ -72,6 +73,10 @@ const SignUpLayout = () => {
   return (
     <Div>
       <HeroSignUp mt={157} />
+      {/* <PhoneInput mt={100} setData={modifyData} /> */}
+      {/* TODO: Add OTP Component to verify OTP here TODO: Add Email, password
+      Component to add email, pass data to userData */}
+{/* <EmailPasswordInput mt={60}></EmailPasswordInput>*/}
       {getComponent()}
       <Button
         title="Submit"
