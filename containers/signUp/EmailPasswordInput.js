@@ -1,8 +1,9 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { Button, Div, Input, Text } from "react-native-magnus";
+import { Button, Div, Input, Text, Tooltip } from "react-native-magnus";
 import FormInput from "../../components/form/FormInput";
 import { Regex } from "../../constants/Regex";
+import { useState } from "react";
 
 const EmailPasswordInput = (props) => {
   const {
@@ -12,7 +13,13 @@ const EmailPasswordInput = (props) => {
     setError,
   } = useForm();
 
+  const tooltipRef = React.createRef();
+
   const submitData = (data) => {
+    if (data.Password != data.VerifyPassword) {
+      console.log("Verify Password is not same as Password");
+      return;
+    }
     console.log(data);
   };
 
@@ -46,7 +53,7 @@ const EmailPasswordInput = (props) => {
         />
         <FormInput
           control={control}
-          name="Verify Password"
+          name="VerifyPassword"
           rules={{
             required: true,
           }}
@@ -57,14 +64,21 @@ const EmailPasswordInput = (props) => {
           mt={50}
         />
         <Div row justifyContent="flex-end" mt={10}>
-          <Text
-            color="grey"
-            fontSize="lg"
-            textDecorLine="underline"
-            fontWeight="bold"
-          >
-            Password Guidelines
-          </Text>
+          <Tooltip ref={tooltipRef} text="Hello World:)">
+            <Text
+              color="grey"
+              fontSize="lg"
+              textDecorLine="underline"
+              fontWeight="bold"
+              onPress={() => {
+                if (tooltipRef.current) {
+                  tooltipRef.current.show();
+                }
+              }}
+            >
+              Password Guidelines
+            </Text>
+          </Tooltip>
         </Div>
       </Div>
       <Button
