@@ -4,7 +4,7 @@ import OTPInput from "./OTPInput";
 import { Regex } from "../../../constants/Regex";
 
 const OTPForm = (props) => {
-  const { register } = props;
+  const { register, phone } = props;
 
   const [value, setValue] = useState("");
   const [error, setError] = useState(null);

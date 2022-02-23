@@ -58,7 +58,7 @@ const SignUpLayout = () => {
         />
       );
     } else if (Object.entries(userData).length < 3) {
-      return <OTPForm register={register} />;
+      return <OTPForm register={register} phone={userData?.phone} />;
     } else {
       return (
         <Text bg="red">Email</Text>
