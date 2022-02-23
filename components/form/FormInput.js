@@ -16,9 +16,6 @@ const FormInput = (props) => {
     errors = {},
     errorMessage = "Field Required",
   } = props;
-  useEffect(() => {
-    console.log("Rules:", rules);
-  }, []);
 
   return (
     <Div position="relative">
