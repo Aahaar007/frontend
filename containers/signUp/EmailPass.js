@@ -1,43 +1,74 @@
 import React from "react";
-import { Div, Button } from "react-native-magnus";
+import { Div, Button, Tooltip, Text, Icon } from "react-native-magnus";
 import FormInput from "../../components/form/FormInput";
+import { Regex } from "../../constants/Regex";
 
 const EmailPass = (props) => {
-  const { control } = props;
+  const { control, errors } = props;
+  const tooltipRef = React.createRef();
   return (
     <Div {...props}>
       <FormInput
         name="email"
+        rules={{
+          required: true,
+          pattern: Regex.emailPattern,
+        }}
         control={control}
         placeholder="example@mail.com"
         label="Enter your email address"
+        errors={errors}
       />
       <FormInput
         name="password"
         control={control}
         placeholder="example@mail.com"
         label="Enter Password"
+        rules={{
+          required: true,
+        }}
         isPass={true}
         mt={30}
+        errors={errors}
       />
       <FormInput
         name="rePassword"
         control={control}
+        rules={{
+          required: true,
+        }}
         placeholder="example@mail.com"
         label="Verify Password"
         isPass={true}
         mt={30}
+        errors={errors}
       />
-      <Div positon="relative" mb={50}>
-        <Button
-          position="absolute"
-          bg="transparent"
-          color="dimGray"
-          textDecorLine="underline"
-          right={0}
+      <Div position="relative" row justifyContent="flex-end" mt={10}>
+        <Tooltip
+          flexDir="row"
+          justifyContent="flex-end"
+          w="100%"
+          bg="primary"
+          color="black"
+          fontWeight="bold"
+          ref={tooltipRef}
+          text={`- Minimum 8 characters\n- Atleast 1 uppercase letter\n- Atleast 1 lowercase letter\n- Atleast 1 numeric character`}
         >
-          Password Guidelines
-        </Button>
+          <Text
+            color="grey"
+            fontSize="lg"
+            textDecorLine="underline"
+            fontWeight="bold"
+            onPress={() => {
+              if (tooltipRef.current) {
+                tooltipRef.current.show();
+              }
+            }}
+          >
+            <Icon name="infocirlceo" color="primary" fontFamily="AntDesign" />{" "}
+            Password Guidelines
+          </Text>
+        </Tooltip>
       </Div>
     </Div>
   );
