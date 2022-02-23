@@ -5,6 +5,7 @@ import HeroSignUp from "./HeroSignUp";
 import { useForm } from "react-hook-form";
 import { isValidPhoneNumber } from "libphonenumber-js";
 import OTPForm from "../../components/form/OTP/OTPForm";
+import EmailPass from "./EmailPass";
 
 const SignUpLayout = () => {
   const [userData, setUserData] = useState({});
@@ -61,7 +62,7 @@ const SignUpLayout = () => {
       return <OTPForm register={register} phone={userData?.phone} />;
     } else {
       return (
-        <Text bg="red">Email</Text>
+        <EmailPass control={control} mt={100} />
         //TODO: email, pass input component
       );
     }
