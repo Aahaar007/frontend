@@ -1,7 +1,7 @@
 import React from "react";
 import { SafeAreaView, Text, View } from "react-native";
 import { Text as TextField } from "react-native-magnus";
-import { theme } from "../../styles/theme";
+import { theme } from "../../../styles/theme";
 
 import {
   CodeField,

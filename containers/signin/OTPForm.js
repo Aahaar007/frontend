@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button, Div, Text } from "react-native-magnus";
-import OTPInput from "../../components/form/OTPInput";
+import OTPInput from "../../components/form/OTP/OTPInput";
 import { Regex } from "../../constants/Regex";
 
 const OTPForm = (props) => {
