@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Button, Div, Input, Text } from "react-native-magnus";
-import ProfileComponent from "./../profile/ProfileComponent";
+import UserSetupComponent from "./UserSetupComponent";
 const property = [
   {
     titleHeader: "Let's get acquantied",
@@ -31,17 +31,17 @@ const property = [
     placeHolder: "Enter Your Adress....",
   },
 ];
-const Profile = () => {
+const UserSetup = () => {
   const [component, setComponent] = useState(0);
   return (
     <Div bg={property[component].color} h="100%">
-      <ProfileComponent
+      <UserSetupComponent
         changeComponent={setComponent}
         value={component}
-        prop={property}
+        componentProps={property}
       />
     </Div>
   );
 };
 
-export default Profile;
+export default UserSetup;

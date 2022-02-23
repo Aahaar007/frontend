@@ -14,6 +14,7 @@ const FormInput = (props) => {
     rules,
     defaultValue = "",
     errors = {},
+    errorProp,
     errorMessage = "Field Required",
   } = props;
   useEffect(() => {
@@ -58,7 +59,7 @@ const FormInput = (props) => {
           alignItems="flex-end"
           px={5}
         >
-          <Text alignSelf="right" color="error" mt={5}>
+          <Text alignSelf="right" color="error" mt={5} {...errorProp}>
             {errors[name].message ? errors[name].message : errorMessage}
           </Text>
         </Div>
