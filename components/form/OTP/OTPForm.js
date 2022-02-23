@@ -1,20 +1,38 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Div, Text } from "react-native-magnus";
-import OTPInput from "../../components/form/OTP/OTPInput";
-import { Regex } from "../../constants/Regex";
+import OTPInput from "./OTPInput";
+import { Regex } from "../../../constants/Regex";
 
 const OTPForm = (props) => {
+  const { register } = props;
+
   const [value, setValue] = useState("");
   const [error, setError] = useState(null);
-  const submitData = () => {
-    if (!Regex.OTPPattern.test(value)) {
-      setError({ message: "OTP should have 6 numbers" });
-    } else {
-      setError(null);
-    }
-    //TODO: backend OTP test
-    console.table(value);
+
+  const callResendOTP = () => {
+    console.log("Resend OTP called");
   };
+
+  const validateOTP = async (otp) => {
+    console.log("Validated otp: ", otp);
+    //TODO: return true or false after validating OTP from firebase
+    return true;
+  };
+
+  useEffect(() => {
+    setError(null);
+    const temp = async () => {
+      if ((await validateOTP(value)) === true) {
+        register("validOTP", { value: true });
+        setError(null);
+      } else {
+        setError({ message: "Invalid OTP" });
+      }
+    };
+    if (Regex.OTPPattern.test(value)) {
+      temp();
+    }
+  }, [value]);
 
   return (
     <Div {...props}>
@@ -22,8 +40,8 @@ const OTPForm = (props) => {
       {error && (
         <Div
           position="absolute"
-          right={0}
-          bottom={-25}
+          right="40%"
+          bottom="40%"
           alignItems="flex-end"
           px={5}
         >
@@ -36,26 +54,18 @@ const OTPForm = (props) => {
         <Text color="dimGray" textAlign="center">
           Didn't recieve OTP?
         </Text>
-        <Text
+        <Button
           color="white"
+          bg="transparent"
           textDecorLine="underline"
           fontWeight="bold"
           textAlign="center"
           fontSize={17}
+          onPress={callResendOTP}
         >
           Resend OTP
-        </Text>
+        </Button>
       </Div>
-      <Button
-        title="Submit"
-        onPress={submitData}
-        bg="primary"
-        w="100%"
-        h={55}
-        mt={40}
-      >
-        Submit
-      </Button>
     </Div>
   );
 };

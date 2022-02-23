@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { theme } from "../../styles/theme";
+import { theme } from "../../../styles/theme";
 export default StyleSheet.create({
   root: { padding: 15, minHeight: 150 },
   title: { textAlign: "center", fontSize: 30 },

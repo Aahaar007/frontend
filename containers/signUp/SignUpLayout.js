@@ -4,6 +4,7 @@ import PhoneInput from "../../components/form/PhoneInput";
 import HeroSignUp from "./HeroSignUp";
 import { useForm } from "react-hook-form";
 import { isValidPhoneNumber } from "libphonenumber-js";
+import OTPForm from "../../components/form/OTP/OTPForm";
 
 const SignUpLayout = () => {
   const [userData, setUserData] = useState({});
@@ -13,6 +14,7 @@ const SignUpLayout = () => {
     formState: { errors },
     setError,
     setValue,
+    register,
   } = useForm();
 
   const modifyData = useCallback(
@@ -41,6 +43,7 @@ const SignUpLayout = () => {
         });
       }
     }
+    console.log("data", data);
   };
 
   const getComponent = () => {
@@ -55,10 +58,7 @@ const SignUpLayout = () => {
         />
       );
     } else if (Object.entries(userData).length < 3) {
-      return (
-        <Text bg="red">AAAAA</Text>
-        // TODO: OTP input component
-      );
+      return <OTPForm register={register} />;
     } else {
       return (
         <Text bg="red">Email</Text>
