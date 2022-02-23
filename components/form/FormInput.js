@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Controller } from "react-hook-form";
 
 import { Div, Input, Text } from "react-native-magnus";
