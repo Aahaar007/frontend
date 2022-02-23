@@ -1,6 +1,6 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { Button, Div, Input, Text, Tooltip } from "react-native-magnus";
+import { Button, Div, Input, Text, Tooltip, Icon } from "react-native-magnus";
 import FormInput from "../../components/form/FormInput";
 import { Regex } from "../../constants/Regex";
 import { useState } from "react";
@@ -63,8 +63,17 @@ const EmailPasswordInput = (props) => {
           isPass={true}
           mt={50}
         />
-        <Div row justifyContent="flex-end" mt={10}>
-          <Tooltip ref={tooltipRef} text="Hello World:)">
+        <Div position="relative" row justifyContent="flex-end" mt={10}>
+          <Tooltip
+            flexDir="row"
+            justifyContent="flex-end"
+            w="100%"
+            bg="primary"
+            color="black"
+            fontWeight="bold"
+            ref={tooltipRef}
+            text={`- Minimum 8 characters\n- Atleast 1 uppercase letter\n- Atleast 1 lowercase letter\n- Atleast 1 numeric character`}
+          >
             <Text
               color="grey"
               fontSize="lg"
@@ -76,6 +85,7 @@ const EmailPasswordInput = (props) => {
                 }
               }}
             >
+              <Icon name="infocirlceo" color="primary" fontFamily="AntDesign" />{" "}
               Password Guidelines
             </Text>
           </Tooltip>
@@ -87,7 +97,6 @@ const EmailPasswordInput = (props) => {
         bg="primary"
         w="100%"
         h={55}
-        mt={80}
       >
         Submit
       </Button>
