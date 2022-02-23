@@ -5,10 +5,12 @@ import { Regex } from "../../constants/Regex";
 
 const OTPForm = (props) => {
   const [value, setValue] = useState("");
-
+  const [error, setError] = useState(null);
   const submitData = () => {
     if (!Regex.OTPPattern.test(value)) {
-      console.log("OTP should have 6 numbers");
+      setError({ message: "OTP should have 6 numbers" });
+    } else {
+      setError(null);
     }
     //TODO: backend OTP test
     console.table(value);
@@ -17,6 +19,19 @@ const OTPForm = (props) => {
   return (
     <Div {...props}>
       <OTPInput value={value} setValue={setValue} />
+      {error && (
+        <Div
+          position="absolute"
+          right={0}
+          bottom={-25}
+          alignItems="flex-end"
+          px={5}
+        >
+          <Text alignSelf="right" color="error" mt={5}>
+            {error?.message && error?.message}
+          </Text>
+        </Div>
+      )}
       <Div alignSelf="center">
         <Text color="dimGray" textAlign="center">
           Didn't recieve OTP?
