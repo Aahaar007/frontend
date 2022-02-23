@@ -1,26 +1,57 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Button, Div, Input, Text } from "react-native-magnus";
+import { Button, Div } from "react-native-magnus";
 import FormInput from "./../../components/form/FormInput";
 import ImageBox from "../../components/ImageBox";
 import UserSetupHeader from "./UserSetupHeader";
 import Title from "../../components/Title";
+import images from "./img";
 
 const UserSetupComponent = (props) => {
+  const property = [
+    {
+      titleHeader: "Let's get acquantied",
+      src: images.Screen1,
+      buttonText: "Let's go!",
+      color: "#f9d57b",
+      placeHolder: "",
+    },
+    {
+      titleHeader: "What is your Name",
+      src: images.Screen2,
+      buttonText: "Next",
+      color: "#ff8774",
+      placeHolder: "Enter Your Full Name...",
+    },
+    {
+      titleHeader: "What is your Bithday",
+      src: images.Screen3,
+      buttonText: "Next",
+      color: "#ffbea2",
+      placeHolder: "Enter Your Date of Birth",
+    },
+    {
+      titleHeader: "Enter the Address",
+      src: images.Screen4,
+      buttonText: "Submit",
+      color: "#90b7c1",
+      placeHolder: "Enter Your Adress....",
+    },
+  ];
+  const [stage, setStage] = useState(0);
   const next = (data) => {
-    if (props.value < 3) {
-      props.changeComponent(props.value + 1);
-    } else if (props.value == 3) {
+    if (stage < 3) {
+      setStage(stage + 1);
+    } else {
       console.log(data);
     }
   };
 
   const previous = () => {
-    if (props.value > 0) {
-      props.changeComponent(props.value - 1);
+    if (stage > 0) {
+      setStage(stage - 1);
     }
   };
-
   const nameComponent = () => {
     return (
       <FormInput
@@ -87,46 +118,41 @@ const UserSetupComponent = (props) => {
 
   const inputProp = {
     bg: "white",
-    borderWidth: "0px",
+    borderWidth: 0,
     color: "black",
-    py: "0px",
-    mt: "10px",
+    py: 0,
+    mt: 10,
     w: "80%",
-    h: "40px",
+    h: 40,
     ml: "auto",
     mr: "auto",
-    mt: "20px",
+    mt: 20,
   };
 
   const errorProp = {
     color: "red",
-    mr: "40px",
-    mt: "5px",
+    mr: 40,
+    mt: 5,
   };
 
   return (
-    <Div h="100%">
+    <Div bg={property[stage].color} h="100%">
       <UserSetupHeader />
       <Title
         mt={80}
         ml={20}
         textAlign="center"
         color="white"
-        fontFamily="Dancing Script , cursive"
-        fontSize="30px"
+        // fontFamily="Dancing Script , cursive"
+        fontSize={30}
       >
-        {props.componentProps[props.value].titleHeader}
+        {property[stage].titleHeader}
       </Title>
       <Div mt={60}>
-        <ImageBox
-          h={250}
-          w="90%"
-          src={require(`${props.componentProps[props.value].src}`)}
-          zIndex={-1}
-        />
-        {props.value == 1 && nameComponent()}
-        {props.value == 2 && DOBComponent()}
-        {props.value == 3 && addressComponent()}
+        <ImageBox h={250} w="90%" src={property[stage].src} zIndex={-1} />
+        {stage == 1 && nameComponent()}
+        {stage == 2 && DOBComponent()}
+        {stage == 3 && addressComponent()}
       </Div>
       <Button
         position="absolute"
@@ -141,13 +167,13 @@ const UserSetupComponent = (props) => {
         left={200}
         mt={40}
       >
-        {props.componentProps[props.value].buttonText}
+        {property[stage].buttonText}
       </Button>
       {props.value != 0 && (
         <Button
           position="absolute"
           title="Submit"
-          bg={props.componentProps[props.value].color}
+          bg={property[stage].color}
           onPress={previous}
           color="black"
           w="40%"

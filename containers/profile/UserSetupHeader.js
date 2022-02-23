@@ -24,7 +24,7 @@ const ProfileHeader = (props) => {
       >
         <Icon name="chevron-thin-left" fontFamily="Entypo" rounded={31} />
       </Button>
-      <Text color="white" fontSize="30" ml={-250}>
+      <Text color="white" fontSize={30} ml={-250}>
         Sign Up
       </Text>
     </Div>
