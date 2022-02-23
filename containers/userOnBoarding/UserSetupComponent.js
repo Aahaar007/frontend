@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button, Div } from "react-native-magnus";
-import FormInput from "./../../components/form/FormInput";
+import FormInput from "../../components/form/FormInput";
 import ImageBox from "../../components/ImageBox";
 import UserSetupHeader from "./UserSetupHeader";
 import Title from "../../components/Title";

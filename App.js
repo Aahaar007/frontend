@@ -9,7 +9,7 @@ import SignInScreen from "./screens/SignInScreen";
 import MailSignInScreen from "./screens/MailSignInScreen";
 import OTPScreen from "./screens/OTPScreen";
 import SignUpScreen from "./screens/SignUpScreen";
-import UserSetup from "./containers/profile/UserSetup";
+import UserSetup from "./containers/userOnBoarding/UserSetup";
 const Stack = createNativeStackNavigator();
 
 export default function App() {
