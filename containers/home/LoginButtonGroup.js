@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/core";
 
 import { Button, Div, Text } from "react-native-magnus";
-import ImageBox from "../../components/ImageBox";
 
 const LoginButtonGroup = () => {
   const [touchSignIn, setTouchSignIn] = useState(false);
