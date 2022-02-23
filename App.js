@@ -10,24 +10,29 @@ import MailSignInScreen from "./screens/MailSignInScreen";
 import OTPScreen from "./screens/OTPScreen";
 import SignUpScreen from "./screens/SignUpScreen";
 import ProfileScreen from "./screens/ProfileScreen";
+
+import { store } from "./store";
+import { Provider } from "react-redux";
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    <ThemeProvider theme={theme}>
-      <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Group screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="Home" component={HomeScreen} />
-            <Stack.Screen name="SignUp" component={SignUpScreen} />
-            <Stack.Screen name="SignIn" component={SignInScreen} />
-            <Stack.Screen name="MailSignIn" component={MailSignInScreen} />
-            <Stack.Screen name="OTP" component={OTPScreen} />
-            <Stack.Screen name="Profile" component={ProfileScreen} />
-          </Stack.Group>
-        </Stack.Navigator>
-      </NavigationContainer>
-    </ThemeProvider>
+    <Provider store={store}>
+      <ThemeProvider theme={theme}>
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Group screenOptions={{ headerShown: false }}>
+              <Stack.Screen name="Home" component={HomeScreen} />
+              <Stack.Screen name="SignUp" component={SignUpScreen} />
+              <Stack.Screen name="SignIn" component={SignInScreen} />
+              <Stack.Screen name="MailSignIn" component={MailSignInScreen} />
+              <Stack.Screen name="OTP" component={OTPScreen} />
+              <Stack.Screen name="Profile" component={ProfileScreen} />
+            </Stack.Group>
+          </Stack.Navigator>
+        </NavigationContainer>
+      </ThemeProvider>
+    </Provider>
   );
 }
 
