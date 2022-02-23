@@ -11,10 +11,9 @@ const OTPForm = (props) => {
   const submitData = () => {
     if (!Regex.OTPPattern.test(value)) {
       console.log("OTP should have 6 numbers");
-    }
-    //TODO: backend OTP test
+    } else navigation.navigate("Profile");
+    //TODO: firebase OTP check
     console.table(value);
-    navigation.navigate("Profile");
   };
 
   return (

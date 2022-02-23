@@ -126,7 +126,7 @@ const ProfileForm = (props) => {
         </Text>
       </Div>
 
-      <Div pb={45}>
+      <Div pb={90}>
         <Div {...infoDivStyle}>
           <Div {...infoDivLabelStyle}>
             <Text {...infoLabelStyle}>Name</Text>
@@ -155,7 +155,7 @@ const ProfileForm = (props) => {
                 w={60}
                 m={10}
                 rounded="circle"
-                source={require("./img/untoggled-dishwasher-symbol.png")}
+                source={require("./img/untoggled-female-symbol.png")}
               />
               <Image
                 h={60}
