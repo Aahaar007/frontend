@@ -2,15 +2,17 @@ import React, { useState } from "react";
 import { Button, Div, Text } from "react-native-magnus";
 import OTPInput from "../../components/form/OTPInput";
 import { Regex } from "../../constants/Regex";
+import { useNavigation } from "@react-navigation/core";
 
 const OTPForm = (props) => {
+  const navigation = useNavigation();
   const [value, setValue] = useState("");
 
   const submitData = () => {
     if (!Regex.OTPPattern.test(value)) {
       console.log("OTP should have 6 numbers");
-    }
-    //TODO: backend OTP test
+    } else navigation.navigate("Profile");
+    //TODO: firebase OTP check
     console.table(value);
   };
 

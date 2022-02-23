@@ -17,8 +17,8 @@ const SignUpLayout = () => {
     <Div>
       <HeroSignUp mt={157} />
       <PhoneInput mt={100} setData={modifyData} />
-      //TODO: Add OTP Component to verify OTP here //TODO: Add Email, password
-      Component to add email, pass data to userData
+      {/* //TODO: Add OTP Component to verify OTP here //TODO: Add Email, password
+      Component to add email, pass data to userData */}
       <Button
         title="Submit"
         //onPress={handleSubmit((data) => submitData(data))}

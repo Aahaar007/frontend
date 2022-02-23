@@ -23,6 +23,7 @@ export default function App() {
             <Stack.Screen name="SignIn" component={SignInScreen} />
             <Stack.Screen name="MailSignIn" component={UserSetup} />
             <Stack.Screen name="OTP" component={OTPScreen} />
+            <Stack.Screen name="Profile" component={ProfileScreen} />
           </Stack.Group>
         </Stack.Navigator>
       </NavigationContainer>

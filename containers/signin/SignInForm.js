@@ -22,9 +22,8 @@ const SignInForm = (props) => {
         type: "manual",
         message: "Enter a valid phone number",
       });
-    }
+    } else navigation.navigate("OTP");
     console.table(data);
-    navigation.navigate("OTP");
   };
 
   return (
