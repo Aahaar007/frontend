@@ -8,7 +8,7 @@ import Expire from "./Expire";
 const CardTest = (props) => {
   return (
     <Layout pt={20} bg="white">
-      <Expire />
+      <Card />
     </Layout>
   );
 };
