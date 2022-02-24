@@ -9,11 +9,11 @@ const Card = (props) => {
     isVeg = true,
     imgSrc = "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8M3x8fGVufDB8fHx8&w=1000&q=80",
     time = "5",
-    unit = "minutes",
+    unit = "hours",
   } = props.donationData;
 
   return (
-    <Button shadow="md" block color="white" p="none" rounded="xl">
+    <Button shadow="md" block color="white" p="none" rounded="xl" mt={20}>
       <Div
         p="none"
         flex={1}
