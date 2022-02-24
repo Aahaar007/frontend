@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button, Div, Image, Text } from "react-native-magnus";
+import ListingWrapper from "../../components/wrappers/ListingWrapper";
 import { theme } from "../../styles/theme";
 
 const DonorSelectForm = (props) => {
@@ -57,74 +58,76 @@ const DonorSelectForm = (props) => {
   }, [donorType]);
 
   return (
-    <Div {...props} bg="green" h="100%" w="100%" justifyContent="center">
-      <Div bg="red" alignSelf="center">
-        <Text
-          textAlign="center"
-          fontSize="2xl"
-          color={theme.colors.primary}
-          fontWeight="700"
-        >
-          {" "}
-          SELECT WHICH TYPE OF DONOR ARE YOU?
-        </Text>
-      </Div>
-      <Div bg="blue" row justifyContent="space-around">
-        <Div>
-          <Div bg="red" alignSelf="center" justifyContent="center">
-            <Button {...individualButton}>
-              <Image
-                h={100}
-                w={100}
-                m={10}
-                // bg="blue"
-                resizeMode="center"
-                // rounded="circle"
-                alignSelf="center"
-                source={require("./img/individual-icon.png")}
-              />
-            </Button>
+    <ListingWrapper>
+      <Div {...props} bg="green" h="100%" w="100%" justifyContent="center">
+        <Div bg="red" alignSelf="center">
+          <Text
+            textAlign="center"
+            fontSize="2xl"
+            color={theme.colors.primary}
+            fontWeight="700"
+          >
+            {" "}
+            SELECT WHICH TYPE OF DONOR ARE YOU?
+          </Text>
+        </Div>
+        <Div bg="blue" row justifyContent="space-around">
+          <Div>
+            <Div bg="red" alignSelf="center" justifyContent="center">
+              <Button {...individualButton}>
+                <Image
+                  h={100}
+                  w={100}
+                  m={10}
+                  // bg="blue"
+                  resizeMode="center"
+                  // rounded="circle"
+                  alignSelf="center"
+                  source={require("./img/Individual-icon.png")}
+                />
+              </Button>
+            </Div>
+            <Div bg="green" alignSelf="center" justifyContent="center">
+              <Text textAlign="center" fontSize="2xl">
+                Individual
+              </Text>
+              <Text textAlign="center" fontSize="md">
+                Resturaunt or Home Donors
+              </Text>
+            </Div>
           </Div>
-          <Div bg="green" alignSelf="center" justifyContent="center">
-            <Text textAlign="center" fontSize="2xl">
-              Individual
-            </Text>
-            <Text textAlign="center" fontSize="md">
-              Resturaunt or Home Donors
-            </Text>
+          <Div>
+            <Div bg="green" alignSelf="center" justifyContent="center">
+              <Button {...NGOButton}>
+                <Image
+                  h={100}
+                  w={100}
+                  m={10}
+                  // bg="blue"
+                  resizeMode="center"
+                  // rounded="circle"
+                  alignSelf="center"
+                  source={require("./img/NGO-icon.png")}
+                />
+              </Button>
+            </Div>
+            <Div bg="red" alignSelf="center" justifyContent="center">
+              <Text textAlign="center" fontSize="2xl">
+                NGOs
+              </Text>
+              <Text textAlign="center" fontSize="md">
+                Organizations or Special Drives
+              </Text>
+            </Div>
           </Div>
         </Div>
-        <Div>
-          <Div bg="green" alignSelf="center" justifyContent="center">
-            <Button {...NGOButton}>
-              <Image
-                h={100}
-                w={100}
-                m={10}
-                // bg="blue"
-                resizeMode="center"
-                // rounded="circle"
-                alignSelf="center"
-                source={require("./img/NGO-icon.png")}
-              />
-            </Button>
-          </Div>
-          <Div bg="red" alignSelf="center" justifyContent="center">
-            <Text textAlign="center" fontSize="2xl">
-              NGOs
-            </Text>
-            <Text textAlign="center" fontSize="md">
-              Organizations or Special Drives
-            </Text>
-          </Div>
+        <Div bg="yellow" justifyContent="center" alignSelf="center">
+          <Button px="xl" py="lg" bg={theme.colors.primary} color="white">
+            Next
+          </Button>
         </Div>
       </Div>
-      <Div bg="yellow" justifyContent="center" alignSelf="center">
-        <Button px="xl" py="lg" bg={theme.colors.primary} color="white">
-          Next
-        </Button>
-      </Div>
-    </Div>
+    </ListingWrapper>
   );
 };
 
