@@ -10,6 +10,7 @@ import MailSignInScreen from "./screens/MailSignInScreen";
 import OTPScreen from "./screens/OTPScreen";
 import SignUpScreen from "./screens/SignUpScreen";
 import ProfileScreen from "./screens/ProfileScreen";
+import UserSetupScreen from "./screens/UserSetupScreen";
 const Stack = createNativeStackNavigator();
 
 import { store } from "./store";
