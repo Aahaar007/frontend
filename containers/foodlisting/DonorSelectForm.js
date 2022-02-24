@@ -9,6 +9,7 @@ const DonorSelectForm = (props) => {
     rounded: "circle",
     ripple: true,
     borderWidth: 3,
+    shadow: "xs",
     justifyContent: "center",
     alignSelf: "center",
     pl: 20,
@@ -21,6 +22,7 @@ const DonorSelectForm = (props) => {
     rounded: "circle",
     ripple: true,
     borderWidth: 3,
+    shadow: "xs",
     justifyContent: "center",
     alignSelf: "center",
     onPress: () => {
@@ -29,14 +31,13 @@ const DonorSelectForm = (props) => {
   });
 
   const selectedButton = {
-    rippleColor: theme.colors.primary,
     bg: theme.colors.primary,
-    // shadow
+    shadow: "md",
   };
 
   const unselectedButton = {
-    rippleColor: "white",
-    bg: "transparent",
+    bg: "white",
+    shadow: "xs",
   };
 
   useEffect(() => {
@@ -57,21 +58,20 @@ const DonorSelectForm = (props) => {
   }, [donorType]);
 
   return (
-    <Div {...props} bg="green" h="100%" w="100%" justifyContent="center">
-      <Div bg="red" alignSelf="center">
+    <Div {...props} h="100%" w="100%" justifyContent="center" bg="white">
+      <Div alignSelf="center" justifyContent="flex-end" m={20}>
         <Text
           textAlign="center"
-          fontSize="2xl"
+          fontSize="xl"
           color={theme.colors.primary}
           fontWeight="700"
         >
-          {" "}
           SELECT WHICH TYPE OF DONOR ARE YOU?
         </Text>
       </Div>
-      <Div bg="blue" row justifyContent="space-around">
-        <Div>
-          <Div bg="red" alignSelf="center" justifyContent="center">
+      <Div row justifyContent="space-around" m={10}>
+        <Div justifyContent="space-between" alignSelf="center">
+          <Div alignSelf="center" justifyContent="center" p={5}>
             <Button {...individualButton}>
               <Image
                 h={100}
@@ -81,21 +81,21 @@ const DonorSelectForm = (props) => {
                 resizeMode="center"
                 // rounded="circle"
                 alignSelf="center"
-                source={require("./img/individual-icon.png")}
+                source={require("./img/Individual-icon.png")}
               />
             </Button>
           </Div>
-          <Div bg="green" alignSelf="center" justifyContent="center">
-            <Text textAlign="center" fontSize="2xl">
+          <Div alignSelf="center" justifyContent="center" p={5}>
+            <Text textAlign="center" fontSize="xl" fontWeight="500">
               Individual
             </Text>
-            <Text textAlign="center" fontSize="md">
+            <Text textAlign="center" fontSize="xs" color={theme.colors.dimGray}>
               Resturaunt or Home Donors
             </Text>
           </Div>
         </Div>
-        <Div>
-          <Div bg="green" alignSelf="center" justifyContent="center">
+        <Div justifyContent="space-around" alignSelf="center">
+          <Div alignSelf="center" justifyContent="center" p={5}>
             <Button {...NGOButton}>
               <Image
                 h={100}
@@ -109,18 +109,18 @@ const DonorSelectForm = (props) => {
               />
             </Button>
           </Div>
-          <Div bg="red" alignSelf="center" justifyContent="center">
-            <Text textAlign="center" fontSize="2xl">
+          <Div alignSelf="center" justifyContent="center" p={5}>
+            <Text textAlign="center" fontSize="xl" fontWeight="500">
               NGOs
             </Text>
-            <Text textAlign="center" fontSize="md">
+            <Text textAlign="center" fontSize="xs" color={theme.colors.dimGray}>
               Organizations or Special Drives
             </Text>
           </Div>
         </Div>
       </Div>
-      <Div bg="yellow" justifyContent="center" alignSelf="center">
-        <Button px="xl" py="lg" bg={theme.colors.primary} color="white">
+      <Div justifyContent="flex-start" alignSelf="center" m={20}>
+        <Button rounded="lg" px={80} bg={theme.colors.primary} color="white">
           Next
         </Button>
       </Div>
