@@ -3,11 +3,11 @@ import { useForm } from "react-hook-form";
 import { Button, Div } from "react-native-magnus";
 import FormInput from "../../components/form/FormInput";
 import ImageBox from "../../components/ImageBox";
-import UserSetupHeader from "./UserSetupHeader";
+import UserOnBoardHeader from "./UserOnBoardHeader";
 import Title from "../../components/Title";
 import images from "./img";
 
-const UserSetupComponent = (props) => {
+const UserOnBoardLayout = (props) => {
   const property = [
     {
       titleHeader: "Let's get acquantied",
@@ -137,7 +137,7 @@ const UserSetupComponent = (props) => {
 
   return (
     <Div bg={property[stage].color} minH={900} h="100%">
-      <UserSetupHeader mt={100} />
+      <UserOnBoardHeader mt={100} />
       <Title
         mt={80}
         ml={20}
@@ -187,4 +187,4 @@ const UserSetupComponent = (props) => {
   );
 };
 
-export default UserSetupComponent;
+export default UserOnBoardLayout;

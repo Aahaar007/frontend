@@ -3,7 +3,7 @@ import { useNavigation } from "@react-navigation/core";
 
 import { Button, Div, Icon, Text } from "react-native-magnus";
 
-const ProfileHeader = (props) => {
+const UserOnBoardHeader = (props) => {
   const nav = useNavigation();
   return (
     <Div
@@ -31,4 +31,4 @@ const ProfileHeader = (props) => {
   );
 };
 
-export default ProfileHeader;
+export default UserOnBoardHeader;
