@@ -2,7 +2,6 @@ import React from "react";
 import { useNavigation } from "@react-navigation/core";
 
 import { Button, Div, Icon, Text } from "react-native-magnus";
-import Title from "../../components/Title";
 
 const ProfileHeader = (props) => {
   const nav = useNavigation();
@@ -12,6 +11,7 @@ const ProfileHeader = (props) => {
       justifyContent="space-around"
       alignItems="center"
       mt={50}
+      {...props}
     >
       <Button
         bg="white"

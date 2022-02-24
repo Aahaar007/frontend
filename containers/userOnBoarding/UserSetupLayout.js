@@ -103,7 +103,7 @@ const UserSetupComponent = (props) => {
         label={null}
         focusBorderColor="white"
         placeHolder="Enter Your Address"
-        inputProp={inputProp}
+        inputProp={{ ...inputProp }}
         errorProp={errorProp}
       />
     );
@@ -136,8 +136,8 @@ const UserSetupComponent = (props) => {
   };
 
   return (
-    <Div bg={property[stage].color} h="100%">
-      <UserSetupHeader />
+    <Div bg={property[stage].color} minH={900} h="100%">
+      <UserSetupHeader mt={100} />
       <Title
         mt={80}
         ml={20}
@@ -149,43 +149,40 @@ const UserSetupComponent = (props) => {
         {property[stage].titleHeader}
       </Title>
       <Div mt={60}>
-        <ImageBox h={250} w="90%" src={property[stage].src} zIndex={-1} />
+        <ImageBox h={250} w="90%" src={property[stage].src} />
         {stage == 1 && nameComponent()}
         {stage == 2 && DOBComponent()}
         {stage == 3 && addressComponent()}
       </Div>
-      <Button
-        position="absolute"
-        title="Submit"
-        bg="white"
-        onPress={handleSubmit((data) => next(data))}
-        color="black"
-        w="40%"
-        rounded={10}
-        h={40}
-        top={600}
-        left={200}
-        mt={40}
-      >
-        {property[stage].buttonText}
-      </Button>
-      {props.value != 0 && (
+      <Div row justifyContent="space-between" px="10%" mb={60}>
+        {stage !== 0 && (
+          <Button
+            title="Submit"
+            bg={property[stage].color}
+            onPress={previous}
+            color="black"
+            w="40%"
+            rounded={10}
+            h={40}
+            mt={40}
+          >
+            Previous
+          </Button>
+        )}
         <Button
-          position="absolute"
           title="Submit"
-          bg={property[stage].color}
-          onPress={previous}
+          bg="white"
+          onPress={handleSubmit((data) => next(data))}
           color="black"
           w="40%"
           rounded={10}
           h={40}
-          top={600}
-          left={20}
           mt={40}
+          ml={stage === 0 ? "30%" : 0}
         >
-          Previous
+          {property[stage].buttonText}
         </Button>
-      )}
+      </Div>
     </Div>
   );
 };
