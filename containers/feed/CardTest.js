@@ -2,14 +2,14 @@ import React from "react";
 import Card from "./Card";
 import DonorSelectForm from "../foodlisting/DonorSelectForm";
 import { Div } from "react-native-magnus";
-import Layout from "../../components/wrappers/Layout";
 import Expire from "./Expire";
+import ListingWrapper from "../../components/wrappers/ListingWrapper";
 
 const CardTest = (props) => {
   return (
-    <Layout pt={20} bg="white">
+    <ListingWrapper pt={20} bg="white">
       <Card />
-    </Layout>
+    </ListingWrapper>
   );
 };
 
