@@ -36,7 +36,7 @@ const ListingWrapper = (props) => {
         roundedBottom={9999}
         zIndex={0}
       /> */}
-      <Svg position="absolute" top="-15%" zIndex={0}>
+      <Svg position="absolute" top="-16.5%" zIndex={0}>
         <Circle cx="50%" cy="-25%" r="90%" fill={theme.colors.staleYellow} />
       </Svg>
       <Div position="absolute" h="35%" w="100%" top={0} pt="15%" px={30}>
@@ -123,7 +123,9 @@ const ListingWrapper = (props) => {
           </Button>
         </Div>
       </Div>
-      <ScrollDiv col>{props.children}</ScrollDiv>
+      <ScrollDiv col px={10}>
+        {props.children}
+      </ScrollDiv>
       <Div bg="greenishYellow" h="7%" />
     </Div>
   );
