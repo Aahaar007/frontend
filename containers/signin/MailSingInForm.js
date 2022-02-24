@@ -1,3 +1,4 @@
+import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { Button, Div, Input, Text } from "react-native-magnus";
@@ -11,6 +12,9 @@ const MailSignInForm = (props) => {
     formState: { errors },
     setError,
   } = useForm();
+
+  const navigation = useNavigation();
+
   const submitData = (data) => {
     console.log(data);
   };
@@ -42,7 +46,7 @@ const MailSignInForm = (props) => {
         placeHolder="12345678"
         isPass={true}
       />
-      <Div row justifyContent="flex-end" mt={10}>
+      <Div row justifyContent="flex-end" mt={25}>
         <Text
           color="grey"
           fontSize="lg"
@@ -58,15 +62,21 @@ const MailSignInForm = (props) => {
         bg="primary"
         w="100%"
         h={55}
-        mt={80}
+        mt={50}
       >
         Submit
       </Button>
-      <Div row flex={2} flexDir="column" mt={50}>
+      <Div ml="auto" row flex={2} mt={50}>
         <Text color="grey">No account?.</Text>
-        <Text color="white" textDecorLine="underline">
-          Sign Up
-        </Text>
+        <Button
+          p={0}
+          bg="transparent"
+          onPress={() => navigation.navigate("SignUp")}
+        >
+          <Text color="white" textDecorLine="underline">
+            Sign Up
+          </Text>
+        </Button>
       </Div>
     </Div>
   );
