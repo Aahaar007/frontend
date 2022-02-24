@@ -102,6 +102,7 @@ const ProfileForm = (props) => {
           </Avatar>
         </Div>
         <Div flex={3} row>
+          {/*TODO: Add K for thousand, H for hundred etc or the value will overflow */}
           <Div {...statDivStyle}>
             <Text {...statNumStyle}>13</Text>
             <Text {...statLabelStyle}>Listed</Text>

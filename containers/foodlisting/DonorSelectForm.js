@@ -55,7 +55,6 @@ const DonorSelectForm = (props) => {
         setIndividualButton({ ...individualButton, ...unselectedButton });
         setNGOButton({ ...NGOButton, ...unselectedButton });
     }
-    console.log(donorType);
   }, [donorType]);
 
   return (
@@ -79,6 +78,7 @@ const DonorSelectForm = (props) => {
                   h={100}
                   w={100}
                   m={10}
+                  underlayColor="primary"
                   // bg="blue"
                   resizeMode="center"
                   // rounded="circle"
