@@ -26,6 +26,7 @@ const EmailPass = (props) => {
         label="Enter Password"
         rules={{
           required: true,
+          pattern: Regex.passwordPattern,
         }}
         isPass={true}
         mt={30}
@@ -36,6 +37,7 @@ const EmailPass = (props) => {
         control={control}
         rules={{
           required: true,
+          pattern: Regex.passwordPattern,
         }}
         placeholder="example@mail.com"
         label="Verify Password"
