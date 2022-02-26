@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { AppRegistry } from "react-native";
 import { ThemeProvider } from "react-native-magnus";
 import { theme } from "./styles/theme";

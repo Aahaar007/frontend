@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback, useEffect, useRef } from "react";
 import { Div, Button, Text } from "react-native-magnus";
 import { useNavigation } from "@react-navigation/core";
 import PhoneInput from "../../components/form/PhoneInput";
@@ -8,8 +8,17 @@ import { isValidPhoneNumber } from "libphonenumber-js";
 import OTPForm from "../../components/form/OTP/OTPForm";
 import EmailPass from "./EmailPass";
 
+import * as FirebaseRecaptcha from "expo-firebase-recaptcha";
+import firebaseConfig from "../../utils/firebase";
+
+import { getAuth, PhoneAuthProvider } from "firebase/auth";
+import codes from "../../constants/countryCode.json";
+
+const auth = getAuth();
+
 const SignUpLayout = () => {
   const [userData, setUserData] = useState({});
+  const recaptchaVerifier = useRef(null);
   const {
     control,
     handleSubmit,
@@ -34,10 +43,35 @@ const SignUpLayout = () => {
     console.log("userData: ", userData);
   }, [userData]);
 
-  const submitData = (data) => {
-    if (data["phone"]) {
-      if (isValidPhoneNumber(data["phone"], userData.code)) {
+  const formatCountryCode = (val) => {
+    return val.length > 0 && !val.includes("+") ? "+" + val : val;
+  };
+
+  const submitData = async (data) => {
+    if (data["password"]) {
+      if (data["password"] === data["rePassword"]) {
         modifyData(data);
+      } else {
+        setError("rePassword", {
+          type: "manual",
+          message: "Passwords do not match",
+        });
+      }
+    } else if (data["validOTP"]) {
+      //TODO: do something.
+    } else if (data["phone"]) {
+      if (isValidPhoneNumber(data["phone"], userData.code)) {
+        const number = formatCountryCode(codes[userData.code]) + data.phone;
+        const phoneProvider = new PhoneAuthProvider(auth);
+        try {
+          const verificationId = await phoneProvider.verifyPhoneNumber(
+            number,
+            recaptchaVerifier.current
+          );
+          data.verificationId = verificationId;
+        } catch (e) {
+          console.log(e);
+        }
       } else {
         setError("phone", {
           type: "manual",
@@ -45,22 +79,38 @@ const SignUpLayout = () => {
         });
       }
     }
+    modifyData(data);
     console.log("data", data);
   };
 
   const getComponent = () => {
-    if (Object.entries(userData).length < 2) {
+    if (Object.entries(userData).length < 3) {
       //phone input component
       return (
-        <PhoneInput
-          mt={100}
-          setData={modifyData}
-          control={control}
-          errors={errors}
+        <Div>
+          <PhoneInput
+            mt={100}
+            setData={modifyData}
+            control={control}
+            errors={errors}
+          />
+          <FirebaseRecaptcha.FirebaseRecaptchaVerifierModal
+            ref={recaptchaVerifier}
+            firebaseConfig={firebaseConfig}
+            invisible={true}
+            verify={true}
+            //TODO: Create custom google re-captcha component.
+          />
+        </Div>
+      );
+    } else if (Object.entries(userData).length < 4) {
+      return (
+        <OTPForm
+          register={register}
+          phone={userData?.phone}
+          verificationId={userData?.verificationId}
         />
       );
-    } else if (Object.entries(userData).length < 3) {
-      return <OTPForm register={register} phone={userData?.phone} />;
     } else {
       return (
         <EmailPass control={control} errors={errors} mt={100} />
