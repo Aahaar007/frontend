@@ -6,5 +6,6 @@ export const theme = {
     error: "rgba(255,148,148, 1.0)",
     white: "#fff",
     grey: "#494949",
+    limeGreen: "rgba(7,163,0,0.3)",
   },
 };
