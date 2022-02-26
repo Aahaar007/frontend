@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { Div, Button, Text } from "react-native-magnus";
+import { useNavigation } from "@react-navigation/core";
 import PhoneInput from "../../components/form/PhoneInput";
 import HeroSignUp from "./HeroSignUp";
 import { useForm } from "react-hook-form";
@@ -17,7 +18,7 @@ const SignUpLayout = () => {
     setValue,
     register,
   } = useForm();
-
+  const navigator = useNavigation();
   const modifyData = useCallback(
     (val) => {
       console.log("USER:", userData, "VAL: ", val);
@@ -83,6 +84,21 @@ const SignUpLayout = () => {
       >
         Submit
       </Button>
+      <Div row mt="50%" ml="auto" position="relative">
+        <Text color="dimGray">Already have an account? </Text>
+        <Button p={0} bg="transparent">
+          <Text
+            color="white"
+            textDecorationLine="underline"
+            fontWeight="bold"
+            onPress={() => {
+              navigator.navigate("SignIn");
+            }}
+          >
+            Sign In
+          </Text>
+        </Button>
+      </Div>
     </Div>
   );
 };
