@@ -34,7 +34,9 @@ const SignInLayout = () => {
   }, [userData]);
 
   const submitData = (data) => {
-    if (data["phone"]) {
+    if (data["validOTP"]) {
+      navigator.navigate("Listing");
+    } else if (data["phone"]) {
       if (isValidPhoneNumber(data["phone"], userData.code)) {
         modifyData(data);
       } else {
