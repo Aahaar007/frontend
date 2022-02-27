@@ -11,7 +11,12 @@ import EmailPass from "./EmailPass";
 import * as FirebaseRecaptcha from "expo-firebase-recaptcha";
 import firebaseConfig from "../../utils/firebase";
 
-import { getAuth, PhoneAuthProvider } from "firebase/auth";
+import {
+  getAuth,
+  PhoneAuthProvider,
+  linkWithCredential,
+  EmailAuthProvider,
+} from "firebase/auth";
 import codes from "../../constants/countryCode.json";
 
 const auth = getAuth();
@@ -46,11 +51,22 @@ const SignUpLayout = () => {
   const formatCountryCode = (val) => {
     return val.length > 0 && !val.includes("+") ? "+" + val : val;
   };
-
   const submitData = async (data) => {
     if (data["password"]) {
       if (data["password"] === data["rePassword"]) {
         modifyData(data);
+        const credential = EmailAuthProvider.credential(
+          userData.email,
+          userData.password
+        );
+        linkWithCredential(auth.currentUser, credential)
+          .then((usercred) => {
+            const user = usercred.user;
+            console.log("Account linking success", user);
+          })
+          .catch((error) => {
+            console.log("Account linking error", error);
+          });
       } else {
         setError("rePassword", {
           type: "manual",
