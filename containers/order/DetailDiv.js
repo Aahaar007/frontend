@@ -6,16 +6,32 @@ const DetailDiv = (props) => {
       row
       bg="#fbf0e6"
       h={80}
-      rounded={10}
-      mt={20}
-      shadow="lg"
+      rounded={0}
+      mt={8}
+      shadow="xs"
       shadowColor="black"
+      p={5}
+      justifyContent="center"
       {...props}
     >
-      <Text color="#4f4e4e" fontWeight="bold" fontSize={20} ml={50}>
+      <Text
+        flex={1}
+        color="#4f4e4e"
+        fontWeight="bold"
+        fontSize={20}
+        textAlign="right"
+        px={10}
+      >
         {props.title}
       </Text>
-      <Text color="#D5B029" fontWeight="bold" fontSize={20} ml={40}>
+      <Text
+        flex={1}
+        color="#D5B029"
+        fontWeight="bold"
+        fontSize={20}
+        textAlign="left"
+        px={10}
+      >
         {props.title2}
       </Text>
     </Div>

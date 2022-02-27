@@ -4,6 +4,7 @@ import { Button, Div, Text } from "react-native-magnus";
 import Layout from "./../../components/wrappers/Layout";
 import DetailDiv from "./DetailDiv";
 import OrderDetail from "./OrderDetail";
+import FloatButtons from "./FloatButtons";
 
 const donationList = [
   {
@@ -19,9 +20,8 @@ const donationList = [
 ];
 
 const OrderLayout = () => {
-  const [show, setShow] = useState(1);
   return (
-    <Layout bg="white">
+    <Div bg="white" pb={10}>
       <Card
         key={donationList[0]._id}
         donationData={donationList[0]}
@@ -29,7 +29,7 @@ const OrderLayout = () => {
       />
       <Button
         bg="#D5B029"
-        w="60%"
+        w="100%"
         h={60}
         mr="auto"
         ml="auto"
@@ -40,27 +40,24 @@ const OrderLayout = () => {
           Book this!
         </Text>
       </Button>
-      <DetailDiv title={"Time of Cooking"} title2={"8:30 A:M"} mt={10} />
-      {show === 1 && (
+      <Div px={2} py={15} overflow="visible">
+        <DetailDiv title={"Time of Cooking"} title2={"8:30 AM"} />
         <DetailDiv
           title={"This donar is a "}
           title2={"Catering Service"}
-          mt={10}
           bg="#f7f8f1"
         />
-      )}
-      <OrderDetail
-        show={show}
-        setShow={setShow}
-        minH={200}
-        bg="#f2f6f6"
-        title={"What's in the menu?"}
-        title2={
-          "once there was a crow he was very thirsy he flew here and there in search of water but he did "
-        }
-      />
+        <OrderDetail
+          bg="#f2f6f6"
+          title={"What's in the menu?"}
+          title2={
+            "Mollit non ullamco incididunt ea sunt dolore consequat labore aliquip in et deserunt.Sint reprehenderit dolor in nostrud nulla eiusmod duis Lorem quis et voluptate nulla mollit mollit. Irure sit qui ad cupidatat et minim. Quis ea officia exercitation commodo occaecat aliqua cillum. Officia incididunt exercitation adipisicing voluptate anim. Amet do pariatur mollit enim cillum elit ullamco anim ut voluptate pariatur anim."
+          }
+        />
+      </Div>
+      <FloatButtons />
       {/* <BottomFeature/> */}
-    </Layout>
+    </Div>
   );
 };
 
