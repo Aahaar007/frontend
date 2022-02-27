@@ -11,10 +11,12 @@ import OTPScreen from "./screens/OTPScreen";
 import SignUpScreen from "./screens/SignUpScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 import UserSetupScreen from "./screens/UserSetupScreen";
+import DonorSelectForm from "./containers/foodlisting/DonorSelectForm";
 const Stack = createNativeStackNavigator();
-
 import { store } from "./store";
 import { Provider } from "react-redux";
+import FeedLayout from "./containers/feed/FeedLayout";
+import BookScreen from "./screens/BookScreen";
 
 export default function App() {
   return (
@@ -24,8 +26,8 @@ export default function App() {
           <Stack.Navigator>
             <Stack.Group screenOptions={{ headerShown: false }}>
               <Stack.Screen name="Home" component={HomeScreen} />
-              <Stack.Screen name="SignUp" component={SignUpScreen} />
-              <Stack.Screen name="SignIn" component={SignInScreen} />
+              <Stack.Screen name="SignUp" component={DonorSelectForm} />
+              <Stack.Screen name="SignIn" component={BookScreen} />
               <Stack.Screen name="MailSignIn" component={MailSignInScreen} />
               <Stack.Screen name="OTP" component={OTPScreen} />
               <Stack.Screen name="Profile" component={ProfileScreen} />

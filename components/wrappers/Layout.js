@@ -14,6 +14,7 @@ const Layout = (props) => {
       bg="bgGray"
       px={10}
       {...props}
+      decelerationRate="fast"
     >
       {props.children}
     </ScrollDiv>
