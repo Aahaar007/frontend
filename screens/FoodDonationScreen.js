@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 const FoodDonationScreen = () => {
   return (
     <ListingWrapper>
-      <FoodDonationform></FoodDonationform>
+      <FoodDonationform />
     </ListingWrapper>
   );
 };

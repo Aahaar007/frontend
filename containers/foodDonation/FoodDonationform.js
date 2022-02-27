@@ -1,66 +1,71 @@
 import React from "react";
-import { Div, Text, Image, View, Checkbox } from "react-native-magnus";
+import { Div, Text, Image, View, Checkbox, Radio } from "react-native-magnus";
+import { useNavigation } from "@react-navigation/native";
 import FormInput from "../../components/form/FormInput";
-import FoodDonationformInput from "./FoodDonationFormInput";
 // import { Regex } from "../../constants/Regex";
-// import Slider from "react-native-slider";
-import Slider from "@react-native-community/slider";
 import { useState } from "react";
 import { Button } from "react-native-magnus";
 import { useForm } from "react-hook-form";
 
 const FoodDonationform = (props) => {
-  const [isVeg, setVeg] = useState(false);
-  const [isNonVeg, setNonVeg] = useState(false);
+  const [isVeg, setIsVeg] = useState(true);
   const [isHygiene, setHygiene] = useState(false);
-  const [sliderValue, setSliderValue] = useState(15);
+  const navigation = useNavigation();
   const {
     control,
     handleSubmit,
     formState: { errors },
-    setError,
     setValue,
     register,
   } = useForm();
+
   const submitData = (data) => {
     console.log(data);
-    console.log("isVeg" + " " + isVeg);
-    console.log("isNonVeg" + " " + isNonVeg);
-    console.log("isHygiene" + " " + isHygiene);
   };
   return (
     <Div
-      {...props}
       h="100%"
       w="100%"
       justifyContent="center"
       bg="white"
       // mt={20}
+      {...props}
     >
       <Div flex={1} flexDir="row" ml={20} mt={50}>
         <Text color="#f8a92a" fontSize={18} fontWeight="bold">
           FOOD DONATION DETAILS
         </Text>
-        <Image
-          h={20}
-          w={20}
-          resizeMode="center"
-          alignSelf="center"
+        <Button
           ml={75}
-          source={require("./img/Group_81.png")}
-        />
+          p={0}
+          w={20}
+          h={20}
+          rounded={100}
+          bg="transparent"
+          onPress={() => navigation.goBack()}
+        >
+          <Image
+            h={20}
+            w={20}
+            resizeMode="center"
+            alignSelf="center"
+            source={require("./img/Group_81.png")}
+          />
+        </Button>
       </Div>
       <Div ml={20} mt={20}>
         <Div flex={1} flexDir="row">
-          <FoodDonationformInput
+          <FormInput
             name="pickuplocation"
             control={control}
-            placeholder="example@mail.com"
+            placeholder="Kothri Kalan, Bhopal"
             label="PickUp Location ?                                             "
             rules={{
               required: true,
             }}
             mt={30}
+            fontSize={16}
+            inputProp={{ color: "black" }}
             errors={errors}
           />
           <Image
@@ -74,7 +79,7 @@ const FoodDonationform = (props) => {
           />
         </Div>
         <Div flex={1} flexDir="row">
-          <FoodDonationformInput
+          <FormInput
             name="Fooditems"
             control={control}
             placeholder="example@mail.com"
@@ -83,11 +88,13 @@ const FoodDonationform = (props) => {
               required: true,
             }}
             mt={30}
+            fontSize={16}
+            inputProp={{ color: "black" }}
             errors={errors}
           />
         </Div>
         <Div flex={1} flexDir="row">
-          <FoodDonationformInput
+          <FormInput
             name="timeofexpire"
             control={control}
             placeholder="example@mail.com"
@@ -96,6 +103,8 @@ const FoodDonationform = (props) => {
               required: true,
             }}
             mt={30}
+            fontSize={16}
+            inputProp={{ color: "black" }}
             errors={errors}
           />
           <Image
@@ -108,7 +117,7 @@ const FoodDonationform = (props) => {
             source={require("./img/Group_83.png")}
           />
         </Div>
-        <Div flex={1} flexDir="row">
+        {/* <Div flex={1} flexDir="row">
           <FoodDonationformInput
             name="timeofpreparation"
             control={control}
@@ -129,26 +138,28 @@ const FoodDonationform = (props) => {
             mt={30}
             source={require("./img/Group_83.png")}
           />
-        </Div>
+        </Div> */}
         <Div mt={40}>
           <Div flex={1} flexDir="row">
             <Text px={4} color="dimGray" fontSize={16}>
               Quantity Person(s):
             </Text>
-            <FoodDonationformInput
+            <FormInput
               name="quantity"
               control={control}
-              placeholder="example@mail.com"
+              placeholder="100"
               rules={{
                 required: true,
               }}
-              label="             "
+              inputProp={{ color: "black", w: 100 }}
+              label={null}
               mt={-25}
+              fontSize={16}
               errors={errors}
-              onValueChange={(sliderValue) => setSliderValue(sliderValue)}
+              default
             />
           </Div>
-          <Div mt={10} ml={-14}>
+          {/* <Div mt={10} ml={-14}>
             <Slider
               minimumTrackTintColor="#307ecc"
               maximumTrackTintColor="#000000"
@@ -156,12 +167,17 @@ const FoodDonationform = (props) => {
               minimumValue={0}
               step={1}
               value={sliderValue}
+              onValueChange={(val) => {
+                console.log(val);
+                setValue("quantity", val);
+                //setSliderValue(val);
+              }}
             />
           </Div>
           <Div flex={1} flexDir="row" justifyContent="space-between">
             <Text>Min: 0</Text>
             <Text>Max: 500</Text>
-          </Div>
+          </Div> */}
         </Div>
         <Div mt={30}>
           <Text px={4} color="dimGray" fontSize={16}>
@@ -183,23 +199,36 @@ const FoodDonationform = (props) => {
           <Text px={4} color="dimGray" fontSize={16}>
             Select Veg / Non Veg
           </Text>
-          <Div mt={15}>
-            <Div flex={1} flexDir="row">
-              <Checkbox checked={isVeg} onPress={() => setVeg(!isVeg)} />
-              <Text ml={5} px={4} fontSize={18}>
-                Veg
-              </Text>
-            </Div>
-            <Div flex={1} flexDir="row">
-              <Checkbox
-                checked={isNonVeg}
-                onPress={() => setNonVeg(!isNonVeg)}
-              />
-              <Text ml={5} px={4} fontSize={18}>
-                Non Veg
-              </Text>
-            </Div>
-          </Div>
+          <Radio.Group row mt={15}>
+            <Radio
+              {...register("isVeg", { value: true })}
+              value={isVeg}
+              checked={isVeg}
+              onChange={() => {
+                setIsVeg(true);
+                setValue("isVeg", true);
+              }}
+              prefix={
+                <Text px={4} fontSize={18}>
+                  Veg
+                </Text>
+              }
+              mr={30}
+            />
+            <Radio
+              value={!isVeg}
+              checked={!isVeg}
+              onChange={() => {
+                setIsVeg(false);
+                setValue("isVeg", false);
+              }}
+              prefix={
+                <Text px={4} fontSize={18}>
+                  Non-Veg
+                </Text>
+              }
+            />
+          </Radio.Group>
         </Div>
         <Div mt={30} flex={1} flexDir="row">
           <Checkbox
