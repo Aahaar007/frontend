@@ -46,6 +46,18 @@ export const aahaarApi = createApi({
         },
       }),
     }),
+    checkExistingUser: build.query({
+      query: ({ region, number }) => ({
+        url: "user/checkExisting",
+        method: "POST",
+        body: {
+          phone: { region, number },
+        },
+        prepareHeaders: (headers) => {
+          return {};
+        },
+      }),
+    }),
   }),
 });
 
@@ -54,4 +66,5 @@ export const {
   useGetUserDetailsByUidQuery,
   useVerifyUserProfileQuery,
   useUpdateUserDetailsQuery,
+  useCheckExistingUserQuery,
 } = aahaarApi;
