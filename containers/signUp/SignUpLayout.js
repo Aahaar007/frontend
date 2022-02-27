@@ -1,13 +1,12 @@
 import React, { useState, useCallback, useEffect, useRef } from "react";
 import { useNavigation } from "@react-navigation/core";
-import { Div, Button, Icon, Snackbar } from "react-native-magnus";
+import { Div, Button, Icon, Snackbar, Text } from "react-native-magnus";
 import PhoneInput from "../../components/form/PhoneInput";
 import HeroSignUp from "./HeroSignUp";
 import { useForm } from "react-hook-form";
 import { isValidPhoneNumber } from "libphonenumber-js";
 import OTPForm from "../../components/form/OTP/OTPForm";
 import EmailPass from "./EmailPass";
-import { useNavigation } from "@react-navigation/native";
 
 import * as FirebaseRecaptcha from "expo-firebase-recaptcha";
 import firebaseConfig from "../../utils/firebase";
@@ -36,7 +35,7 @@ const SignUpLayout = () => {
 
   const navigatior = useNavigation();
   const snackbarRef = useRef();
-  
+
   const modifyData = useCallback(
     (val) => {
       console.log("USER:", userData, "VAL: ", val);
@@ -94,31 +93,24 @@ const SignUpLayout = () => {
   const formatCountryCode = (val) => {
     return val.length > 0 && !val.includes("+") ? "+" + val : val;
   };
-  const submitData = (data) => {
+  const submitData = async (data) => {
     if (data["password"]) {
       if (data["password"] === data["rePassword"]) {
-        modifyData(data);
-      } else {
-        setError("rePassword", {
-          type: "manual",
-          message: "Passwords do not match",
-        });
-      }
-    } else if (data["phone"]) {
-      if (isValidPhoneNumber(data["phone"], userData.code)) {
-        modifyData(data);
         const credential = EmailAuthProvider.credential(
-          userData.email,
-          userData.password
+          data.email,
+          data.password
         );
-        linkWithCredential(auth.currentUser, credential)
-          .then((usercred) => {
-            const user = usercred.user;
-            console.log("Account linking success", user);
-          })
-          .catch((error) => {
-            console.log("Account linking error", error);
-          });
+
+        try {
+          const usercred = await linkWithCredential(
+            auth.currentUser,
+            credential
+          );
+          const user = usercred.user;
+          console.log("Account linking success", user);
+        } catch (error) {
+          console.log("Account linking error", error);
+        }
       } else {
         setError("rePassword", {
           type: "manual",
