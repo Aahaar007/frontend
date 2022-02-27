@@ -19,6 +19,8 @@ import {
 } from "firebase/auth";
 import codes from "../../constants/countryCode.json";
 
+import { useCreateUserMutation } from "../../services/aahaar";
+
 const auth = getAuth();
 
 const SignUpLayout = () => {
@@ -45,12 +47,7 @@ const SignUpLayout = () => {
     [userData]
   );
 
-  const callCreateUser = async (user) => {
-    setTimeout(() => {
-      console.log("called create user");
-    }, 2000);
-    //result of account creation
-    let res = true;
+  const callCreateUser = async (res) => {
     if (res) {
       setCreateStatus(true);
       if (snackbarRef.current) {
@@ -179,12 +176,33 @@ const SignUpLayout = () => {
     }
   };
 
+  const [triggerCreateUser, userRes] = useCreateUserMutation();
+
   useEffect(() => {
     //LOG: console.log("userData: ", userData);
     if (userData["password"]) {
-      callCreateUser(userData);
+      triggerCreateUser({
+        email: userData.email,
+        phone: {
+          region: codes[userData.code],
+          number: userData.phone,
+        },
+      });
     }
   }, [userData]);
+
+  useEffect(() => {
+    if (userRes.isUninitialized) {
+      return;
+    }
+    console.log("Response: ", userRes);
+    if (userRes.isSuccess) {
+      callCreateUser(true);
+    } else {
+      callCreateUser(false);
+    }
+    //TODO: Reset form and delete firebase account if couldn't create account on back-end.
+  }, [userRes]);
 
   return (
     <Div>
