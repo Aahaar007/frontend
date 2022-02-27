@@ -10,12 +10,17 @@ import MailSignInScreen from "./screens/MailSignInScreen";
 import SignUpScreen from "./screens/SignUpScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 import UserSetupScreen from "./screens/UserSetupScreen";
-import DonorSelectForm from "./containers/foodlisting/DonorSelectForm";
+import FoodDonationScreen from "./screens/FoodDonationScreen";
+
+import CardTest from "./containers/feed/CardTest";
 const Stack = createNativeStackNavigator();
 import { store } from "./store";
 import { Provider } from "react-redux";
 import FeedLayout from "./containers/feed/FeedLayout";
 import BookScreen from "./screens/BookScreen";
+import FoodListingScreen from "./screens/FoodListingScreen";
+import DonorSelectScreen from "./screens/DonorSelectScreen";
+import BookFoodScreen from "./screens/BookFoodScreen";
 
 export default function App() {
   return (
@@ -29,6 +34,13 @@ export default function App() {
               <Stack.Screen name="SignIn" component={SignInScreen} />
               <Stack.Screen name="MailSignIn" component={MailSignInScreen} />
               <Stack.Screen name="Profile" component={ProfileScreen} />
+              <Stack.Screen name="Listing" component={FoodListingScreen} />
+              <Stack.Screen name="DonorSelect" component={DonorSelectScreen} />
+              <Stack.Screen
+                name="DonationDetail"
+                component={FoodDonationScreen}
+              />
+              <Stack.Screen name="BookFood" component={BookFoodScreen} />
             </Stack.Group>
           </Stack.Navigator>
         </NavigationContainer>

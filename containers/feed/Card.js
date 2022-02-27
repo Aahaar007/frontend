@@ -2,7 +2,9 @@ import React from "react";
 import { Button, Div, Text } from "react-native-magnus";
 import Expire from "./Expire";
 import { theme } from "../../styles/theme";
+import { useNavigation } from "@react-navigation/core";
 const Card = (props) => {
+  const navigation = useNavigation();
   const {
     amount = 12,
     address = "Sagar gaire, Indore, M.P.",
@@ -20,6 +22,9 @@ const Card = (props) => {
       p="none"
       rounded="xl"
       mt={20}
+      onPress={() => {
+        navigation.navigate("BookFood");
+      }}
       {...props}
     >
       <Div

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Div, Icon, ScrollDiv, Text } from "react-native-magnus";
 import { Dimensions } from "react-native";
 import Svg, { Circle } from "react-native-svg";
@@ -6,7 +6,7 @@ import { theme } from "../../styles/theme";
 import ImageBox from "../ImageBox";
 import FormInput from "../form/FormInput";
 import { useForm } from "react-hook-form";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 const ListingWrapper = (props) => {
   const windowWidth = Dimensions.get("window").width;
   const windowHeight = Dimensions.get("window").height;
@@ -17,12 +17,21 @@ const ListingWrapper = (props) => {
     address: "420-Delhi, India",
     profile: "./img/default_pp.jpg",
   });
-  const [selected, setSelected] = useState("recieve");
+  const [selected, setSelected] = useState(props.selected || null);
   const { control } = useForm();
-
+  const route = useRoute();
   const pressLocation = () => {
     console.log("Location pressed");
   };
+
+  useEffect(() => {
+    if (selected === "donate" && route.name !== "DonorSelect") {
+      navigation.replace("DonorSelect");
+    }
+    if (selected === "recieve" && route.name !== "Listing") {
+      navigation.replace("Listing");
+    }
+  }, [selected]);
 
   return (
     <Div h="100%" bg="white" pt="60%" position="relative">
@@ -97,15 +106,14 @@ const ListingWrapper = (props) => {
         <Div
           row
           justifyContent="space-between"
-          h={45}
           p={5}
           mt={7}
+          minH={50}
           bg="ashGray"
           rounded={10}
         >
           <Button
             w="48%"
-            h="100%"
             bg={selected == "recieve" ? "white" : "transparent"}
             color="black"
             onPress={() => setSelected("recieve")}
@@ -114,7 +122,6 @@ const ListingWrapper = (props) => {
           </Button>
           <Button
             w="48%"
-            h="100%"
             bg={selected == "donate" ? "white" : "transparent"}
             color="black"
             onPress={() => setSelected("donate")}

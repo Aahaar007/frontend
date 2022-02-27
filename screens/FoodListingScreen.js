@@ -1,8 +1,13 @@
 import React from "react";
-import Layout from "../components/wrappers/Layout";
+import ListingWrapper from "../components/wrappers/ListingWrapper";
+import FeedLayout from "../containers/feed/FeedLayout";
 
-const FoodListing = () => {
-  return <Layout></Layout>;
+const FoodListingScreen = () => {
+  return (
+    <ListingWrapper selected="recieve">
+      <FeedLayout />
+    </ListingWrapper>
+  );
 };
 
-export default FoodListing;
+export default FoodListingScreen;
