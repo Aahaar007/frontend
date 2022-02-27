@@ -11,6 +11,8 @@ import OTPScreen from "./screens/OTPScreen";
 import SignUpScreen from "./screens/SignUpScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 import DonorSelectForm from "./containers/foodlisting/DonorSelectForm";
+import FoodDonationScreen from "./screens/FoodDonationScreen";
+
 import CardTest from "./containers/feed/CardTest";
 const Stack = createNativeStackNavigator();
 
@@ -26,7 +28,7 @@ export default function App() {
           <Stack.Navigator>
             <Stack.Group screenOptions={{ headerShown: false }}>
               <Stack.Screen name="Home" component={HomeScreen} />
-              <Stack.Screen name="SignUp" component={DonorSelectForm} />
+              <Stack.Screen name="SignUp" component={FoodDonationScreen} />
               <Stack.Screen name="SignIn" component={FeedLayout} />
               <Stack.Screen name="MailSignIn" component={MailSignInScreen} />
               <Stack.Screen name="OTP" component={OTPScreen} />
