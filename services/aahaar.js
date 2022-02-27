@@ -31,7 +31,7 @@ export const aahaarApi = createApi({
         },
       }),
     }),
-    getUserDetailsByUid: build.query({
+    getUserDetailsByUid: build.mutation({
       query: (uid) => ({ url: `user/${uid}`, method: "GET" }),
     }),
     verifyUserProfile: build.query({
@@ -55,7 +55,7 @@ export const aahaarApi = createApi({
 
 export const {
   useCreateUserMutation,
-  useGetUserDetailsByUidQuery,
+  useGetUserDetailsByUidMutation,
   useVerifyUserProfileQuery,
   useUpdateUserDetailsQuery,
 } = aahaarApi;
