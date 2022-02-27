@@ -11,5 +11,6 @@ export const theme = {
     burgundy: "rgba(87,0,0, 1.0)",
     faintGray: "rgba(216,216,216, 1.0)",
     ashGray: "rgba(247,247,250, 1.0)",
+    dullWhite: "rgba(248,248,248,1.0)",
   },
 };
