@@ -13,7 +13,15 @@ const Card = (props) => {
   } = props.donationData;
 
   return (
-    <Button shadow="md" block color="white" p="none" rounded="xl" mt={20}>
+    <Button
+      shadow="md"
+      block
+      color="white"
+      p="none"
+      rounded="xl"
+      mt={20}
+      {...props}
+    >
       <Div
         p="none"
         flex={1}
