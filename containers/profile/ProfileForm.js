@@ -1,6 +1,11 @@
 import { useNavigation } from "@react-navigation/native";
-import React from "react";
+import { getAuth } from "firebase/auth";
+import React, { useEffect } from "react";
 import { Avatar, Div, Text, Image, Button, Icon } from "react-native-magnus";
+import { useDispatch } from "react-redux";
+import { clearState } from "../../features/user/userSlice";
+
+const auth = getAuth();
 
 const statDivStyle = {
   flex: 1,
@@ -54,12 +59,21 @@ const infoValueStyle = {
 };
 
 const ProfileForm = (props) => {
+  //TODO: Properly implement logout functionality, remove from here when done.
+  const dispatch = useDispatch();
+  const logoutUser = async () => {
+    await auth.signOut();
+    dispatch(clearState());
+  };
+  useEffect(() => {
+    console.log(auth.currentUser);
+  }, [auth]);
   const nav = useNavigation();
   return (
     <Div {...props}>
       <Div row h={70} justifyContent="space-between">
         <Div flex={1} justifyContent="flex-start" row>
-          <Button bg="transparent" rounded={15} onPress={() => nav.goBack()}>
+          <Button bg="transparent" rounded={15} onPress={() => logoutUser()}>
             <Icon
               name="chevron-thin-left"
               fontFamily="Entypo"

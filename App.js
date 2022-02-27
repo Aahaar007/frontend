@@ -1,38 +1,13 @@
 import React from "react";
 import { AppRegistry } from "react-native";
-import { ThemeProvider } from "react-native-magnus";
-import { theme } from "./styles/theme";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { NavigationContainer } from "@react-navigation/native";
-import HomeScreen from "./screens/HomeScreen";
-import SignInScreen from "./screens/SignInScreen";
-import MailSignInScreen from "./screens/MailSignInScreen";
-import SignUpScreen from "./screens/SignUpScreen";
-import ProfileScreen from "./screens/ProfileScreen";
-import UserSetupScreen from "./screens/UserSetupScreen";
-import DonorSelectForm from "./containers/foodlisting/DonorSelectForm";
-const Stack = createNativeStackNavigator();
+import DefaultApp from "./base";
 import { store } from "./store";
 import { Provider } from "react-redux";
-import FeedLayout from "./containers/feed/FeedLayout";
-import BookScreen from "./screens/BookScreen";
 
 export default function App() {
   return (
     <Provider store={store}>
-      <ThemeProvider theme={theme}>
-        <NavigationContainer>
-          <Stack.Navigator>
-            <Stack.Group screenOptions={{ headerShown: false }}>
-              <Stack.Screen name="Home" component={HomeScreen} />
-              <Stack.Screen name="SignUp" component={SignUpScreen} />
-              <Stack.Screen name="SignIn" component={SignInScreen} />
-              <Stack.Screen name="MailSignIn" component={MailSignInScreen} />
-              <Stack.Screen name="Profile" component={ProfileScreen} />
-            </Stack.Group>
-          </Stack.Navigator>
-        </NavigationContainer>
-      </ThemeProvider>
+      <DefaultApp></DefaultApp>
     </Provider>
   );
 }
