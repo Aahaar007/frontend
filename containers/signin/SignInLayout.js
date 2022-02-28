@@ -29,8 +29,10 @@ import { clearState, loginUser } from "../../features/user/userSlice";
 const auth = getAuth();
 
 const SignInLayout = () => {
+  const navigation = useNavigation();
   const [userData, setUserData] = useState({});
   const recaptchaVerifier = useRef(null);
+  const [touchSignIn, setTouchSignIn] = useState(false);
 
   const user = useSelector((state) => state.user);
   const [triggerFetchProfile, res] = useGetUserDetailsByUidMutation();
@@ -65,12 +67,19 @@ const SignInLayout = () => {
   }, [userData]);
 
   useEffect(() => {
+    console.log(auth.currentUser && auth.currentUser.providerData.length === 2);
+    if (auth.currentUser) {
+      triggerFetchProfile(auth.currentUser.uid);
+    }
+  }, [auth]);
+
+  useEffect(() => {
     console.log("RES: ", res);
     if (res.isUninitialized) return;
     if (res.isSuccess) {
       dispatch(loginUser(res.data.user));
     } else {
-      dispatch(clearState);
+      dispatch(clearState());
     }
   }, [res]);
 
@@ -179,7 +188,23 @@ const SignInLayout = () => {
       >
         Submit
       </Button>
-      <Div row mt="50%" ml="auto" position="relative">
+      {Object.entries(userData).length < 3 && (
+        <Button
+          bg={touchSignIn ? "primary" : "transparent"}
+          borderWidth={2}
+          borderColor={touchSignIn ? "transparent" : "primary"}
+          color={touchSignIn ? "black" : "primary"}
+          w="100%"
+          mt={20}
+          alignSelf="center"
+          onTouchStart={() => setTouchSignIn(true)}
+          onTouchEnd={() => setTouchSignIn(false)}
+          onPress={() => navigation.navigate("MailSignIn")}
+        >
+          Login using Email
+        </Button>
+      )}
+      <Div row mt="31%" ml="auto" position="relative">
         <Text color="dimGray">No account? </Text>
         <Button p={0} bg="transparent">
           <Text
