@@ -41,6 +41,7 @@ const FormInput = (props) => {
             onChangeText={(value) => onChange(value)}
             value={value}
             {...inputProp}
+            {...props}
           />
         )}
         name={name}
