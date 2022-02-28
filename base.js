@@ -8,12 +8,14 @@ import SignInScreen from "./screens/SignInScreen";
 import MailSignInScreen from "./screens/MailSignInScreen";
 import SignUpScreen from "./screens/SignUpScreen";
 import ProfileScreen from "./screens/ProfileScreen";
-import UserSetupScreen from "./screens/UserSetupScreen";
-import DonorSelectForm from "./containers/foodlisting/DonorSelectForm";
+
+import FoodDonationScreen from "./screens/FoodDonationScreen";
+import FoodListingScreen from "./screens/FoodListingScreen";
+import DonorSelectScreen from "./screens/DonorSelectScreen";
+import BookFoodScreen from "./screens/BookFoodScreen";
+
 const Stack = createNativeStackNavigator();
 
-import FeedLayout from "./containers/feed/FeedLayout";
-import BookScreen from "./screens/BookScreen";
 import { useSelector } from "react-redux";
 
 const Base = () => {
@@ -34,6 +36,7 @@ const Base = () => {
                 component={FoodDonationScreen}
               />
               <Stack.Screen name="BookFood" component={BookFoodScreen} />
+              <Stack.Screen name="Profile" component={ProfileScreen} />
             </Stack.Group>
           ) : (
             <Stack.Group screenOptions={{ headerShown: false }}>

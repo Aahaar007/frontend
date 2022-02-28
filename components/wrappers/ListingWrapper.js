@@ -7,16 +7,15 @@ import ImageBox from "../ImageBox";
 import FormInput from "../form/FormInput";
 import { useForm } from "react-hook-form";
 import { useNavigation, useRoute } from "@react-navigation/native";
+import { useSelector } from "react-redux";
 const ListingWrapper = (props) => {
   const windowWidth = Dimensions.get("window").width;
   const windowHeight = Dimensions.get("window").height;
 
   const navigation = useNavigation();
 
-  const [userData, setUserData] = useState({
-    address: "420-Delhi, India",
-    profile: "./img/default_pp.jpg",
-  });
+  const user = useSelector((state) => state.user);
+
   const [selected, setSelected] = useState(props.selected || null);
   const { control } = useForm();
   const route = useRoute();
@@ -62,7 +61,7 @@ const ListingWrapper = (props) => {
                   />
                 </Div>
                 {"   "}
-                {userData?.address}{" "}
+                {user.data ? user.data.address : " "}{" "}
                 <Div pt={5} h={20}>
                   <Icon
                     name="crosshairs"
@@ -83,6 +82,7 @@ const ListingWrapper = (props) => {
               <ImageBox
                 h={50}
                 w={50}
+                //TODO: change to dynamic uri
                 src={require("./img/default_pp.jpg")}
                 rounded={10000}
                 overflow="hidden"
@@ -118,7 +118,7 @@ const ListingWrapper = (props) => {
             color="black"
             onPress={() => setSelected("recieve")}
           >
-            Recieve
+            Receive
           </Button>
           <Button
             w="48%"

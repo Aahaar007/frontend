@@ -22,7 +22,6 @@ const OTPForm = (props) => {
   };
 
   const validateOTP = async (otp) => {
-    return true;
     const credential = PhoneAuthProvider.credential(verificationId, otp);
     try {
       const authResult = await signInWithCredential(auth, credential);
