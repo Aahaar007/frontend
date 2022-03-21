@@ -43,6 +43,7 @@ const SignUpLayout = () => {
       console.log("USER:", userData, "VAL: ", val);
       const temp = { ...userData, ...val };
       setUserData(temp);
+      //TODO: dispatch clear state and logout user if going back
     },
     [userData]
   );
@@ -192,7 +193,7 @@ const SignUpLayout = () => {
   }, [userData]);
 
   useEffect(() => {
-    if (userRes.isUninitialized) {
+    if (userRes.isUninitialized || userRes.isLoading) {
       return;
     }
     console.log("Response: ", userRes);

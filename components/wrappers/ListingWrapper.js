@@ -7,16 +7,19 @@ import ImageBox from "../ImageBox";
 import FormInput from "../form/FormInput";
 import { useForm } from "react-hook-form";
 import { useNavigation, useRoute } from "@react-navigation/native";
+import { useSelector } from "react-redux";
 const ListingWrapper = (props) => {
   const windowWidth = Dimensions.get("window").width;
   const windowHeight = Dimensions.get("window").height;
 
   const navigation = useNavigation();
 
-  const [userData, setUserData] = useState({
-    address: "420-Delhi, India",
-    profile: "./img/default_pp.jpg",
-  });
+  // const [userData, setUserData] = useState({
+  //   address: "420-Delhi, India",
+  //   profile: "./img/default_pp.jpg",
+  // });
+  const user = useSelector((state) => state.user);
+
   const [selected, setSelected] = useState(props.selected || null);
   const { control } = useForm();
   const route = useRoute();
@@ -51,27 +54,24 @@ const ListingWrapper = (props) => {
       <Div position="absolute" h="35%" w="100%" top={0} pt="15%" px={30}>
         <Div w="100%" col>
           <Div row justifyContent="space-between">
-            <Button h="100%" bg="transparent" onPress={pressLocation}>
-              <Text fontSize={17} color="burgundy">
-                <Div pt={3} h={20}>
-                  <Icon
-                    name="location-pin"
-                    fontFamily="Entypo"
-                    color="burgundy"
-                    fontSize={20}
-                  />
-                </Div>
-                {"   "}
-                {userData?.address}{" "}
-                <Div pt={5} h={20}>
-                  <Icon
-                    name="crosshairs"
-                    fontFamily="FontAwesome5"
-                    color="burgundy"
-                    fontSize={17}
-                  />
-                </Div>
+            <Button h="100%" bg="transparent" p={0} onPress={pressLocation}>
+              <Icon
+                name="location-pin"
+                fontFamily="Entypo"
+                color="burgundy"
+                fontSize={23}
+                pt={2}
+                mr={10}
+              />
+              <Text fontSize={17} color="burgundy" mr={20}>
+                {user.data.address ? user.data.address : "Kothri Kalan, Bhopal"}
               </Text>
+              <Icon
+                name="crosshairs"
+                fontFamily="FontAwesome5"
+                color="burgundy"
+                fontSize={18}
+              />
             </Button>
             <Button
               h={50}
@@ -81,8 +81,9 @@ const ListingWrapper = (props) => {
               onPress={() => navigation.navigate("Profile")}
             >
               <ImageBox
-                h={50}
-                w={50}
+                h={35}
+                w={35}
+                //TODO: change to dynamic uri
                 src={require("./img/default_pp.jpg")}
                 rounded={10000}
                 overflow="hidden"
@@ -102,6 +103,7 @@ const ListingWrapper = (props) => {
             borderColor: "faintGray",
           }}
           label={null}
+          mt={0}
         />
         <Div
           row
@@ -118,7 +120,7 @@ const ListingWrapper = (props) => {
             color="black"
             onPress={() => setSelected("recieve")}
           >
-            Recieve
+            Receive
           </Button>
           <Button
             w="48%"

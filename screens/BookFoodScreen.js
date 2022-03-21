@@ -4,7 +4,7 @@ import OrderLayout from "../containers/order/OrderLayout";
 
 const BookFoodScreen = () => {
   return (
-    <Layout>
+    <Layout bg="white">
       <OrderLayout />
     </Layout>
   );

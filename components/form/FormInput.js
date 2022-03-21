@@ -36,11 +36,13 @@ const FormInput = (props) => {
             color="white"
             py={0}
             mt={10}
+            pl={props.label ? 2 : 5}
             secureTextEntry={isPass}
             onBlur={onBlur}
             onChangeText={(value) => onChange(value)}
             value={value}
             {...inputProp}
+            {...props}
           />
         )}
         name={name}
