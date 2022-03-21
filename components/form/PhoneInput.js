@@ -53,6 +53,7 @@ const PhoneInput = (props) => {
           name="phone"
           placeholder="1234567890"
           defaultValue=""
+          keyboardType="number-pad"
           errors={errors}
         />
       </Div>

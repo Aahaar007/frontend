@@ -3,8 +3,16 @@ import { Button, Div, Text } from "react-native-magnus";
 import OTPInput from "./OTPInput";
 import { Regex } from "../../../constants/Regex";
 
+import {
+  getAuth,
+  PhoneAuthProvider,
+  signInWithCredential,
+} from "firebase/auth";
+
+const auth = getAuth();
+
 const OTPForm = (props) => {
-  const { register, phone } = props;
+  const { register, phone, verificationId } = props;
 
   const [value, setValue] = useState("");
   const [error, setError] = useState(null);
@@ -14,9 +22,16 @@ const OTPForm = (props) => {
   };
 
   const validateOTP = async (otp) => {
-    console.log("Validated otp: ", otp);
-    //TODO: return true or false after validating OTP from firebase
     return true;
+    const credential = PhoneAuthProvider.credential(verificationId, otp);
+    try {
+      const authResult = await signInWithCredential(auth, credential);
+      // console.log("LOGIN SUCCESS!", authResult);
+      return true;
+    } catch (e) {
+      console.log(e);
+      return false;
+    }
   };
 
   useEffect(() => {

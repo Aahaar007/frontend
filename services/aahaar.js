@@ -1,11 +1,15 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
+import { BACKEND_URL } from "@env";
+
+import { getAuth } from "firebase/auth";
+
+const auth = getAuth();
+
 const baseQuery = fetchBaseQuery({
-  //TODO: Setup environment variables
-  baseUrl: "http://192.168.29.237:5000/services",
-  prepareHeaders: (headers) => {
-    //TODO: Add firebase token for currently logged in user here
-    const token = null;
+  baseUrl: BACKEND_URL,
+  prepareHeaders: async (headers) => {
+    const token = auth.currentUser ? await auth.currentUser.getIdToken() : " ";
     if (token) {
       headers.set("authorization", `Bearer ${token}`);
     }
@@ -17,7 +21,7 @@ export const aahaarApi = createApi({
   reducerPath: "aahaarApi",
   baseQuery: baseQuery,
   endpoints: (build) => ({
-    createUser: build.query({
+    createUser: build.mutation({
       query: ({ email, phone }) => ({
         url: "/user",
         method: "POST",
@@ -27,7 +31,7 @@ export const aahaarApi = createApi({
         },
       }),
     }),
-    getUserDetailsByUid: build.query({
+    getUserDetailsByUid: build.mutation({
       query: (uid) => ({ url: `user/${uid}`, method: "GET" }),
     }),
     verifyUserProfile: build.query({
@@ -46,25 +50,12 @@ export const aahaarApi = createApi({
         },
       }),
     }),
-    checkExistingUser: build.query({
-      query: ({ region, number }) => ({
-        url: "user/checkExisting",
-        method: "POST",
-        body: {
-          phone: { region, number },
-        },
-        prepareHeaders: (headers) => {
-          return {};
-        },
-      }),
-    }),
   }),
 });
 
 export const {
-  useCreateUserQuery,
-  useGetUserDetailsByUidQuery,
+  useCreateUserMutation,
+  useGetUserDetailsByUidMutation,
   useVerifyUserProfileQuery,
   useUpdateUserDetailsQuery,
-  useCheckExistingUserQuery,
 } = aahaarApi;

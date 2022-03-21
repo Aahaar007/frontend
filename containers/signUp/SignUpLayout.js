@@ -1,6 +1,6 @@
-import React, { useState, useCallback, useEffect } from "react";
-import { Div, Button, Text } from "react-native-magnus";
+import React, { useState, useCallback, useEffect, useRef } from "react";
 import { useNavigation } from "@react-navigation/core";
+import { Div, Button, Icon, Snackbar, Text } from "react-native-magnus";
 import PhoneInput from "../../components/form/PhoneInput";
 import HeroSignUp from "./HeroSignUp";
 import { useForm } from "react-hook-form";
@@ -8,36 +8,128 @@ import { isValidPhoneNumber } from "libphonenumber-js";
 import OTPForm from "../../components/form/OTP/OTPForm";
 import EmailPass from "./EmailPass";
 
+import * as FirebaseRecaptcha from "expo-firebase-recaptcha";
+import firebaseConfig from "../../utils/firebase";
+
+import {
+  getAuth,
+  PhoneAuthProvider,
+  linkWithCredential,
+  EmailAuthProvider,
+} from "firebase/auth";
+import codes from "../../constants/countryCode.json";
+
+import { useCreateUserMutation } from "../../services/aahaar";
+
+const auth = getAuth();
+
 const SignUpLayout = () => {
   const [userData, setUserData] = useState({});
+  const recaptchaVerifier = useRef(null);
+  const [createStatus, setCreateStatus] = useState(false);
   const {
     control,
     handleSubmit,
     formState: { errors },
     setError,
-    setValue,
     register,
   } = useForm();
-  const navigator = useNavigation();
+
+  const navigatior = useNavigation();
+  const snackbarRef = useRef();
+
   const modifyData = useCallback(
     (val) => {
       console.log("USER:", userData, "VAL: ", val);
       const temp = { ...userData, ...val };
-
       setUserData(temp);
+      //TODO: dispatch clear state and logout user if going back
     },
     [userData]
   );
 
-  //debug log
-  useEffect(() => {
-    console.log("userData: ", userData);
-  }, [userData]);
+  const callCreateUser = async (res) => {
+    if (res) {
+      setCreateStatus(true);
+      if (snackbarRef.current) {
+        snackbarRef.current.show(
+          "Account created successfully, login to continue",
+          {
+            duration: 1500,
+            suffix: (
+              <Icon
+                name="checkcircle"
+                color="white"
+                fontSize="md"
+                fontFamily="AntDesign"
+              />
+            ),
+          }
+        );
+      }
+      setTimeout(() => {
+        navigatior.navigate("SignIn");
+      }, 1500);
+    } else {
+      setCreateStatus(false);
+      if (snackbarRef.current) {
+        snackbarRef.current.show("Account creation failed please try again", {
+          duration: 2000,
+          suffix: (
+            <Icon
+              name="closecircle"
+              color="white"
+              fontSize="md"
+              fontFamily="AntDesign"
+            />
+          ),
+        });
+      }
+    }
+  };
 
-  const submitData = (data) => {
-    if (data["phone"]) {
+  const formatCountryCode = (val) => {
+    return val.length > 0 && !val.includes("+") ? "+" + val : val;
+  };
+  const submitData = async (data) => {
+    if (data["password"]) {
+      if (data["password"] === data["rePassword"]) {
+        const credential = EmailAuthProvider.credential(
+          data.email,
+          data.password
+        );
+
+        try {
+          const usercred = await linkWithCredential(
+            auth.currentUser,
+            credential
+          );
+          const user = usercred.user;
+          console.log("Account linking success", user);
+        } catch (error) {
+          console.log("Account linking error", error);
+        }
+      } else {
+        setError("rePassword", {
+          type: "manual",
+          message: "Passwords do not match",
+        });
+      }
+    } else if (data["validOTP"]) {
+      //TODO: do something.
+    } else if (data["phone"]) {
       if (isValidPhoneNumber(data["phone"], userData.code)) {
-        modifyData(data);
+        const number = formatCountryCode(codes[userData.code]) + data.phone;
+        const phoneProvider = new PhoneAuthProvider(auth);
+        try {
+          const verificationId = await phoneProvider.verifyPhoneNumber(
+            number,
+            recaptchaVerifier.current
+          );
+          data.verificationId = verificationId;
+        } catch (e) {
+          console.log(e);
+        }
       } else {
         setError("phone", {
           type: "manual",
@@ -45,22 +137,38 @@ const SignUpLayout = () => {
         });
       }
     }
+    modifyData(data);
     console.log("data", data);
   };
 
   const getComponent = () => {
-    if (Object.entries(userData).length < 2) {
+    if (Object.entries(userData).length < 3) {
       //phone input component
       return (
-        <PhoneInput
-          mt={100}
-          setData={modifyData}
-          control={control}
-          errors={errors}
+        <Div>
+          <PhoneInput
+            mt={100}
+            setData={modifyData}
+            control={control}
+            errors={errors}
+          />
+          <FirebaseRecaptcha.FirebaseRecaptchaVerifierModal
+            ref={recaptchaVerifier}
+            firebaseConfig={firebaseConfig}
+            invisible={true}
+            verify={true}
+            //TODO: Create custom google re-captcha component.
+          />
+        </Div>
+      );
+    } else if (Object.entries(userData).length < 4) {
+      return (
+        <OTPForm
+          register={register}
+          phone={userData?.phone}
+          verificationId={userData?.verificationId}
         />
       );
-    } else if (Object.entries(userData).length < 3) {
-      return <OTPForm register={register} phone={userData?.phone} />;
     } else {
       return (
         <EmailPass control={control} errors={errors} mt={100} />
@@ -69,7 +177,34 @@ const SignUpLayout = () => {
     }
   };
 
-  // pass modifyData function to children
+  const [triggerCreateUser, userRes] = useCreateUserMutation();
+
+  useEffect(() => {
+    //LOG: console.log("userData: ", userData);
+    if (userData["password"]) {
+      triggerCreateUser({
+        email: userData.email,
+        phone: {
+          region: codes[userData.code],
+          number: userData.phone,
+        },
+      });
+    }
+  }, [userData]);
+
+  useEffect(() => {
+    if (userRes.isUninitialized || userRes.isLoading) {
+      return;
+    }
+    console.log("Response: ", userRes);
+    if (userRes.isSuccess) {
+      callCreateUser(true);
+    } else {
+      callCreateUser(false);
+    }
+    //TODO: Reset form and delete firebase account if couldn't create account on back-end.
+  }, [userRes]);
+
   return (
     <Div>
       <HeroSignUp mt={157} />
@@ -99,6 +234,13 @@ const SignUpLayout = () => {
           </Text>
         </Button>
       </Div>
+      <Snackbar
+        ref={snackbarRef}
+        mb="150%"
+        borderWidth={1}
+        bg={createStatus ? "limeGreen" : "red"}
+        borderColor={createStatus ? "green" : "error"}
+      />
     </Div>
   );
 };

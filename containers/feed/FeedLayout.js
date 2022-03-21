@@ -1,5 +1,5 @@
 import React from "react";
-import ListingWrapper from "../../components/wrappers/ListingWrapper";
+import { Div, Button } from "react-native-magnus";
 import Card from "./Card";
 
 const donationList = [
@@ -57,11 +57,11 @@ const donationList = [
 
 const FeedLayout = () => {
   return (
-    <ListingWrapper>
+    <Div>
       {donationList?.map((item) => {
         return <Card key={item._id} donationData={item} />;
       })}
-    </ListingWrapper>
+    </Div>
   );
 };
 

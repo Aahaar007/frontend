@@ -1,6 +1,3 @@
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
 import {
   FIREBASE_API_KEY,
   FIREBASE_AUTH_DOMAIN,
@@ -11,7 +8,7 @@ import {
   FIREBASE_MEASUREMENT_ID,
 } from "@env";
 
-const firebaseConfig = {
+export default firebaseConfig = {
   apiKey: FIREBASE_API_KEY,
   authDomain: FIREBASE_AUTH_DOMAIN,
   projectId: FIREBASE_PROJECT_ID,
@@ -20,8 +17,3 @@ const firebaseConfig = {
   appId: FIREBASE_APP_ID,
   measurementId: FIREBASE_MEASUREMENT_ID,
 };
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-console.log(app);
-export const authentication = getAuth(app);
