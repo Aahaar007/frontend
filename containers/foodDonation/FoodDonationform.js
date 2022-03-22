@@ -125,7 +125,7 @@ const FoodDonationform = (props) => {
           <FoodDonationformInput
             name="timeofpreparation"
             control={control}
-            placeholder="example@mail.com"
+            placeholder="Time of Preparation"
             label="Time of Preparation?                                        "
             rules={{
               required: true,

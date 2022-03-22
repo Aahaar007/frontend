@@ -15,14 +15,14 @@ const EmailPass = (props) => {
           pattern: Regex.emailPattern,
         }}
         control={control}
-        placeholder="example@mail.com"
+        placeholder="Enter a valid email address here!"
         label="Enter your email address"
         errors={errors}
       />
       <FormInput
         name="password"
         control={control}
-        placeholder="example@mail.com"
+        placeholder="Enter a valid password here!"
         label="Enter Password"
         rules={{
           required: true,
@@ -39,7 +39,7 @@ const EmailPass = (props) => {
           required: true,
           pattern: Regex.passwordPattern,
         }}
-        placeholder="example@mail.com"
+        placeholder="Please enter the same password!"
         label="Verify Password"
         isPass={true}
         mt={30}
