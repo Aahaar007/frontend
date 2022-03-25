@@ -15,7 +15,7 @@ const EmailPass = (props) => {
           pattern: Regex.emailPattern,
         }}
         control={control}
-        placeholder="Enter a valid email address here!"
+        placeholder="example@gmail.com"
         label="Enter your email address"
         errors={errors}
       />
