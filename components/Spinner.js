@@ -8,24 +8,14 @@ const Spinner = (props) => {
     inputRange: [0, 1],
     outputRange: ["0deg", "360deg"],
   });
-  const animation = Animated.loop(
+  Animated.loop(
     Animated.timing(rotAnim, {
       toValue: 1,
       duration: 3000,
       useNativeDriver: true,
       easing: Easing.inOut(Easing.exp),
     })
-  );
-  useEffect(() => {
-    if (show) {
-      animation.start();
-    } else {
-      animation.stop();
-    }
-  }, [show]);
-  useEffect(() => {
-    console.log(rotAnim);
-  }, [rotAnim]);
+  ).start();
   return (
     <Div position="absolute" zIndex={9999} {...props}>
       {show && (

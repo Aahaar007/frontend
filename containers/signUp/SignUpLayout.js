@@ -7,10 +7,10 @@ import { useForm } from "react-hook-form";
 import { isValidPhoneNumber } from "libphonenumber-js";
 import OTPForm from "../../components/form/OTP/OTPForm";
 import EmailPass from "./EmailPass";
-
+import Spinner from "../../components/Spinner";
 import * as FirebaseRecaptcha from "expo-firebase-recaptcha";
 import firebaseConfig from "../../utils/firebase";
-
+import { Dimensions } from "react-native";
 import {
   getAuth,
   PhoneAuthProvider,
@@ -37,6 +37,9 @@ const SignUpLayout = () => {
 
   const navigatior = useNavigation();
   const snackbarRef = useRef();
+
+  const windowWidth = Dimensions.get("window").width;
+  const windowHeight = Dimensions.get("window").height;
 
   const modifyData = useCallback(
     (val) => {
@@ -206,9 +209,15 @@ const SignUpLayout = () => {
   }, [userRes]);
 
   return (
-    <Div>
+    <Div position="relative">
       <HeroSignUp mt={157} />
       {getComponent()}
+      <Spinner
+        top={windowHeight / 2 - 30}
+        left={windowWidth / 2 - 30}
+        show={userRes.isLoading}
+        imgStyle={{ width: 60, height: 60 }}
+      />
       <Button
         title="Submit"
         onPress={handleSubmit((data) => submitData(data))}
