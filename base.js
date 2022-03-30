@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { ThemeProvider } from "react-native-magnus";
 import { theme } from "./styles/theme";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -18,16 +18,24 @@ const Stack = createNativeStackNavigator();
 
 import { useSelector } from "react-redux";
 
+import { getAuth } from "firebase/auth";
+
 const Base = () => {
-  const user = useSelector((state) => state.user);
+  const [loggedIn, setLoggedIn] = useState(false);
+  // const user = useSelector((state) => state.user);
+  const onAuthStateChanged = (user) => {
+    if (user && user.providerData.length >= 2) setLoggedIn(true);
+    else setLoggedIn(false);
+  };
   useEffect(() => {
-    console.log(user);
-  }, [user]);
+    const subscriber = getAuth().onAuthStateChanged(onAuthStateChanged);
+    return subscriber;
+  }, []);
   return (
     <ThemeProvider theme={theme}>
       <NavigationContainer>
         <Stack.Navigator>
-          {user && user.data && user.data._id ? (
+          {loggedIn ? (
             <Stack.Group screenOptions={{ headerShown: false }}>
               <Stack.Screen name="Listing" component={FoodListingScreen} />
               <Stack.Screen name="DonorSelect" component={DonorSelectScreen} />

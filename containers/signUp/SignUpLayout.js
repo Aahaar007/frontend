@@ -21,6 +21,9 @@ import codes from "../../constants/countryCode.json";
 
 import { useCreateUserMutation } from "../../services/aahaar";
 
+import { BACKEND_URL } from "@env";
+import axios from "axios";
+
 const auth = getAuth();
 
 const SignUpLayout = () => {
@@ -35,7 +38,7 @@ const SignUpLayout = () => {
     register,
   } = useForm();
 
-  const navigatior = useNavigation();
+  const navigator = useNavigation();
   const snackbarRef = useRef();
 
   const windowWidth = Dimensions.get("window").width;
@@ -51,32 +54,30 @@ const SignUpLayout = () => {
     [userData]
   );
 
-  const callCreateUser = async (res) => {
+  const callCreateUser = async (res, message) => {
     if (res) {
       setCreateStatus(true);
       if (snackbarRef.current) {
-        snackbarRef.current.show(
-          "Account created successfully, login to continue",
-          {
-            duration: 1500,
-            suffix: (
-              <Icon
-                name="checkcircle"
-                color="white"
-                fontSize="md"
-                fontFamily="AntDesign"
-              />
-            ),
-          }
-        );
+        snackbarRef.current.show(message, {
+          duration: 1500,
+          suffix: (
+            <Icon
+              name="checkcircle"
+              color="white"
+              fontSize="md"
+              fontFamily="AntDesign"
+            />
+          ),
+        });
       }
+      if (auth.currentUser) await auth.signOut();
       setTimeout(() => {
-        navigatior.navigate("SignIn");
+        navigator.navigate("SignIn");
       }, 1500);
     } else {
       setCreateStatus(false);
       if (snackbarRef.current) {
-        snackbarRef.current.show("Account creation failed please try again", {
+        snackbarRef.current.show(message, {
           duration: 2000,
           suffix: (
             <Icon
@@ -93,6 +94,27 @@ const SignUpLayout = () => {
 
   const formatCountryCode = (val) => {
     return val.length > 0 && !val.includes("+") ? "+" + val : val;
+  };
+
+  const checkExistingUser = async (data) => {
+    const url = `${BACKEND_URL}/user/checkExisting`;
+    try {
+      const res = await axios({
+        method: "POST",
+        url,
+        data: {
+          phone: {
+            region: codes[userData.code],
+            number: data.phone,
+          },
+        },
+      });
+      console.log("res: ", res.data);
+      return res.data;
+    } catch (e) {
+      console.log(e);
+      return false;
+    }
   };
   const submitData = async (data) => {
     if (data["password"]) {
@@ -122,16 +144,21 @@ const SignUpLayout = () => {
       //TODO: do something.
     } else if (data["phone"]) {
       if (isValidPhoneNumber(data["phone"], userData.code)) {
-        const number = formatCountryCode(codes[userData.code]) + data.phone;
-        const phoneProvider = new PhoneAuthProvider(auth);
-        try {
-          const verificationId = await phoneProvider.verifyPhoneNumber(
-            number,
-            recaptchaVerifier.current
-          );
-          data.verificationId = verificationId;
-        } catch (e) {
-          console.log(e);
+        const res = await checkExistingUser(data);
+        if (!res) {
+          const number = formatCountryCode(codes[userData.code]) + data.phone;
+          const phoneProvider = new PhoneAuthProvider(auth);
+          try {
+            const verificationId = await phoneProvider.verifyPhoneNumber(
+              number,
+              recaptchaVerifier.current
+            );
+            data.verificationId = verificationId;
+          } catch (e) {
+            console.log(e);
+          }
+        } else {
+          callCreateUser(true, "Account already exists, login to continue");
         }
       } else {
         setError("phone", {
@@ -201,9 +228,9 @@ const SignUpLayout = () => {
     }
     console.log("Response: ", userRes);
     if (userRes.isSuccess) {
-      callCreateUser(true);
+      callCreateUser(true, "Account created successfully, login to continue");
     } else {
-      callCreateUser(false);
+      callCreateUser(false, "Account creation failed please try again");
     }
     //TODO: Reset form and delete firebase account if couldn't create account on back-end.
   }, [userRes]);

@@ -59,12 +59,11 @@ const infoValueStyle = {
 };
 
 const ProfileForm = (props) => {
-  //TODO: Properly implement logout functionality, remove from here when done.
   const dispatch = useDispatch();
   const logoutUser = async () => {
     console.info("Pressed logout user");
-    // await auth.signOut();
-    // dispatch(clearState());
+    await auth.signOut();
+    dispatch(clearState());
   };
   useEffect(() => {
     console.log(auth.currentUser);
