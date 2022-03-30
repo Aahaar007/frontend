@@ -64,7 +64,9 @@ const ListingWrapper = (props) => {
                 mr={10}
               />
               <Text fontSize={17} color="burgundy" mr={20}>
-                {user.data.address ? user.data.address : "Kothri Kalan, Bhopal"}
+                {user && user.data && user.data.address
+                  ? user.data.address
+                  : "Kothri Kalan, Bhopal"}
               </Text>
               <Icon
                 name="crosshairs"
