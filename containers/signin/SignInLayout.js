@@ -24,7 +24,7 @@ import {
 
 import codes from "../../constants/countryCode.json";
 import { useGetUserDetailsByUidMutation } from "../../services/aahaar";
-import { clearState, loginUser } from "../../features/user/userSlice";
+import { clearState, setProfileData } from "../../features/user/userSlice";
 
 const auth = getAuth();
 
@@ -67,17 +67,10 @@ const SignInLayout = () => {
   }, [userData]);
 
   useEffect(() => {
-    console.log(auth.currentUser && auth.currentUser.providerData.length === 2);
-    if (auth.currentUser) {
-      triggerFetchProfile(auth.currentUser.uid);
-    }
-  }, [auth]);
-
-  useEffect(() => {
     console.log("RES: ", res);
     if (res.isUninitialized) return;
     if (res.isSuccess) {
-      dispatch(loginUser(res.data.user));
+      dispatch(setProfileData(res.data.user));
     } else {
       dispatch(clearState());
     }

@@ -9,7 +9,7 @@ import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useDispatch, useSelector } from "react-redux";
 import { useGetUserDetailsByUidMutation } from "../../services/aahaar";
 
-import { loginUser, clearState } from "../../features/user/userSlice";
+import { setProfileData, clearState } from "../../features/user/userSlice";
 
 const auth = getAuth();
 
@@ -29,7 +29,7 @@ const MailSignInForm = (props) => {
     console.log("RES: ", res);
     if (res.isUninitialized) return;
     if (res.isSuccess) {
-      dispatch(loginUser(res.data.user));
+      dispatch(setProfileData(res.data.user));
     } else {
       dispatch(clearState());
     }

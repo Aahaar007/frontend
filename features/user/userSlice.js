@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   isLoading: false,
-  data: null,
+  profileData: null,
   error: null,
 };
 
@@ -15,10 +15,10 @@ export const userSlice = createSlice({
       state.data = null;
       state.error = null;
     },
-    loginUser: {
+    setProfileData: {
       reducer: (state, { payload }) => {
         state.isLoading = false;
-        state.data = payload.data;
+        state.profileData = payload.data;
         state.error = null;
       },
       prepare: (data) => {
@@ -28,6 +28,6 @@ export const userSlice = createSlice({
   },
 });
 
-export const { clearState, loginUser } = userSlice.actions;
+export const { clearState, setProfileData } = userSlice.actions;
 
 export default userSlice.reducer;

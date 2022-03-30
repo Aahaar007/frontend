@@ -70,6 +70,7 @@ const SignUpLayout = () => {
           }
         );
       }
+      await auth.signOut();
       setTimeout(() => {
         navigatior.navigate("SignIn");
       }, 1500);

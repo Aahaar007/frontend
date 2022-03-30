@@ -24,7 +24,7 @@ const Base = () => {
   const [loggedIn, setLoggedIn] = useState(false);
   // const user = useSelector((state) => state.user);
   const onAuthStateChanged = (user) => {
-    if (user) setLoggedIn(true);
+    if (user && user.providerData.length >= 2) setLoggedIn(true);
     else setLoggedIn(false);
   };
   useEffect(() => {

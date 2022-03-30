@@ -64,8 +64,8 @@ const ListingWrapper = (props) => {
                 mr={10}
               />
               <Text fontSize={17} color="burgundy" mr={20}>
-                {user && user.data && user.data.address
-                  ? user.data.address
+                {user && user.profileData && user.profileData.address
+                  ? user.profileData.address
                   : "Kothri Kalan, Bhopal"}
               </Text>
               <Icon
