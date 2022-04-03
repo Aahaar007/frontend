@@ -15,7 +15,7 @@ import FormInput from "../../components/form/FormInput";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
-const FoodDonationform = (props) => {
+const FoodDonationLayout = (props) => {
   const [isVeg, setIsVeg] = useState(false);
   const [isHygiene, setHygiene] = useState(false);
   const navigation = useNavigation();
@@ -235,4 +235,4 @@ const FoodDonationform = (props) => {
     </Div>
   );
 };
-export default FoodDonationform;
+export default FoodDonationLayout;

@@ -13,6 +13,7 @@ import FoodDonationScreen from "./screens/FoodDonationScreen";
 import FoodListingScreen from "./screens/FoodListingScreen";
 import DonorSelectScreen from "./screens/DonorSelectScreen";
 import BookFoodScreen from "./screens/BookFoodScreen";
+import DonateRecieveScreen from "./screens/DonateRecieveScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -24,7 +25,7 @@ const Base = () => {
   const [loggedIn, setLoggedIn] = useState(false);
   // const user = useSelector((state) => state.user);
   const onAuthStateChanged = (user) => {
-    if (user && user.providerData.length >= 2) setLoggedIn(true);
+    if (user && user?.providerData.length >= 2) setLoggedIn(true);
     else setLoggedIn(false);
   };
   useEffect(() => {
@@ -37,12 +38,16 @@ const Base = () => {
         <Stack.Navigator>
           {loggedIn ? (
             <Stack.Group screenOptions={{ headerShown: false }}>
-              <Stack.Screen name="Listing" component={FoodListingScreen} />
+              <Stack.Screen
+                name="DonateRecieve"
+                component={DonateRecieveScreen}
+              />
+              {/* <Stack.Screen name="Listing" component={FoodListingScreen} />
               <Stack.Screen name="DonorSelect" component={DonorSelectScreen} />
               <Stack.Screen
                 name="DonationDetail"
                 component={FoodDonationScreen}
-              />
+              /> */}
               <Stack.Screen name="BookFood" component={BookFoodScreen} />
               <Stack.Screen name="Profile" component={ProfileScreen} />
             </Stack.Group>

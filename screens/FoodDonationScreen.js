@@ -1,11 +1,11 @@
 import React from "react";
 import ListingWrapper from "../components/wrappers/ListingWrapper";
-import FoodDonationform from "../containers/foodDonation/FoodDonationform";
+import FoodDonationLayout from "../containers/foodDonation/FoodDonationLayout";
 
 const FoodDonationScreen = () => {
   return (
     <ListingWrapper>
-      <FoodDonationform />
+      <FoodDonationLayout />
     </ListingWrapper>
   );
 };

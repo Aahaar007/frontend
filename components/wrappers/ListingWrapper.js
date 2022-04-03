@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Button, Div, Icon, ScrollDiv, Text } from "react-native-magnus";
-import { Dimensions } from "react-native";
 import Svg, { Circle } from "react-native-svg";
 import { theme } from "../../styles/theme";
 import ImageBox from "../ImageBox";
@@ -9,9 +8,6 @@ import { useForm } from "react-hook-form";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 const ListingWrapper = (props) => {
-  const windowWidth = Dimensions.get("window").width;
-  const windowHeight = Dimensions.get("window").height;
-
   const navigation = useNavigation();
 
   // const [userData, setUserData] = useState({
@@ -20,34 +16,14 @@ const ListingWrapper = (props) => {
   // });
   const user = useSelector((state) => state.user);
 
-  const [selected, setSelected] = useState(props.selected || null);
+  const { selected, setSelected } = props;
   const { control } = useForm();
-  const route = useRoute();
+
   const pressLocation = () => {
     console.log("Location pressed");
   };
-
-  useEffect(() => {
-    if (selected === "donate" && route.name !== "DonorSelect") {
-      navigation.replace("DonorSelect");
-    }
-    if (selected === "recieve" && route.name !== "Listing") {
-      navigation.replace("Listing");
-    }
-  }, [selected]);
-
   return (
     <Div h="100%" bg="white" pt="60%" position="relative">
-      {/* <Div
-        position="absolute"
-        bg="staleYellow"
-        w="130%"
-        left="-15%"
-        h="20%"
-        top={0}
-        roundedBottom={9999}
-        zIndex={0}
-      /> */}
       <Svg position="absolute" top="-16.5%" zIndex={0}>
         <Circle cx="50%" cy="-25%" r="90%" fill={theme.colors.staleYellow} />
       </Svg>
@@ -137,7 +113,20 @@ const ListingWrapper = (props) => {
       <ScrollDiv col px={10}>
         {props.children}
       </ScrollDiv>
-      <Div bg="greenishYellow" h="7%" />
+      {/* <Div bg="greenishYellow" h={50} row justifyContent="space-around">
+        <Button py={10} px={20}  alignSelf="center" rounded={25} bg="transparent">
+          <Icon name="heart" fontFamily="AntDesign" fontSize={25} color={tabSelected === "donate-recieve"?"red":"black"} />
+        </Button>
+        <Button py={10} px={20}  alignSelf="center" rounded={25} bg="transparent">
+          <Icon name="volunteer-activism" fontFamily="MaterialIcons" fontSize={25} color={tabSelected === "volunteer"?"red":"black"}   />
+        </Button>
+        <Button py={10} px={20}  alignSelf="center" rounded={25} bg="transparent">
+          <Icon name="package" fontFamily="MaterialCommunityIcons" fontSize={25} color={tabSelected === "my-order"?"red":"black"} />
+        </Button>
+        <Button py={10} px={20}  alignSelf="center" rounded={25} bg="transparent">
+          <Icon name="person" fontFamily="Ionicons" fontSize={25} color={tabSelected === "profile"?"red":"black"} />
+        </Button>
+      </Div> */}
     </Div>
   );
 };
