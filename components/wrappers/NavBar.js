@@ -5,8 +5,7 @@ import { Dimensions } from "react-native";
 const NavBar = (props) => {
   const windowWidth = Dimensions.get("window").width;
   const windowHeight = Dimensions.get("window").height;
-
-  const [tabSelected, setTabSelected] = useState("donate-recieve");
+  const { selected, changeSelected } = props;
   return (
     <Div
       h="100%"
@@ -31,13 +30,13 @@ const NavBar = (props) => {
           alignSelf="center"
           rounded={25}
           bg="transparent"
-          onPress={() => setTabSelected("donate-recieve")}
+          onPress={() => changeSelected("donate-recieve")}
         >
           <Icon
             name="heart"
             fontFamily="AntDesign"
             fontSize={25}
-            color={tabSelected === "donate-recieve" ? "red" : "black"}
+            color={selected === "donate-recieve" ? "red" : "black"}
           />
         </Button>
         <Button
@@ -46,13 +45,13 @@ const NavBar = (props) => {
           alignSelf="center"
           rounded={25}
           bg="transparent"
-          onPress={() => setTabSelected("volunteer")}
+          onPress={() => changeSelected("volunteer")}
         >
           <Icon
             name="volunteer-activism"
             fontFamily="MaterialIcons"
             fontSize={25}
-            color={tabSelected === "volunteer" ? "red" : "black"}
+            color={selected === "volunteer" ? "red" : "black"}
           />
         </Button>
         <Button
@@ -61,13 +60,13 @@ const NavBar = (props) => {
           alignSelf="center"
           rounded={25}
           bg="transparent"
-          onPress={() => setTabSelected("my-order")}
+          onPress={() => changeSelected("my-order")}
         >
           <Icon
             name="package"
             fontFamily="MaterialCommunityIcons"
             fontSize={25}
-            color={tabSelected === "my-order" ? "red" : "black"}
+            color={selected === "my-order" ? "red" : "black"}
           />
         </Button>
         <Button
@@ -76,13 +75,13 @@ const NavBar = (props) => {
           alignSelf="center"
           rounded={25}
           bg="transparent"
-          onPress={() => setTabSelected("profile")}
+          onPress={() => changeSelected("profile")}
         >
           <Icon
             name="person"
             fontFamily="Ionicons"
             fontSize={25}
-            color={tabSelected === "profile" ? "red" : "black"}
+            color={selected === "profile" ? "red" : "black"}
           />
         </Button>
       </Div>
