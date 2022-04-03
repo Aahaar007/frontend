@@ -1,14 +1,20 @@
 import React from "react";
+import { Dimensions } from "react-native";
+import { useSelector } from "react-redux";
+import { useNavigation } from "@react-navigation/native";
+
 import { Button, Div, Icon, ScrollDiv, Text } from "react-native-magnus";
+
 import Svg, { Circle } from "react-native-svg";
+import { useForm } from "react-hook-form";
+
 import { theme } from "../../styles/theme";
 import ImageBox from "../ImageBox";
 import FormInput from "../form/FormInput";
-import { useForm } from "react-hook-form";
-import { useNavigation, useRoute } from "@react-navigation/native";
-import { useSelector } from "react-redux";
+
 const ListingWrapper = (props) => {
   const navigation = useNavigation();
+  const windowHeight = Dimensions.get("window").height;
 
   // const [userData, setUserData] = useState({
   //   address: "420-Delhi, India",
@@ -24,7 +30,7 @@ const ListingWrapper = (props) => {
   };
   return (
     <Div h="100%" bg="white" pt="60%" position="relative">
-      <Svg position="absolute" top="-16.5%" zIndex={0}>
+      <Svg position="absolute" top={(-windowHeight / 100) * 11.9} zIndex={0}>
         <Circle cx="50%" cy="-25%" r="90%" fill={theme.colors.staleYellow} />
       </Svg>
       <Div position="absolute" h="35%" w="100%" top={0} pt="15%" px={30}>
@@ -113,20 +119,6 @@ const ListingWrapper = (props) => {
       <ScrollDiv col px={10}>
         {props.children}
       </ScrollDiv>
-      {/* <Div bg="greenishYellow" h={50} row justifyContent="space-around">
-        <Button py={10} px={20}  alignSelf="center" rounded={25} bg="transparent">
-          <Icon name="heart" fontFamily="AntDesign" fontSize={25} color={tabSelected === "donate-recieve"?"red":"black"} />
-        </Button>
-        <Button py={10} px={20}  alignSelf="center" rounded={25} bg="transparent">
-          <Icon name="volunteer-activism" fontFamily="MaterialIcons" fontSize={25} color={tabSelected === "volunteer"?"red":"black"}   />
-        </Button>
-        <Button py={10} px={20}  alignSelf="center" rounded={25} bg="transparent">
-          <Icon name="package" fontFamily="MaterialCommunityIcons" fontSize={25} color={tabSelected === "my-order"?"red":"black"} />
-        </Button>
-        <Button py={10} px={20}  alignSelf="center" rounded={25} bg="transparent">
-          <Icon name="person" fontFamily="Ionicons" fontSize={25} color={tabSelected === "profile"?"red":"black"} />
-        </Button>
-      </Div> */}
     </Div>
   );
 };
