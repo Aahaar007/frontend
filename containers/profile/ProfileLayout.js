@@ -5,7 +5,7 @@ import ProfileForm from "./ProfileForm";
 const ProfileLayout = (props) => {
   return (
     <Div>
-      <ProfileForm mt={0} />
+      <ProfileForm mt={0} canGoBack={props.canGoBack} />
     </Div>
   );
 };

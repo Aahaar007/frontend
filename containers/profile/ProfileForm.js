@@ -59,6 +59,8 @@ const infoValueStyle = {
 };
 
 const ProfileForm = (props) => {
+  const { canGoBack } = props;
+
   const dispatch = useDispatch();
   const logoutUser = async () => {
     console.info("Pressed logout user");
@@ -72,17 +74,19 @@ const ProfileForm = (props) => {
   return (
     <Div {...props}>
       <Div row h={70} justifyContent="space-between">
-        <Div flex={1} justifyContent="flex-start" row>
-          <Button bg="transparent" rounded={15} onPress={() => nav.goBack()}>
-            <Icon
-              name="chevron-thin-left"
-              fontFamily="Entypo"
-              fontSize={35}
-              color="black"
-              rounded={50}
-            />
-          </Button>
-        </Div>
+        {canGoBack && (
+          <Div flex={1} justifyContent="flex-start" row>
+            <Button bg="transparent" rounded={15} onPress={() => nav.goBack()}>
+              <Icon
+                name="chevron-thin-left"
+                fontFamily="Entypo"
+                fontSize={35}
+                color="black"
+                rounded={50}
+              />
+            </Button>
+          </Div>
+        )}
 
         <Div flex={1} justifyContent="flex-end" row>
           <Button bg="transparent" rounded={15}>

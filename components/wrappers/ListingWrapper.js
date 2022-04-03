@@ -62,7 +62,9 @@ const ListingWrapper = (props) => {
               w={50}
               bg="transparent"
               rounded={10000}
-              onPress={() => navigation.navigate("Profile")}
+              onPress={() =>
+                navigation.navigate("Profile", { canGoBack: true })
+              }
             >
               <ImageBox
                 h={35}
