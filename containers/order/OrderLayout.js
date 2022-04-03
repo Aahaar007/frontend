@@ -20,6 +20,10 @@ const donationList = [
 ];
 
 const OrderLayout = () => {
+  const onSubmit = () => {
+    //TODO: if user not verified navigate to onboarding
+  };
+
   return (
     <Div bg="white" pb={10}>
       <Card

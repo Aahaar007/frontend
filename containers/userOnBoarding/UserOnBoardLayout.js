@@ -6,8 +6,11 @@ import ImageBox from "../../components/ImageBox";
 import UserOnBoardHeader from "./UserOnBoardHeader";
 import Title from "../../components/Title";
 import images from "./img";
+import { useNavigation } from "@react-navigation/native";
 
 const UserOnBoardLayout = (props) => {
+  const navigation = useNavigation();
+
   const property = [
     {
       titleHeader: "Let's get acquantied",
@@ -44,6 +47,9 @@ const UserOnBoardLayout = (props) => {
       setStage(stage + 1);
     } else {
       console.log(data);
+      //send data to backend API
+      //fetch user
+      navigation.goBack();
     }
   };
 

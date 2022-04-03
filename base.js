@@ -21,6 +21,7 @@ const Stack = createNativeStackNavigator();
 import { useSelector } from "react-redux";
 
 import { getAuth } from "firebase/auth";
+import UserSetupScreen from "./screens/UserSetupScreen";
 
 const Base = () => {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -50,6 +51,7 @@ const Base = () => {
                 name="DonationDetail"
                 component={FoodDonationScreen}
               /> */}
+              <Stack.Screen name="UserSetup" component={UserSetupScreen} />
               <Stack.Screen name="BookFood" component={BookFoodScreen} />
               <Stack.Screen name="Profile" component={ProfileScreen} />
             </Stack.Group>
