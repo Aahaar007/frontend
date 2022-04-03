@@ -13,6 +13,7 @@ const NavBar = (props) => {
       bg="pink"
       minH={windowHeight}
       minW={windowWidth}
+      pb={50}
     >
       {props.children}
       <Div
