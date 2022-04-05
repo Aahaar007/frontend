@@ -1,23 +1,43 @@
 import React from "react";
-import { ScrollDiv } from "react-native-magnus";
-import { Dimensions } from "react-native";
+import {
+  Div,
+  ScrollDiv,
+  WINDOW_HEIGHT,
+  WINDOW_WIDTH,
+} from "react-native-magnus";
 const Layout = (props) => {
-  const windowWidth = Dimensions.get("window").width;
-  const windowHeight = Dimensions.get("window").height;
   return (
-    <ScrollDiv
-      minH={windowHeight}
-      minW={windowWidth}
-      w="100%"
-      h="100%"
-      pt={40}
-      bg="bgGray"
-      px={10}
-      {...props}
-      decelerationRate="fast"
-    >
-      {props.children}
-    </ScrollDiv>
+    <>
+      {props.noScroll ? (
+        <Div
+          minH={WINDOW_HEIGHT}
+          minW={WINDOW_WIDTH}
+          w="100%"
+          h="100%"
+          pt={40}
+          bg="bgGray"
+          px={10}
+          {...props}
+          decelerationRate="fast"
+        >
+          {props.children}
+        </Div>
+      ) : (
+        <ScrollDiv
+          minH={WINDOW_HEIGHT}
+          minW={WINDOW_WIDTH}
+          w="100%"
+          h="100%"
+          pt={40}
+          bg="bgGray"
+          px={10}
+          {...props}
+          decelerationRate="fast"
+        >
+          {props.children}
+        </ScrollDiv>
+      )}
+    </>
   );
 };
 
