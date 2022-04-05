@@ -1,10 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Card from "./../feed/Card";
 import { Button, Div, Text } from "react-native-magnus";
 import Layout from "./../../components/wrappers/Layout";
 import DetailDiv from "./DetailDiv";
 import OrderDetail from "./OrderDetail";
 import FloatButtons from "./FloatButtons";
+import { useLazyVerifyUserProfileQuery } from "../../services/aahaar";
+import { useNavigation } from "@react-navigation/native";
+import { useSelector } from "react-redux";
+import Spinner from "../../components/Spinner";
 
 const donationList = [
   {
@@ -20,12 +24,25 @@ const donationList = [
 ];
 
 const OrderLayout = () => {
+  const [trigger, result, lastQueryInfo] = useLazyVerifyUserProfileQuery();
+  const navigator = useNavigation();
+
+  const user = useSelector((state) => state.user);
+
   const onSubmit = () => {
-    //TODO: if user not verified navigate to onboarding
+    if (!user?.name) trigger();
+    else console.log("booking order");
   };
+
+  useEffect(() => {
+    if (result?.data === false) {
+      navigator.navigate("UserSetup");
+    }
+  }, [result]);
 
   return (
     <Div bg="white" pb={10}>
+      <Spinner show={result?.isFetching} />
       <Card
         key={donationList[0]._id}
         donationData={donationList[0]}
@@ -39,6 +56,7 @@ const OrderLayout = () => {
         ml="auto"
         mt={4}
         rounded="xl"
+        onPress={onSubmit}
       >
         <Text color="white" fontWeight="bold" fontSize="xl">
           Book this!
