@@ -4,54 +4,52 @@ import Card from "./Card";
 
 const donationList = [
   {
-    amount: 12,
-    address: "Sagar gaire, Indore, M.P.",
-    isVeg: true,
-    imgSrc:
-      "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8M3x8fGVufDB8fHx8&w=1000&q=80",
-    time: "5",
-    unit: "hours",
-    _id: "1",
-  },
-  {
-    amount: 12,
-    address: "Sagar gaire, Indore, M.P.",
-    isVeg: false,
-    imgSrc:
-      "https://www.cypressgreen.in/blog/wp-content/uploads/2021/03/food.jpg",
-    time: "55",
-    unit: "minutes",
-    _id: "2",
-  },
-  {
-    amount: 12,
-    address: "Sagar gaire, Indore, M.P.",
-    isVeg: true,
-    imgSrc:
-      "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max",
-    time: "1",
-    unit: "hour",
-    _id: "3",
-  },
-  {
-    amount: 12,
-    address: "Sagar gaire, Indore, M.P.",
-    isVeg: false,
-    imgSrc:
-      "https://images.unsplash.com/photo-1550547660-d9450f859349?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8Zm9vZCUyMHBob3RvZ3JhcGh5fGVufDB8fDB8fA%3D%3D&w=1000&q=80",
-    time: "30",
-    unit: "minutes",
-    _id: "4",
-  },
-  {
-    amount: 12,
-    address: "Sagar gaire, Indore, M.P.",
+    quantity: 12,
+    address: "Sagar gaire, Rewa, M.P.",
+    description: "Very good sandwitch",
     isVeg: true,
     imgSrc:
       "https://www.wbcsd.org/var/site/storage/images/media/images/fresh_pa/80809-2-eng-GB/FRESH_PA_i1140.jpg",
-    time: "20",
+    timeOfExpiry: "20",
     unit: "minutes",
+    typeOfDonor: "Catering Service",
     _id: "5",
+  },
+  {
+    quantity: 2,
+    address: "Sagar gaire, Bhopal, M.P.",
+    description: "Very oily sandwitch",
+    isVeg: false,
+    imgSrc:
+      "http://inspiringrecipeideas.com/wp-content/uploads/2017/10/super-special-toasted-ham-and-cheese-sandwiches-16273-1.jpeg",
+    timeOfExpiry: "20",
+    unit: "minutes",
+    typeOfDonor: "Catering Service",
+    _id: "6",
+  },
+  {
+    quantity: 9,
+    address: "Zam Zam, Bhopal, M.P.",
+    description: "Very zam zam sandwich",
+    isVeg: true,
+    imgSrc:
+      "https://www.gannett-cdn.com/-mm-/505074026ed0b64de3e53e6db90a25ddd0810fad/c=0-1305-3894-3495/local/-/media/2016/05/26/AsburyPark/B9322329337Z.1_20160526125232_000_G0HDPMF20.1-0.jpg?width=3200&height=1680&fit=crop",
+    timeOfExpiry: "20",
+    unit: "minutes",
+    typeOfDonor: "Catering Service",
+    _id: "7",
+  },
+  {
+    quantity: 67,
+    address: "Dominos, Rewa",
+    description: "Very pizza food",
+    isVeg: false,
+    imgSrc:
+      "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fbakerpedia.com%2Fwp-content%2Fuploads%2F2014%2F09%2FPizza.jpg&f=1&nofb=1",
+    timeOfExpiry: "200",
+    unit: "hours",
+    typeOfDonor: "Catering Service",
+    _id: "8",
   },
 ];
 

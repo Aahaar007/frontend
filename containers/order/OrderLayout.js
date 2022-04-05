@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Card from "./../feed/Card";
-import { Button, Div, Text } from "react-native-magnus";
+import {
+  Button,
+  Div,
+  ScrollDiv,
+  Text,
+  WINDOW_HEIGHT,
+} from "react-native-magnus";
 import Layout from "./../../components/wrappers/Layout";
 import DetailDiv from "./DetailDiv";
 import OrderDetail from "./OrderDetail";
@@ -10,23 +16,10 @@ import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 import Spinner from "../../components/Spinner";
 
-const donationList = [
-  {
-    amount: 12,
-    address: "Sagar gaire, Indore, M.P.",
-    isVeg: true,
-    imgSrc:
-      "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8M3x8fGVufDB8fHx8&w=1000&q=80",
-    time: "5",
-    unit: "hours",
-    _id: "1",
-  },
-];
-
-const OrderLayout = () => {
+const OrderLayout = (props) => {
   const [trigger, result, lastQueryInfo] = useLazyVerifyUserProfileQuery();
   const navigator = useNavigation();
-
+  const { typeOfDonor, description, _id } = props.data;
   const user = useSelector((state) => state.user);
 
   const onSubmit = () => {
@@ -41,13 +34,9 @@ const OrderLayout = () => {
   }, [result]);
 
   return (
-    <Div bg="white" pb={10}>
+    <Div bg="white" pb={10} h={WINDOW_HEIGHT}>
       <Spinner show={result?.isFetching} />
-      <Card
-        key={donationList[0]._id}
-        donationData={donationList[0]}
-        shadow=""
-      />
+      <Card key={_id} donationData={props.data} shadow="" />
       <Button
         bg="#D5B029"
         w="100%"
@@ -62,22 +51,20 @@ const OrderLayout = () => {
           Book this!
         </Text>
       </Button>
-      <Div px={2} py={15} overflow="visible">
-        <DetailDiv title={"Time of Cooking"} title2={"8:30 AM"} />
+      <ScrollDiv px={2} py={15} h={200}>
+        {/* <DetailDiv title={"Time of Cooking"} title2={"8:30 AM"} /> */}
         <DetailDiv
           title={"This donar is a "}
-          title2={"Catering Service"}
+          title2={typeOfDonor}
           bg="#f7f8f1"
         />
         <OrderDetail
           bg="#f2f6f6"
           title={"What's in the menu?"}
-          title2={
-            "Mollit non ullamco incididunt ea sunt dolore consequat labore aliquip in et deserunt.Sint reprehenderit dolor in nostrud nulla eiusmod duis Lorem quis et voluptate nulla mollit mollit. Irure sit qui ad cupidatat et minim. Quis ea officia exercitation commodo occaecat aliqua cillum. Officia incididunt exercitation adipisicing voluptate anim. Amet do pariatur mollit enim cillum elit ullamco anim ut voluptate pariatur anim."
-          }
+          title2={description}
         />
-      </Div>
-      <FloatButtons />
+      </ScrollDiv>
+      <FloatButtons position="absolute" bottom={-30} />
       {/* <BottomFeature/> */}
     </Div>
   );
