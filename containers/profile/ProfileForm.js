@@ -2,7 +2,7 @@ import { useNavigation } from "@react-navigation/native";
 import { getAuth } from "firebase/auth";
 import React, { useEffect } from "react";
 import { Avatar, Div, Text, Image, Button, Icon } from "react-native-magnus";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { clearState } from "../../features/user/userSlice";
 
 const auth = getAuth();
@@ -62,6 +62,8 @@ const ProfileForm = (props) => {
   const { canGoBack } = props;
 
   const dispatch = useDispatch();
+  const data = useSelector((state) => state.user?.profileData);
+
   const logoutUser = async () => {
     console.info("Pressed logout user");
     await auth.signOut();
@@ -122,15 +124,21 @@ const ProfileForm = (props) => {
         <Div flex={3} row>
           {/*TODO: Add K for thousand, H for hundred etc or the value will overflow */}
           <Div {...statDivStyle}>
-            <Text {...statNumStyle}>13</Text>
+            <Text {...statNumStyle}>
+              {data?.food ? data.food.listed.length() : "13"}
+            </Text>
             <Text {...statLabelStyle}>Listed</Text>
           </Div>
           <Div {...statDivStyle}>
-            <Text {...statNumStyle}>11</Text>
+            <Text {...statNumStyle}>
+              {data?.food ? data.food.donated.length() : "11"}
+            </Text>
             <Text {...statLabelStyle}>Donated</Text>
           </Div>
           <Div {...statDivStyle}>
-            <Text {...statNumStyle}>2</Text>
+            <Text {...statNumStyle}>
+              {data?.food ? data.food.recieved.length() : "1"}
+            </Text>
             <Text {...statLabelStyle}>Recieved</Text>
           </Div>
         </Div>
@@ -151,7 +159,9 @@ const ProfileForm = (props) => {
             <Text {...infoLabelStyle}>Name</Text>
           </Div>
           <Div {...infoDivValueStyle}>
-            <Text {...infoValueStyle}>Meghan Gun Kelly</Text>
+            <Text {...infoValueStyle}>
+              {data?.name ? data.name : "Meghan Gun Kelly"}
+            </Text>
           </Div>
         </Div>
 
@@ -192,7 +202,9 @@ const ProfileForm = (props) => {
             <Text {...infoLabelStyle}>Date of Birth</Text>
           </Div>
           <Div {...infoDivValueStyle} flex={1}>
-            <Text {...infoValueStyle}>06/09/1969</Text>
+            <Text {...infoValueStyle}>
+              {data?.dob ? data.dob : "18/02/2022"}
+            </Text>
           </Div>
         </Div>
 
@@ -201,7 +213,9 @@ const ProfileForm = (props) => {
             <Text {...infoLabelStyle}>Email</Text>
           </Div>
           <Div {...infoDivValueStyle}>
-            <Text {...infoValueStyle}>sample@ahaar.com</Text>
+            <Text {...infoValueStyle}>
+              {data?.email ? data.email : "example@mail.com"}
+            </Text>
           </Div>
         </Div>
 
@@ -210,7 +224,11 @@ const ProfileForm = (props) => {
             <Text {...infoLabelStyle}>Phone</Text>
           </Div>
           <Div {...infoDivValueStyle}>
-            <Text {...infoValueStyle}>+91 9565633333</Text>
+            <Text {...infoValueStyle}>
+              {data?.phone
+                ? toString(data.phone?.region) + toString(data.phone?.number)
+                : "+91 6789267281"}
+            </Text>
           </Div>
           <Div justifyContent="flex-end">
             <Image

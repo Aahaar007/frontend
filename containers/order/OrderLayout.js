@@ -23,7 +23,7 @@ const OrderLayout = (props) => {
   const user = useSelector((state) => state.user);
 
   const onSubmit = () => {
-    if (!user?.name) trigger();
+    if (!user.profileData?.name) trigger();
     else console.log("booking order");
   };
 

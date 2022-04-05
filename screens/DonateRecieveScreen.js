@@ -19,7 +19,7 @@ const DonateRecieveScreen = () => {
 
   useEffect(() => {
     if (select === "donate") {
-      if (!user?.name) {
+      if (!user.profileData?.name) {
         //setSelectFunc("recieve");
         trigger();
       }
