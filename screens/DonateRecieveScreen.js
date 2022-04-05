@@ -1,9 +1,12 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
+import { WINDOW_HEIGHT, WINDOW_WIDTH } from "react-native-magnus";
 import { useSelector } from "react-redux";
+import Spinner from "../components/Spinner";
 import ListingWrapper from "../components/wrappers/ListingWrapper";
 import FeedLayout from "../containers/feed/FeedLayout";
 import FoodDonationLayout from "../containers/foodDonation/FoodDonationLayout";
+import { useLazyVerifyUserProfileQuery } from "../services/aahaar";
 
 const DonateRecieveScreen = () => {
   const [select, setSelect] = useState("recieve");
@@ -11,23 +14,42 @@ const DonateRecieveScreen = () => {
   const navigation = useNavigation();
 
   const user = useSelector((state) => state.user);
-
+  const [trigger, result, lastPromiseInfo] = useLazyVerifyUserProfileQuery();
   const setSelectFunc = (val) => setSelect(val);
 
   useEffect(() => {
     if (select === "donate") {
-      //if (!user?.isVerified) {
-      if (false) {
-        navigation.navigate("UserSetup");
-        setSelectFunc("recieve");
-      } else setIsVerified(true);
+      if (!user?.name) {
+        //setSelectFunc("recieve");
+        trigger();
+      }
     }
-  }, [select, user]);
+  }, [select]);
+
+  useEffect(() => {
+    if (result?.data === false) {
+      navigation.navigate("UserSetup");
+      setSelectFunc("recieve");
+    }
+    if (result?.data === true) setSelectFunc("donate");
+  }, [result]);
 
   return (
-    <ListingWrapper setSelected={setSelectFunc} selected={select}>
-      {select === "recieve" ? <FeedLayout /> : <FoodDonationLayout />}
-    </ListingWrapper>
+    <>
+      <Spinner
+        show={result?.isFetching}
+        left={WINDOW_WIDTH / 2 - 40}
+        top={WINDOW_HEIGHT / 4}
+        imgStyle={{ height: 80, width: 80 }}
+      />
+      <ListingWrapper setSelected={setSelectFunc} selected={select}>
+        {select === "recieve" ? (
+          <FeedLayout />
+        ) : (
+          result?.data && <FoodDonationLayout />
+        )}
+      </ListingWrapper>
+    </>
   );
 };
 

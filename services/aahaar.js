@@ -56,6 +56,6 @@ export const aahaarApi = createApi({
 export const {
   useCreateUserMutation,
   useGetUserDetailsByUidMutation,
-  useVerifyUserProfileQuery,
+  useLazyVerifyUserProfileQuery,
   useUpdateUserDetailsQuery,
 } = aahaarApi;
