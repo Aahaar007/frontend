@@ -1,6 +1,6 @@
-import React, { useRef, useEffect } from "react";
+import React from "react";
 import { Animated, Easing } from "react-native";
-import { Div } from "react-native-magnus";
+import { Div, Overlay } from "react-native-magnus";
 const Spinner = (props) => {
   const { show, imgStyle } = props;
   const rotAnim = new Animated.Value(0);
@@ -17,19 +17,18 @@ const Spinner = (props) => {
     })
   ).start();
   return (
-    <Div position="absolute" zIndex={9999} {...props}>
-      {show && (
-        <Animated.Image
-          style={{
-            transform: [{ rotate: spin }],
-            height: 50,
-            width: 50,
-            ...imgStyle,
-          }}
-          source={require("./img/spinner.png")}
-        />
-      )}
-    </Div>
+    <Overlay bg="transparent" visible={show}>
+      <Animated.Image
+        style={{
+          transform: [{ rotate: spin }],
+          height: 50,
+          width: 50,
+          alignSelf: "center",
+          ...imgStyle,
+        }}
+        source={require("./img/spinner.png")}
+      />
+    </Overlay>
   );
 };
 
