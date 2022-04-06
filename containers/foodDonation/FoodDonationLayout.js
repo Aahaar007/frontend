@@ -28,8 +28,8 @@ const FoodDonationLayout = (props) => {
   } = useForm();
 
   const submitData = (data) => {
-    console.log(data);
-    navigation.navigate("Listing");
+    console.log(data, "isVeg: ", isVeg);
+    //navigation.navigate("Listing");
   };
   return (
     <Div
@@ -205,7 +205,7 @@ const FoodDonationLayout = (props) => {
               w="20%"
               value={1}
               onChange={() => {
-                setIsVeg(true);
+                setIsVeg(!isVeg);
               }}
               prefix={<Text mr={10}>VEG</Text>}
             />
