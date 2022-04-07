@@ -1,5 +1,6 @@
+import { useNavigation } from "@react-navigation/native";
 import React from "react";
-import { Div, Image, Text } from "react-native-magnus";
+import { Div, Image, Text, Button } from "react-native-magnus";
 const HotspotCard = (props) => {
   //   const data = {
   //     name: "VITB Boys Hostel",
@@ -14,64 +15,67 @@ const HotspotCard = (props) => {
   //     numberOfReports: 4,
   //   };
   const data = props.data;
-
   const hotspotColor = data?.isNGO === true ? "ngoBlue" : "gentlePink";
-
+  const navigator = useNavigation();
   return (
-    <Div
-      rounded="xl"
-      overflow="hidden"
-      bg="white"
-      shadow="sm"
+    <Button
+      p={0}
       my={5}
       mx={3}
-      {...props}
+      bg="transparent"
+      shadow="sm"
+      rounded="xl"
+      onPress={() => {
+        if (!props.noClick) navigator.navigate("HotspotDetail", { data: data });
+      }}
     >
-      <Div position="relative">
-        <Image
-          source={{
-            uri: data.imgSrc,
-          }}
-          w="100%"
-          h={200}
-        />
-        {data?.isNGO === true && (
-          <Div
-            position="absolute"
-            right={10}
-            top={10}
-            borderWidth={1}
-            borderColor="yellow"
-            rounded={8}
-            p={2}
-          >
-            <Text color="yellow">NGO</Text>
-          </Div>
-        )}
-      </Div>
-      <Div row justifyContent="space-between" pr={10} py={5}>
-        <Div>
-          <Text p={15} pb={0} fontSize={30} fontWeight="600" color="black">
-            {data?.name}
-          </Text>
-          <Text p={15} pt={0} fontSize={15} fontWeight="500" color="dimGray">
-            {data?.address}
-          </Text>
+      <Div overflow="hidden" bg="white" w="100%" {...props}>
+        <Div position="relative">
+          <Image
+            source={{
+              uri: data.imgSrc,
+            }}
+            w="100%"
+            h={200}
+          />
+          {data?.isNGO === true && (
+            <Div
+              position="absolute"
+              right={10}
+              top={10}
+              borderWidth={1}
+              borderColor="yellow"
+              rounded={8}
+              p={2}
+            >
+              <Text color="yellow">NGO</Text>
+            </Div>
+          )}
         </Div>
-        <Div borderColor={hotspotColor} borderWidth={2} rounded="lg">
-          <Div h={40} w={90} bg={hotspotColor}>
-            <Text color="white" fontSize={30} textAlign="center">
-              {data?.capacity}
+        <Div row justifyContent="space-between" pr={10} py={5}>
+          <Div>
+            <Text p={15} pb={0} fontSize={30} fontWeight="600" color="black">
+              {data?.name}
+            </Text>
+            <Text p={15} pt={0} fontSize={15} fontWeight="500" color="dimGray">
+              {data?.address}
             </Text>
           </Div>
-          <Div h={40} w={90} justifyContent="center">
-            <Text color={hotspotColor} fontWeight="600" textAlign="center">
-              PEOPLE COUNT
-            </Text>
+          <Div borderColor={hotspotColor} borderWidth={2} rounded="lg">
+            <Div h={40} w={90} bg={hotspotColor}>
+              <Text color="white" fontSize={30} textAlign="center">
+                {data?.capacity}
+              </Text>
+            </Div>
+            <Div h={40} w={90} justifyContent="center">
+              <Text color={hotspotColor} fontWeight="600" textAlign="center">
+                PEOPLE COUNT
+              </Text>
+            </Div>
           </Div>
         </Div>
       </Div>
-    </Div>
+    </Button>
   );
 };
 

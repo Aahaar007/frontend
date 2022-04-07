@@ -3,10 +3,10 @@ import Layout from "../components/wrappers/Layout";
 import HotspotDetailLayout from "../containers/hotspot/HotspotDetailLayout";
 
 const HotspotDetailScreen = (props) => {
-  const route = props.route;
+  const { route } = props;
   return (
-    <Layout>
-      <HotspotDetailLayout data={route.prams.data} />
+    <Layout bg="white">
+      <HotspotDetailLayout data={route?.params.data} />
     </Layout>
   );
 };

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import NavBar from "../components/wrappers/NavBar";
 import DonateRecieveScreen from "./DonateRecieveScreen";
+import MyOrderScreen from "./MyOrderScreen";
 import ProfileScreen from "./ProfileScreen";
 import VolunteerScreen from "./VolunteerScreen";
 
@@ -13,6 +14,7 @@ const NavScreen = () => {
       {tabSelected === "donate-recieve" && <DonateRecieveScreen />}
       {tabSelected === "profile" && <ProfileScreen />}
       {tabSelected === "volunteer" && <VolunteerScreen />}
+      {tabSelected === "my-order" && <MyOrderScreen />}
     </NavBar>
   );
 };
