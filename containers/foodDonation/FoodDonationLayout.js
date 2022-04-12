@@ -9,6 +9,7 @@ import {
   Button,
   CheckBox,
   Icon,
+  Input,
 } from "react-native-magnus";
 import { useNavigation } from "@react-navigation/native";
 import FormInput from "../../components/form/FormInput";
@@ -56,14 +57,16 @@ const FoodDonationLayout = (props) => {
       });
 
       if (!result.cancelled) {
-        setImage(result.uri);
+        console.log(result);
+        setImage(result);
       }
+      setImage(result);
     } else {
       setImage(null);
     }
   };
 
-  const submitData = (data) => {
+  const submitData = async (data) => {
     if (data?.timeOfExpiry === undefined) {
       setError("timeOfExpiry", {
         type: "custom",
@@ -71,19 +74,36 @@ const FoodDonationLayout = (props) => {
       });
     } else {
       clearErrors("timeOfExpiry");
-      const reqData = data;
-      reqData.refImage = image;
+      let reqData = data;
+      // if (image) {
+      //   reqData.refImage = {
+      //     uri: image?.uri,
+      //     type: image?.type,
+      //     name: image?.uri?.slice(image?.uri?.lastIndexOf("/") + 1),
+      //   };
+      // } else {
+      //reqData.refImage = null;
+      console.log(data);
       reqData.isVeg = isVeg;
       reqData.typeOfDonor = "Individual";
-      console.log(reqData);
+      reqData.quantity = parseInt(reqData.quantity);
+
+      let selTime = new Date(reqData.timeOfExpiry);
+      const currTime = Date.now();
+      reqData.timeOfExpiry = Math.floor((selTime.getTime() - currTime) / 60000);
+      //reqData.timeOfExpiry = selTime;
+      //console.log(reqData);
+      // const fd = new FormData();
+      // for (let val in reqData) {
+      //   fd.append(val, reqData[val]);
+      // }
+      //console.log(fd);
       createFoodListing(reqData);
     }
     //navigation.navigate("Listing");
   };
 
-  useEffect(() => {
-    console.log(result);
-  }, [result]);
+  useEffect(() => console.log(result), [result]);
 
   return (
     <Div
@@ -187,8 +207,8 @@ const FoodDonationLayout = (props) => {
           </Div>
           {show && (
             <DateTimePicker
-              defaultDate={new Date(2022, 4, 10)}
-              value={new Date(2022, 4, 10)}
+              defaultDate={new Date()}
+              value={new Date()}
               mode={"time"}
               is24Hour={false}
               onChange={onChange}
