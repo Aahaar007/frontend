@@ -1,10 +1,18 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Div, Text } from "react-native-magnus";
 
 const Expire = (props) => {
+  const [number, setNumber] = useState(props.time);
+  const [unit, setUnit] = useState("minutes");
+
+  useEffect(() => {
+    //time >= 60 i.e. more than an hour
+    //time >= 1440 i.e. more than a day
+  }, [props.time]);
+
   return (
     <Div>
-      {props?.time > 0 ? (
+      {number > 0 ? (
         <>
           <Div
             h={40}
@@ -23,7 +31,7 @@ const Expire = (props) => {
               fontWeight="700"
               mt={-2}
             >
-              {props.time}
+              {number}
             </Text>
           </Div>
           <Div
@@ -43,7 +51,7 @@ const Expire = (props) => {
               color={props.color}
               fontWeight="500"
             >
-              {props.unit}
+              {unit}
             </Text>
             <Text
               textAlign="center"

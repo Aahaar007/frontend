@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Card from "./../feed/Card";
+import { ScrollView } from "react-native";
 import {
   Button,
   Div,
@@ -7,19 +8,23 @@ import {
   Text,
   WINDOW_HEIGHT,
 } from "react-native-magnus";
+
 import Layout from "./../../components/wrappers/Layout";
+
 import DetailDiv from "./DetailDiv";
 import OrderDetail from "./OrderDetail";
 import FloatButtons from "./FloatButtons";
 import { useLazyVerifyUserProfileQuery } from "../../services/aahaar";
+
 import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 import Spinner from "../../components/Spinner";
+import QueueCard from "./QueueCard";
 
 const OrderLayout = (props) => {
   const [trigger, result, lastQueryInfo] = useLazyVerifyUserProfileQuery();
   const navigator = useNavigation();
-  const { typeOfDonor, description, _id } = props.data;
+  const { typeOfDonor, description, requestQueue, _id } = props.data;
   const user = useSelector((state) => state.user);
 
   const onSubmit = () => {
@@ -63,7 +68,39 @@ const OrderLayout = (props) => {
           title={"What's in the menu?"}
           title2={description}
         />
+        <Div bg="rgba(255,236,239,1)" px={2} mt={8} rounded={10}>
+          <Text
+            textAlign="center"
+            fontSize={18}
+            fontWeight="bold"
+            textDecorLine="underline"
+          >
+            Request Queue
+          </Text>
+          {requestQueue.length === 0 ? (
+            <>
+              <Text fontSize={20} textAlign="center" fontWeight="900">
+                Looks like the request queue is empty
+              </Text>
+              <Text fontSize={14} textAlign="center" fontWeight="bold" mb={5}>
+                Book some food and pick your order!
+              </Text>
+            </>
+          ) : (
+            <ScrollView
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}
+              width="100%"
+              style={{ marginTop: 8 }}
+            >
+              {requestQueue.map((item) => {
+                return <QueueCard amount={item?.amount} />;
+              })}
+            </ScrollView>
+          )}
+        </Div>
       </ScrollDiv>
+
       <FloatButtons position="absolute" bottom={-30} />
       {/* <BottomFeature/> */}
     </Div>

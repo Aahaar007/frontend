@@ -165,7 +165,7 @@ const ProfileForm = (props) => {
           </Div>
         </Div>
 
-        <Div {...infoDivStyle}>
+        {/* <Div {...infoDivStyle}>
           <Div {...infoDivLabelStyle} pb={10}>
             <Text {...infoLabelStyle}>Gender</Text>
           </Div>
@@ -195,7 +195,7 @@ const ProfileForm = (props) => {
               />
             </Div>
           </Div>
-        </Div>
+        </Div> */}
 
         <Div {...infoDivStyle} h={70}>
           <Div {...infoDivLabelStyle} flex={1}>

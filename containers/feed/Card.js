@@ -58,11 +58,7 @@ const Card = (props) => {
 
           <Div flex={1}>
             <Div py={15}>
-              <Expire
-                color={isVeg ? "green" : "red"}
-                time={timer}
-                unit={"minutes"}
-              />
+              <Expire color={isVeg ? "green" : "red"} time={timer} />
             </Div>
           </Div>
         </Div>
