@@ -63,6 +63,13 @@ export const aahaarApi = createApi({
         method: "GET",
       }),
     }),
+    createRequest: build.mutation({
+      query: (body) => ({
+        url: "request",
+        method: "POST",
+        body,
+      }),
+    }),
   }),
 });
 
@@ -73,4 +80,5 @@ export const {
   useUpdateUserDetailsQuery,
   useCreateFoodListingMutation,
   useGetFoodListingQuery,
+  useCreateRequestMutation,
 } = aahaarApi;

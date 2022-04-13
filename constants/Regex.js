@@ -8,4 +8,5 @@ export const Regex = {
     /^(?:0[1-9]|[12]\d|3[01])([\/.-])(?:0[1-9]|1[012])\1(?:19|20)\d\d$/,
   addressPattern: /^(.|\n){10,100}$/,
   namePattern: /^[a-zA-Z]{2,50}\s[a-zA-Z]{2,50}(?:\s[a-zA-Z]{2,50})?$/,
+  numberPattern: /^[0-9]*$/,
 };

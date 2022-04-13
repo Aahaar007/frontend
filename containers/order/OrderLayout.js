@@ -4,6 +4,7 @@ import { ScrollView } from "react-native";
 import {
   Button,
   Div,
+  Overlay,
   ScrollDiv,
   Text,
   WINDOW_HEIGHT,
@@ -20,26 +21,41 @@ import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 import Spinner from "../../components/Spinner";
 import QueueCard from "./QueueCard";
+import ConfirmOrderOverlay from "./ConfirmOrderOverlay";
 
 const OrderLayout = (props) => {
   const [trigger, result, lastQueryInfo] = useLazyVerifyUserProfileQuery();
   const navigator = useNavigation();
-  const { typeOfDonor, description, requestQueue, _id } = props.data;
+  const { typeOfDonor, description, requestQueue, _id, quantity } = props.data;
   const user = useSelector((state) => state.user);
 
   const onSubmit = () => {
-    if (!user.profileData?.name) trigger();
-    else console.log("booking order");
+    // if (!user.profileData?.name) trigger();
+    // else console.log("booking order");
+    toggleConfirm();
   };
 
-  useEffect(() => {
-    if (result?.data === false) {
-      navigator.navigate("UserSetup");
-    }
-  }, [result]);
+  const [showConfirm, setShowConfirm] = useState(false);
+
+  const toggleConfirm = () => {
+    const temp = showConfirm;
+    setShowConfirm(!temp);
+  };
+
+  // useEffect(() => {
+  //   if (result?.data === false) {
+  //     navigator.navigate("UserSetup");
+  //   }
+  // }, [result]);
 
   return (
     <Div bg="white" pb={10} h={WINDOW_HEIGHT}>
+      <ConfirmOrderOverlay
+        maxAmount={quantity}
+        show={showConfirm}
+        toggleConfirm={toggleConfirm}
+        orderId={_id}
+      />
       <Spinner show={result?.isFetching} />
       <Card key={_id} donationData={props.data} shadow="" />
       <Button
