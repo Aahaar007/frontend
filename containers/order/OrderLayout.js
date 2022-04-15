@@ -28,11 +28,14 @@ const OrderLayout = (props) => {
   const navigator = useNavigation();
   const { typeOfDonor, description, requestQueue, _id, quantity } = props.data;
   const user = useSelector((state) => state.user);
-
+  console.log(props.data);
+  const navigation = useNavigation();
   const onSubmit = () => {
     // if (!user.profileData?.name) trigger();
     // else console.log("booking order");
-    toggleConfirm();
+    //toggleConfirm();
+
+    navigation.navigate("RequestDetail", reqData);
   };
 
   const [showConfirm, setShowConfirm] = useState(false);
@@ -40,6 +43,14 @@ const OrderLayout = (props) => {
   const toggleConfirm = () => {
     const temp = showConfirm;
     setShowConfirm(!temp);
+  };
+
+  const reqData = {
+    orderId: "6252b6e37d9d3acfd03d632f",
+    uid: "SUDgNUIQwIQoZoE6pSYKQHablNt2",
+    amount: 21,
+    status: "ACTIVE",
+    _id: "6252b7147d9d3acfd03d6332",
   };
 
   // useEffect(() => {
@@ -110,7 +121,7 @@ const OrderLayout = (props) => {
               style={{ marginTop: 8 }}
             >
               {requestQueue.map((item) => {
-                return <QueueCard amount={item?.amount} />;
+                return <QueueCard amount={item?.amount} key={item._id} />;
               })}
             </ScrollView>
           )}

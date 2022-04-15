@@ -1,3 +1,4 @@
+import { useNavigation } from "@react-navigation/native";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Button, Div, Overlay, Text } from "react-native-magnus";
@@ -14,10 +15,22 @@ const ConfirmOrderOverlay = ({ maxAmount, show, toggleConfirm, orderId }) => {
 
   const [trigger, result] = useCreateRequestMutation();
 
+  const navigation = useNavigation();
+
+  const reqData = {
+    orderId: "6252b6e37d9d3acfd03d632f",
+    uid: "SUDgNUIQwIQoZoE6pSYKQHablNt2",
+    amount: 21,
+    status: "ACTIVE",
+    _id: "6252b7147d9d3acfd03d6332",
+  };
+
   const submit = (data) => {
-    if (data?.amount <= maxAmount) {
-      trigger({ orderId: orderId, amount: data?.amount });
-    }
+    // console.log(data);
+    // if (data?.amount <= maxAmount) {
+    //   trigger({ orderId: orderId, amount: data?.amount });
+    // }
+    navigation.navigate("RequestDetail", { data: reqData });
   };
 
   useEffect(() => {
@@ -43,7 +56,11 @@ const ConfirmOrderOverlay = ({ maxAmount, show, toggleConfirm, orderId }) => {
         errorMessage="Enter a valid amount"
         label="Amount"
         color="black"
-        rules={{ pattern: Regex.numberPattern, requred: true }}
+        rules={{
+          pattern: Regex.numberPattern,
+          requred: true,
+          valueAsNumber: true,
+        }}
       />
       <Button
         w="100%"
