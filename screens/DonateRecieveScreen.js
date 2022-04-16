@@ -7,6 +7,7 @@ import ListingWrapper from "../components/wrappers/ListingWrapper";
 import FeedLayout from "../containers/feed/FeedLayout";
 import FoodDonationLayout from "../containers/foodDonation/FoodDonationLayout";
 import { useLazyVerifyUserProfileQuery } from "../services/aahaar";
+import DonationDetailScreen from "./DonationDetailScreen";
 
 const DonateRecieveScreen = () => {
   const [select, setSelect] = useState("recieve");
@@ -24,6 +25,7 @@ const DonateRecieveScreen = () => {
         trigger();
       }
     }
+    //if (select === "donate") navigation.navigate("DonationDetail");
   }, [select]);
 
   useEffect(() => {

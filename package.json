@@ -23,6 +23,7 @@
     "color": "3.1.2",
     "deepmerge": "4.2.2",
     "expo": "^44.0.0",
+    "expo-camera": "~12.1.2",
     "expo-firebase-recaptcha": "~2.1.0",
     "expo-image-picker": "~12.0.1",
     "expo-status-bar": "~1.2.0",

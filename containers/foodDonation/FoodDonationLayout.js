@@ -103,7 +103,12 @@ const FoodDonationLayout = (props) => {
     //navigation.navigate("Listing");
   };
 
-  useEffect(() => console.log(result), [result]);
+  useEffect(() => {
+    if (result?.isSuccess) {
+      navigation.navigate("DonationDetail");
+    }
+    console.log(result);
+  }, [result]);
 
   return (
     <Div
