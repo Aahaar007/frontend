@@ -28,14 +28,11 @@ const OrderLayout = (props) => {
   const navigator = useNavigation();
   const { typeOfDonor, description, requestQueue, _id, quantity } = props.data;
   const user = useSelector((state) => state.user);
-  console.log(props.data);
-  const navigation = useNavigation();
+  //console.log(props.data);
   const onSubmit = () => {
-    // if (!user.profileData?.name) trigger();
-    // else console.log("booking order");
-    //toggleConfirm();
-
-    navigation.navigate("RequestDetail", reqData);
+    if (!user.profileData?.name) trigger();
+    else console.log("booking order");
+    toggleConfirm();
   };
 
   const [showConfirm, setShowConfirm] = useState(false);
@@ -45,19 +42,11 @@ const OrderLayout = (props) => {
     setShowConfirm(!temp);
   };
 
-  const reqData = {
-    orderId: "6252b6e37d9d3acfd03d632f",
-    uid: "SUDgNUIQwIQoZoE6pSYKQHablNt2",
-    amount: 21,
-    status: "ACTIVE",
-    _id: "6252b7147d9d3acfd03d6332",
-  };
-
-  // useEffect(() => {
-  //   if (result?.data === false) {
-  //     navigator.navigate("UserSetup");
-  //   }
-  // }, [result]);
+  useEffect(() => {
+    if (result?.data === false) {
+      navigator.navigate("UserSetup");
+    }
+  }, [result]);
 
   return (
     <Div bg="white" pb={10} h={WINDOW_HEIGHT}>

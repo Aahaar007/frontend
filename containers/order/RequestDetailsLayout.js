@@ -1,24 +1,67 @@
 import { useNavigation } from "@react-navigation/native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Div, Icon, Text, WINDOW_WIDTH } from "react-native-magnus";
 import QRCode from "react-native-qrcode-svg";
+import Spinner from "../../components/Spinner";
+import {
+  useCancelRequestMutation,
+  useLazyGetFoodListingByIdQuery,
+  useLazyGetUserDetailsByUidQuery,
+} from "../../services/aahaar";
 
 const RequestDetailsLayout = (props) => {
-  //const { data } = props;
+  const data = props.data?.data?.request;
+  const [getListingById, listingByIdResult, listingByIdlastPromiseInfo] =
+    useLazyGetFoodListingByIdQuery();
+  const [getUserById, userByIdResult, userByIdLastPromiseInfo] =
+    useLazyGetUserDetailsByUidQuery();
+  const [triggerCancelRequest, cancelRequestState] = useCancelRequestMutation();
 
   const navigation = useNavigation();
 
-  const data = {
-    _id: "6252b7147d9d3acfd03d6332",
-    amount: 21,
-    orderId: "6252b6e37d9d3acfd03d632f",
-    status: "ACTIVE",
-    uid: "SUDgNUIQwIQoZoE6pSYKQHablNt2",
-    code: "V1StGXR8_Z5j",
+  const [orderData, setOrderData] = useState();
+  const [donorData, setDonorData] = useState();
+
+  const cancelRequest = () => {
+    if (data) {
+      triggerCancelRequest(data?._id);
+    }
   };
-  console.log(data);
+
+  useEffect(() => {
+    if (data?.orderId && listingByIdResult.isUninitialized) {
+      getListingById(data?.orderId);
+    }
+  }, [listingByIdResult]);
+
+  useEffect(() => {
+    if (listingByIdResult?.isSuccess) {
+      let res = { ...listingByIdResult.data?.foodListing };
+      const time = new Date(res.timeOfExpiry).toUTCString();
+      res.timeOfExpiry = time;
+      setOrderData(res);
+    }
+  }, [listingByIdResult]);
+
+  useEffect(() => {
+    if (orderData) {
+      getUserById(orderData?.donorId);
+    }
+  }, [orderData]);
+
+  useEffect(() => {
+    if (userByIdResult?.isSuccess) {
+      setDonorData(userByIdResult.data?.user);
+    }
+  }, [userByIdResult]);
+
+  useEffect(() => {
+    if (cancelRequestState.isSuccess) navigation.goBack();
+  }, [cancelRequestState]);
+
   return (
     <Div w="100%" h="100%" overflow="visible" pt={150} alignItems="center">
+      <Spinner show={cancelRequestState.isLoading} />
       <Div
         position="absolute"
         bg="white"
@@ -76,12 +119,12 @@ const RequestDetailsLayout = (props) => {
 
         <Div position="relative" borderWidth={3} borderColor="green" my={20}>
           <Text fontWeight="bold" my={10} mx={20}>
-            Request Code: {data?.code}
+            Request Code: {data?.code ? data?.code : "Loading request code"}
           </Text>
         </Div>
         <Div>
           <Text fontSize={25} fontWeight="bold">
-            Malhar Caterers
+            {donorData?.name ? donorData?.name : "Loading donor name"}
           </Text>
           <Div row mt={10}>
             <Icon
@@ -90,7 +133,11 @@ const RequestDetailsLayout = (props) => {
               color="primary"
               fontSize={18}
             />
-            <Text>420, Guitar road</Text>
+            <Text>
+              {orderData?.address
+                ? orderData?.address
+                : "Loading donation address"}
+            </Text>
           </Div>
           <Div row mt={5}>
             <Icon
@@ -99,7 +146,12 @@ const RequestDetailsLayout = (props) => {
               color="primary"
               fontSize={18}
             />
-            <Text>10:15 AM</Text>
+            {/*2022-06-23T19:36:11.805Z*/}
+            <Text>
+              {orderData?.timeOfExpiry
+                ? orderData?.timeOfExpiry
+                : "Loading time of expiry"}
+            </Text>
           </Div>
           <Text fontSize={20} mt={15}>
             Quantity: {data?.amount} servings
@@ -114,6 +166,7 @@ const RequestDetailsLayout = (props) => {
           py={5}
           px={20}
           fontSize={20}
+          onPress={cancelRequest}
         >
           CANCEL BOOKING
         </Button>

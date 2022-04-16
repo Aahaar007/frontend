@@ -17,24 +17,15 @@ const ConfirmOrderOverlay = ({ maxAmount, show, toggleConfirm, orderId }) => {
 
   const navigation = useNavigation();
 
-  const reqData = {
-    orderId: "6252b6e37d9d3acfd03d632f",
-    uid: "SUDgNUIQwIQoZoE6pSYKQHablNt2",
-    amount: 21,
-    status: "ACTIVE",
-    _id: "6252b7147d9d3acfd03d6332",
-  };
-
   const submit = (data) => {
-    // console.log(data);
-    // if (data?.amount <= maxAmount) {
-    //   trigger({ orderId: orderId, amount: data?.amount });
-    // }
-    navigation.navigate("RequestDetail", { data: reqData });
+    if (data?.amount <= maxAmount) {
+      trigger({ orderId: orderId, amount: data?.amount });
+    }
   };
 
   useEffect(() => {
     if (result.isSuccess) {
+      navigation.navigate("RequestDetail", { data: result.data });
       toggleConfirm();
     }
   }, [result]);
