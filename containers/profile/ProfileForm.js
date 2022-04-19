@@ -3,9 +3,12 @@ import { getAuth } from "firebase/auth";
 import React, { useEffect } from "react";
 import { Avatar, Div, Text, Image, Button, Icon } from "react-native-magnus";
 import { useDispatch, useSelector } from "react-redux";
-import { clearState } from "../../features/user/userSlice";
+import { clearState } from "../../features/auth/authSlice";
+import moment from "moment";
 
 const auth = getAuth();
+
+import { useGetUserDetailsByUidQuery } from "../../services/aahaar";
 
 const statDivStyle = {
   flex: 1,
@@ -62,7 +65,6 @@ const ProfileForm = (props) => {
   const { canGoBack } = props;
 
   const dispatch = useDispatch();
-  const data = useSelector((state) => state.user?.profileData);
 
   const logoutUser = async () => {
     console.info("Pressed logout user");
@@ -73,6 +75,15 @@ const ProfileForm = (props) => {
     console.log(auth.currentUser);
   }, [auth]);
   const nav = useNavigation();
+
+  const { data, error, isLoading } = useGetUserDetailsByUidQuery(
+    auth.currentUser?.uid
+  );
+
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
+
   return (
     <Div {...props}>
       <Div row h={70} justifyContent="space-between">
@@ -107,7 +118,10 @@ const ProfileForm = (props) => {
         <Div flex={2} alignItems="center">
           <Avatar
             source={{
-              uri: "https://freesvg.org/img/abstract-user-flat-4.png",
+              uri:
+                data && data?.user?.profileURL?.link
+                  ? data.user.profileURL.link
+                  : "https://freesvg.org/img/abstract-user-flat-4.png",
             }}
             p={55}
             borderWidth={4}
@@ -125,19 +139,19 @@ const ProfileForm = (props) => {
           {/*TODO: Add K for thousand, H for hundred etc or the value will overflow */}
           <Div {...statDivStyle}>
             <Text {...statNumStyle}>
-              {data?.food ? data.food.listed.length() : "13"}
+              {data?.user?.food ? data.user.food.listed.length : "0"}
             </Text>
             <Text {...statLabelStyle}>Listed</Text>
           </Div>
           <Div {...statDivStyle}>
             <Text {...statNumStyle}>
-              {data?.food ? data.food.donated.length() : "11"}
+              {data?.user?.food ? data.user.food.donated.length : "0"}
             </Text>
             <Text {...statLabelStyle}>Donated</Text>
           </Div>
           <Div {...statDivStyle}>
             <Text {...statNumStyle}>
-              {data?.food ? data.food.recieved.length() : "1"}
+              {data?.user?.food ? data.user.food.recieved.length : "0"}
             </Text>
             <Text {...statLabelStyle}>Recieved</Text>
           </Div>
@@ -146,11 +160,11 @@ const ProfileForm = (props) => {
 
       <Div pt={20} pb={0}>
         <Text fontSize={45} color="black" fontWeight="700" pl={25}>
-          Meghan
+          {data?.user?.name ? data.user.name : "-"}
         </Text>
-        <Text fontSize={45} color="dimGray" fontWeight="300" pl={25} mt={-20}>
-          Gun Kelly
-        </Text>
+        {/* <Text fontSize={45} color="dimGray" fontWeight="300" pl={25} mt={-20}>
+          Sharma
+        </Text> */}
       </Div>
 
       <Div pb={90}>
@@ -160,7 +174,7 @@ const ProfileForm = (props) => {
           </Div>
           <Div {...infoDivValueStyle}>
             <Text {...infoValueStyle}>
-              {data?.name ? data.name : "Meghan Gun Kelly"}
+              {data?.user?.name ? data.user.name : "-"}
             </Text>
           </Div>
         </Div>
@@ -203,7 +217,9 @@ const ProfileForm = (props) => {
           </Div>
           <Div {...infoDivValueStyle} flex={1}>
             <Text {...infoValueStyle}>
-              {data?.dob ? data.dob : "18/02/2022"}
+              {data?.user?.dob
+                ? moment(new Date(data.user.dob)).format("DD/MM/YYYY")
+                : "-"}
             </Text>
           </Div>
         </Div>
@@ -214,7 +230,7 @@ const ProfileForm = (props) => {
           </Div>
           <Div {...infoDivValueStyle}>
             <Text {...infoValueStyle}>
-              {data?.email ? data.email : "example@mail.com"}
+              {data?.user?.email ? data.user.email : "example@mail.com"}
             </Text>
           </Div>
         </Div>
@@ -225,8 +241,8 @@ const ProfileForm = (props) => {
           </Div>
           <Div {...infoDivValueStyle}>
             <Text {...infoValueStyle}>
-              {data?.phone
-                ? toString(data.phone?.region) + toString(data.phone?.number)
+              {data?.user?.phone
+                ? data?.user?.phone?.region + " " + data?.user?.phone?.number
                 : "+91 6789267281"}
             </Text>
           </Div>
