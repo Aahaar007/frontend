@@ -37,7 +37,7 @@ export const aahaarApi = createApi({
     verifyUserProfile: build.query({
       query: () => ({ url: "user/hasProfile", method: "GET" }),
     }),
-    updateUserDetails: build.query({
+    updateUserDetails: build.mutation({
       query: ({ name, address, dob, gender, profileURL }) => ({
         url: "user",
         method: "PATCH",
@@ -45,7 +45,6 @@ export const aahaarApi = createApi({
           name,
           address,
           dob,
-          gender,
           profileURL,
         },
       }),
@@ -80,6 +79,6 @@ export const {
   useCreateUserMutation,
   useGetUserDetailsByUidMutation,
   useLazyVerifyUserProfileQuery,
-  useUpdateUserDetailsQuery,
+  useUpdateUserDetailsMutation,
   useCreateFoodListingMutation,
 } = aahaarApi;
