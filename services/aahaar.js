@@ -87,7 +87,7 @@ export const {
   useGetUserDetailsByUidQuery,
   useLazyGetUserDetailsByUidQuery,
   useLazyVerifyUserProfileQuery,
-  useUpdateUserDetailsQuery,
+  useUpdateUserDetailsMutation,
   useCreateFoodListingMutation,
   useGetFoodListingQuery,
   useLazyGetFoodListingByIdQuery,

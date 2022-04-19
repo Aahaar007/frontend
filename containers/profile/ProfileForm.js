@@ -62,6 +62,28 @@ const infoValueStyle = {
 };
 
 const ProfileForm = (props) => {
+  const StatDiv = (props) => {
+    return (
+      <Div {...statDivStyle}>
+        <Text {...statNumStyle}>
+          {data?.food ? `data.food.${props.arg}.length()` : props.num}
+        </Text>
+        <Text {...statLabelStyle}>{props.data}</Text>
+      </Div>
+    );
+  };
+  const infoDiv = (props) => {
+    return (
+      <Div {...infoDivStyle}>
+        <Div {...infoDivLabelStyle}>
+          <Text {...infoLabelStyle}>{props.type}</Text>
+        </Div>
+        <Div {...infoDivValueStyle}>
+          <Text {...infoValueStyle}></Text>
+        </Div>
+      </Div>
+    );
+  };
   const { canGoBack } = props;
 
   const dispatch = useDispatch();
@@ -140,7 +162,10 @@ const ProfileForm = (props) => {
         </Div>
         <Div flex={3} row>
           {/*TODO: Add K for thousand, H for hundred etc or the value will overflow */}
-          <Div {...statDivStyle}>
+          <StatDiv arg="listed" num="13" data="Listed" />
+          <StatDiv arg="donated" num="11" data="Donated" />
+          <StatDiv arg="recieved" num="1" data="Recieved" />
+          {/* <Div {...statDivStyle}>
             <Text {...statNumStyle}>
               {data?.user?.food ? data.user.food.listed.length : "0"}
             </Text>
@@ -157,7 +182,7 @@ const ProfileForm = (props) => {
               {data?.user?.food ? data.user.food.recieved.length : "0"}
             </Text>
             <Text {...statLabelStyle}>Recieved</Text>
-          </Div>
+          </Div> */}
         </Div>
       </Div>
 
