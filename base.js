@@ -22,6 +22,8 @@ import { useSelector } from "react-redux";
 
 import { getAuth } from "firebase/auth";
 import UserSetupScreen from "./screens/UserSetupScreen";
+import RequestDetailScreen from "./screens/RequestDetailScreen";
+import DonationDetailScreen from "./screens/DonationDetailScreen";
 
 const Base = () => {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -54,6 +56,14 @@ const Base = () => {
               <Stack.Screen name="UserSetup" component={UserSetupScreen} />
               <Stack.Screen name="BookFood" component={BookFoodScreen} />
               <Stack.Screen name="Profile" component={ProfileScreen} />
+              <Stack.Screen
+                name="RequestDetail"
+                component={RequestDetailScreen}
+              />
+              <Stack.Screen
+                name="DonationDetail"
+                component={DonationDetailScreen}
+              />
             </Stack.Group>
           ) : (
             <Stack.Group screenOptions={{ headerShown: false }}>

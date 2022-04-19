@@ -39,7 +39,7 @@ const UserOnBoardLayout = (props) => {
       src: images.Screen4,
       buttonText: "Submit",
       color: "#90b7c1",
-      placeHolder: "Enter Your Adress....",
+      placeHolder: "Enter Your Address....",
     },
   ];
   const [stage, setStage] = useState(0);
