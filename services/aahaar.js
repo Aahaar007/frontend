@@ -47,12 +47,50 @@ export const aahaarApi = createApi({
         body,
       }),
     }),
+    createFoodListing: build.mutation({
+      query: (body) => ({
+        url: "foodListing",
+        method: "POST",
+        body,
+      }),
+    }),
+    getFoodListing: build.query({
+      query: () => ({
+        url: "foodListing",
+        method: "GET",
+      }),
+    }),
+    getFoodListingById: build.query({
+      query: (id) => ({
+        url: "foodListing/" + id,
+        method: "GET",
+      }),
+    }),
+    createRequest: build.mutation({
+      query: (body) => ({
+        url: "request",
+        method: "POST",
+        body,
+      }),
+    }),
+    cancelRequest: build.mutation({
+      query: (id) => ({
+        url: "request/cancel/" + id,
+        method: "DELETE",
+      }),
+    }),
   }),
 });
 
 export const {
   useCreateUserMutation,
   useGetUserDetailsByUidQuery,
+  useLazyGetUserDetailsByUidQuery,
   useLazyVerifyUserProfileQuery,
   useUpdateUserDetailsQuery,
+  useCreateFoodListingMutation,
+  useGetFoodListingQuery,
+  useLazyGetFoodListingByIdQuery,
+  useCreateRequestMutation,
+  useCancelRequestMutation,
 } = aahaarApi;

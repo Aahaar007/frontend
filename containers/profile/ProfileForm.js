@@ -119,7 +119,10 @@ const ProfileForm = (props) => {
           <Avatar
             source={{
               uri:
-                data && data?.user?.profileURL?.link
+                data &&
+                data?.user?.profileURL &&
+                typeof data.user.profileURL === "object" &&
+                data.user.profileURL.link
                   ? data.user.profileURL.link
                   : "https://freesvg.org/img/abstract-user-flat-4.png",
             }}
@@ -179,7 +182,7 @@ const ProfileForm = (props) => {
           </Div>
         </Div>
 
-        <Div {...infoDivStyle}>
+        {/* <Div {...infoDivStyle}>
           <Div {...infoDivLabelStyle} pb={10}>
             <Text {...infoLabelStyle}>Gender</Text>
           </Div>
@@ -209,7 +212,7 @@ const ProfileForm = (props) => {
               />
             </Div>
           </Div>
-        </Div>
+        </Div> */}
 
         <Div {...infoDivStyle} h={70}>
           <Div {...infoDivLabelStyle} flex={1}>

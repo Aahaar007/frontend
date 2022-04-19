@@ -7,6 +7,7 @@ import UserOnBoardHeader from "./UserOnBoardHeader";
 import Title from "../../components/Title";
 import images from "./img";
 import { useNavigation } from "@react-navigation/native";
+import { Regex } from "../../constants/Regex";
 
 const UserOnBoardLayout = (props) => {
   const navigation = useNavigation();
@@ -38,7 +39,7 @@ const UserOnBoardLayout = (props) => {
       src: images.Screen4,
       buttonText: "Submit",
       color: "#90b7c1",
-      placeHolder: "Enter Your Adress....",
+      placeHolder: "Enter Your Address....",
     },
   ];
   const [stage, setStage] = useState(0);
@@ -65,6 +66,7 @@ const UserOnBoardLayout = (props) => {
         name="Name"
         rules={{
           required: true,
+          pattern: Regex.namePattern,
         }}
         errors={errors}
         errorMessage="Field Required"
@@ -84,6 +86,7 @@ const UserOnBoardLayout = (props) => {
         name="DOB"
         rules={{
           required: true,
+          pattern: Regex.dobPattern,
         }}
         errors={errors}
         errorMessage="Field Required"
@@ -103,6 +106,7 @@ const UserOnBoardLayout = (props) => {
         name="Addres"
         rules={{
           required: true,
+          pattern: Regex.addressPattern,
         }}
         errors={errors}
         errorMessage="Field Required"

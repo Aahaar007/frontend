@@ -1,13 +1,26 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Div, Text } from "react-native-magnus";
 import Expire from "./Expire";
 import { theme } from "../../styles/theme";
 import { useNavigation } from "@react-navigation/core";
 const Card = (props) => {
   const navigation = useNavigation();
-  const { quantity, address, isVeg, imgSrc, timeOfExpiry, unit } =
-    props.donationData;
-  return (
+  let { quantity, address, isVeg, photos, timeOfExpiry } = props.donationData;
+
+  const selTime = new Date(timeOfExpiry);
+  let currTime = Date.now();
+  timeOfExpiry = Math.floor((selTime.getTime() - currTime) / 60000);
+
+  const [timer, setTimer] = useState(timeOfExpiry);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      currTime = Date.now();
+      setTimer(Math.floor((selTime.getTime() - currTime) / 60000));
+    }, 60000);
+    return () => clearInterval(interval);
+  }, []);
+
+  return timer > 0 ? (
     <Button
       shadow="md"
       block
@@ -24,7 +37,7 @@ const Card = (props) => {
         p="none"
         flex={1}
         bgImg={{
-          uri: imgSrc,
+          uri: photos[0]?.link,
         }}
       >
         <Div row mt={200} h={100} bg="white">
@@ -45,16 +58,14 @@ const Card = (props) => {
 
           <Div flex={1}>
             <Div py={15}>
-              <Expire
-                color={isVeg ? "green" : "red"}
-                time={timeOfExpiry}
-                unit={unit}
-              />
+              <Expire color={isVeg ? "green" : "red"} time={timer} />
             </Div>
           </Div>
         </Div>
       </Div>
     </Button>
+  ) : (
+    <></>
   );
 };
 

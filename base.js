@@ -23,6 +23,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAuth } from "firebase/auth";
 import UserSetupScreen from "./screens/UserSetupScreen";
 import { clearState, setState } from "./features/auth/authSlice";
+import RequestDetailScreen from "./screens/RequestDetailScreen";
+import DonationDetailScreen from "./screens/DonationDetailScreen";
 
 const Base = () => {
   const authState = useSelector((state) => state.auth);
@@ -58,6 +60,14 @@ const Base = () => {
               <Stack.Screen name="UserSetup" component={UserSetupScreen} />
               <Stack.Screen name="BookFood" component={BookFoodScreen} />
               <Stack.Screen name="Profile" component={ProfileScreen} />
+              <Stack.Screen
+                name="RequestDetail"
+                component={RequestDetailScreen}
+              />
+              <Stack.Screen
+                name="DonationDetail"
+                component={DonationDetailScreen}
+              />
             </Stack.Group>
           ) : (
             <Stack.Group screenOptions={{ headerShown: false }}>

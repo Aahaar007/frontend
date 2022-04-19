@@ -14,5 +14,6 @@ export const theme = {
     ashGray: "rgba(247,247,250, 1.0)",
     dullWhite: "rgba(248,248,248,1.0)",
     dangerRed: "rgba(206,0,0,1)",
+    oldYellow: "rgba(255,225,210,1)",
   },
 };

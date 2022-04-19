@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Div,
   Text,
@@ -8,29 +8,108 @@ import {
   Radio,
   Button,
   CheckBox,
+  Icon,
+  Input,
 } from "react-native-magnus";
 import { useNavigation } from "@react-navigation/native";
 import FormInput from "../../components/form/FormInput";
 // import { Regex } from "../../constants/Regex";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import DateTimePicker from "@react-native-community/datetimepicker";
+import * as ImagePicker from "expo-image-picker";
+import { useCreateFoodListingMutation } from "../../services/aahaar";
+import Spinner from "../../components/Spinner";
 
 const FoodDonationLayout = (props) => {
   const [isVeg, setIsVeg] = useState(false);
   const [isHygiene, setHygiene] = useState(false);
+  const [image, setImage] = useState(null);
+
+  const [show, setShow] = useState(false);
   const navigation = useNavigation();
+  const [createFoodListing, result] = useCreateFoodListingMutation();
+
   const {
     control,
     handleSubmit,
     formState: { errors },
     setValue,
+    setError,
+    clearErrors,
     register,
   } = useForm();
+  register("timeOfExpiry");
 
-  const submitData = (data) => {
-    console.log(data);
-    navigation.navigate("Listing");
+  const onChange = (event, selectedTime) => {
+    const currentTime = selectedTime;
+    setValue("timeOfExpiry", currentTime);
+    setShow(false);
   };
+
+  const pickImage = async () => {
+    if (image == null) {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [1, 1],
+        quality: 1,
+      });
+
+      if (!result.cancelled) {
+        console.log(result);
+        setImage(result);
+      }
+      setImage(result);
+    } else {
+      setImage(null);
+    }
+  };
+
+  const submitData = async (data) => {
+    if (data?.timeOfExpiry === undefined) {
+      setError("timeOfExpiry", {
+        type: "custom",
+        message: "Time of expiry is required",
+      });
+    } else {
+      clearErrors("timeOfExpiry");
+      let reqData = data;
+      // if (image) {
+      //   reqData.refImage = {
+      //     uri: image?.uri,
+      //     type: image?.type,
+      //     name: image?.uri?.slice(image?.uri?.lastIndexOf("/") + 1),
+      //   };
+      // } else {
+      //reqData.refImage = null;
+      console.log(data);
+      reqData.isVeg = isVeg;
+      reqData.typeOfDonor = "Individual";
+      reqData.quantity = parseInt(reqData.quantity);
+
+      let selTime = new Date(reqData.timeOfExpiry);
+      const currTime = Date.now();
+      reqData.timeOfExpiry = Math.floor((selTime.getTime() - currTime) / 60000);
+      //reqData.timeOfExpiry = selTime;
+      //console.log(reqData);
+      // const fd = new FormData();
+      // for (let val in reqData) {
+      //   fd.append(val, reqData[val]);
+      // }
+      //console.log(fd);
+      createFoodListing(reqData);
+    }
+    //navigation.navigate("Listing");
+  };
+
+  useEffect(() => {
+    if (result?.isSuccess) {
+      navigation.navigate("DonationDetail");
+    }
+    console.log(result);
+  }, [result]);
+
   return (
     <Div
       h="100%"
@@ -38,8 +117,10 @@ const FoodDonationLayout = (props) => {
       justifyContent="center"
       bg="white"
       px={20}
+      position="relative"
       {...props}
     >
+      <Spinner show={result.isLoading} />
       <Div flexDir="row" mt={30} justifyContent="space-between">
         <Text color="#f8a92a" fontSize={18} fontWeight="bold">
           FOOD DONATION DETAILS
@@ -64,7 +145,7 @@ const FoodDonationLayout = (props) => {
       <Div mt={35}>
         <Div flex={1} flexDir="row" justifyContent="space-between">
           <FormInput
-            name="pickuplocation"
+            name="address"
             control={control}
             placeholder="Kothri Kalan, Bhopal"
             label="PickUp Location ?                                             "
@@ -86,7 +167,7 @@ const FoodDonationLayout = (props) => {
         </Div>
         <Div flex={1} flexDir="row">
           <FormInput
-            name="Fooditems"
+            name="description"
             control={control}
             placeholder="Roti, Paneer Manpasand"
             label="Food Item (s) ?                                                   "
@@ -99,50 +180,48 @@ const FoodDonationLayout = (props) => {
             errors={errors}
           />
         </Div>
-        <Div flex={1} flexDir="row" justifyContent="space-between">
-          <FormInput
-            name="timeofexpire"
-            control={control}
-            placeholder="HH:MM PM/AM"
-            label="Time of Expire?                                                 "
-            rules={{
-              required: true,
-            }}
-            mt={30}
-            fontSize={16}
-            inputProp={{ color: "black" }}
-            errors={errors}
-          />
-          <Image
-            h={30}
-            w={30}
-            resizeMode="center"
-            alignSelf="flex-end"
-            source={require("./img/Group_83.png")}
-          />
-        </Div>
-        {/* <Div flex={1} flexDir="row">
-          <FoodDonationformInput
-            name="timeofpreparation"
-            control={control}
-            placeholder="HH:MM PM/AM"
-            label="Time of Preparation?                                        "
-            rules={{
-              required: true,
-            }}
-            mt={30}
-            errors={errors}
-          />
+        <Div
+          flex={1}
+          flexDir="row"
+          justifyContent="space-between"
+          alignItems="center"
+          position="relative"
+          mt={30}
+        >
+          <Button
+            w="90%"
+            bg="white"
+            color="black"
+            borderColor="dimGray"
+            borderWidth={1}
+            onPress={() => setShow(true)}
+          >
+            <Text fontSize={20}>Set Time of expiry</Text>
+          </Button>
           <Image
             h={30}
             w={30}
             resizeMode="center"
             alignSelf="center"
-            ml={-30}
-            mt={30}
             source={require("./img/Group_83.png")}
           />
-        </Div> */}
+          <Div position="absolute" bottom={-20} left={0}>
+            {errors?.timeOfExpiry && (
+              <Text color="error">{errors.timeOfExpiry?.message}</Text>
+            )}
+          </Div>
+          {show && (
+            <DateTimePicker
+              defaultDate={new Date()}
+              value={new Date()}
+              mode={"time"}
+              is24Hour={false}
+              onChange={onChange}
+              themeVariant="dark"
+            />
+          )}
+        </Div>
+
         <Div mt={20}>
           <Div flex={1} flexDir="row" justifyContent="flex-start">
             <Text px={4} color="dimGray" fontSize={16}>
@@ -154,8 +233,10 @@ const FoodDonationLayout = (props) => {
               placeholder="100"
               rules={{
                 required: true,
+                min: 0,
+                max: 10000,
               }}
-              inputProp={{ color: "black", w: 100 }}
+              inputProp={{ color: "black", w: 100, type: "number" }}
               label={null}
               fontSize={16}
               errors={errors}
@@ -186,17 +267,31 @@ const FoodDonationLayout = (props) => {
           <Text px={4} color="dimGray" fontSize={16}>
             Photos
           </Text>
-          <Div>
-            <Image
-              h={70}
-              w={70}
-              mt={20}
-              ml={5}
-              resizeMode="center"
-              // alignSelf="center"
-              source={require("./img/Group_84.png")}
-            />
-          </Div>
+          <Button
+            p={0}
+            mt={20}
+            ml={5}
+            h={60}
+            w={60}
+            bg="transparent"
+            onPress={pickImage}
+          >
+            {image === null ? (
+              <Icon
+                name="plussquareo"
+                fontFamily="AntDesign"
+                fontSize={60}
+                color="dimGray"
+              />
+            ) : (
+              <Icon
+                name="closesquareo"
+                fontFamily="AntDesign"
+                fontSize={60}
+                color="red"
+              />
+            )}
+          </Button>
         </Div>
         <Div mt={30}>
           <Div row>
@@ -205,7 +300,7 @@ const FoodDonationLayout = (props) => {
               w="20%"
               value={1}
               onChange={() => {
-                setIsVeg(true);
+                setIsVeg(!isVeg);
               }}
               prefix={<Text mr={10}>VEG</Text>}
             />
