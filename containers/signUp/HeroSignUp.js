@@ -4,7 +4,7 @@ import { useNavigation } from "@react-navigation/core";
 import { Button, Div, Icon } from "react-native-magnus";
 import SubTitle from "../../components/SubTitle";
 import Title from "../../components/Title";
-import { clearState } from "../../features/user/userSlice";
+import { clearState } from "../../features/auth/authSlice";
 import { getAuth } from "firebase/auth";
 import { useDispatch } from "react-redux";
 

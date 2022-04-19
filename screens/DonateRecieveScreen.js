@@ -13,7 +13,7 @@ const DonateRecieveScreen = () => {
   const [isVerified, setIsVerified] = useState(false);
   const navigation = useNavigation();
 
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state) => state.auth);
   const [trigger, result, lastPromiseInfo] = useLazyVerifyUserProfileQuery();
   const setSelectFunc = (val) => setSelect(val);
 

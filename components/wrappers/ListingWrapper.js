@@ -20,7 +20,7 @@ const ListingWrapper = (props) => {
   //   address: "420-Delhi, India",
   //   profile: "./img/default_pp.jpg",
   // });
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state) => state.auth);
 
   const { selected, setSelected } = props;
   const { control } = useForm();

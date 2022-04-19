@@ -8,8 +8,8 @@ const auth = getAuth();
 
 const baseQuery = fetchBaseQuery({
   baseUrl: BACKEND_URL,
-  prepareHeaders: async (headers) => {
-    const token = auth.currentUser ? await auth.currentUser.getIdToken() : " ";
+  prepareHeaders: (headers, { getState }) => {
+    const token = getState().auth.token;
     if (token) {
       headers.set("authorization", `Bearer ${token}`);
     }
@@ -22,32 +22,29 @@ export const aahaarApi = createApi({
   baseQuery: baseQuery,
   endpoints: (build) => ({
     createUser: build.mutation({
-      query: ({ email, phone }) => ({
+      query: ({ email, phone, token }) => ({
         url: "/user",
         method: "POST",
         body: {
           email,
           phone,
         },
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
       }),
     }),
-    getUserDetailsByUid: build.mutation({
+    getUserDetailsByUid: build.query({
       query: (uid) => ({ url: `user/${uid}`, method: "GET" }),
     }),
     verifyUserProfile: build.query({
       query: () => ({ url: "user/hasProfile", method: "GET" }),
     }),
     updateUserDetails: build.query({
-      query: ({ name, address, dob, gender, profileURL }) => ({
+      query: (body) => ({
         url: "user",
         method: "PATCH",
-        body: {
-          name,
-          address,
-          dob,
-          gender,
-          profileURL,
-        },
+        body,
       }),
     }),
   }),
@@ -55,7 +52,7 @@ export const aahaarApi = createApi({
 
 export const {
   useCreateUserMutation,
-  useGetUserDetailsByUidMutation,
+  useGetUserDetailsByUidQuery,
   useLazyVerifyUserProfileQuery,
   useUpdateUserDetailsQuery,
 } = aahaarApi;

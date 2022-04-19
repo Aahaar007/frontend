@@ -1,10 +1,10 @@
 import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
-import userReducer from "./features/user/userSlice";
+import authReducer from "./features/auth/authSlice";
 import { aahaarApi } from "./services/aahaar";
 
 export const store = configureStore({
   reducer: {
-    user: userReducer,
+    auth: authReducer,
     [aahaarApi.reducerPath]: aahaarApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>

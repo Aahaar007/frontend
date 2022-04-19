@@ -218,6 +218,7 @@ const SignUpLayout = () => {
           region: codes[userData.code],
           number: userData.phone,
         },
+        token: auth.currentUser.accessToken,
       });
     }
   }, [userData]);

@@ -20,7 +20,7 @@ const OrderLayout = (props) => {
   const [trigger, result, lastQueryInfo] = useLazyVerifyUserProfileQuery();
   const navigator = useNavigation();
   const { typeOfDonor, description, _id } = props.data;
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state) => state.auth);
 
   const onSubmit = () => {
     if (!user.profileData?.name) trigger();
