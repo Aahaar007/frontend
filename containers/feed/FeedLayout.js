@@ -1,27 +1,25 @@
-import React, { useEffect, useState } from "react";
-import { Div, Button } from "react-native-magnus";
+import React, { useCallback, useEffect, useState } from "react";
+import { Div, Button, ScrollDiv } from "react-native-magnus";
+import { RefreshControl } from "react-native";
+
 import Spinner from "../../components/Spinner";
 import { useGetFoodListingQuery } from "../../services/aahaar";
 import Card from "./Card";
 
 const FeedLayout = () => {
-  const result = useGetFoodListingQuery({
-    refetchOnMountOrArgChange: true,
-    refetchOnFocus: true,
-  });
-
-  const [donationList, setDonationList] = useState([]);
-
-  useEffect(() => {
-    if (result.data) {
-      setDonationList(result.data?.foodListings);
+  const { data, isLoading } = useGetFoodListingQuery(
+    {},
+    {
+      refetchOnMountOrArgChange: true,
+      refetchOnFocus: true,
+      pollingInterval: 30000,
     }
-  }, [result]);
+  );
 
   return (
     <Div>
-      <Spinner show={result.isLoading} />
-      {donationList?.map((item) => {
+      <Spinner show={isLoading} />
+      {data?.foodListings?.map((item) => {
         return <Card key={item._id} donationData={item} />;
       })}
     </Div>
