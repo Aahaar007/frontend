@@ -73,9 +73,21 @@ export const aahaarApi = createApi({
         body,
       }),
     }),
+    getRequestByCode: build.mutation({
+      query: (code) => ({
+        url: `request/code/${code}`,
+        method: "GET",
+      }),
+    }),
     cancelRequest: build.mutation({
       query: (id) => ({
         url: "request/cancel/" + id,
+        method: "DELETE",
+      }),
+    }),
+    fulfillRequest: build.mutation({
+      query: (id) => ({
+        url: `request/fulfill/${id}`,
         method: "DELETE",
       }),
     }),
@@ -90,7 +102,10 @@ export const {
   useUpdateUserDetailsMutation,
   useCreateFoodListingMutation,
   useGetFoodListingQuery,
+  useGetFoodListingByIdQuery,
   useLazyGetFoodListingByIdQuery,
   useCreateRequestMutation,
+  useGetRequestByCodeMutation,
   useCancelRequestMutation,
+  useFulfillRequestMutation,
 } = aahaarApi;

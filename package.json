@@ -14,7 +14,7 @@
   "dependencies": {
     "@cprecioso/country-flag-emoji": "^1.0.0",
     "@react-native-community/datetimepicker": "4.0.0",
-    "@react-native-community/slider": "^4.2.0",
+    "@react-native-community/slider": "4.1.12",
     "@react-navigation/native": "^6.0.5",
     "@react-navigation/native-stack": "^6.2.3",
     "@reduxjs/toolkit": "^1.7.2",

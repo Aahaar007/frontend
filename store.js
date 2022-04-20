@@ -1,4 +1,5 @@
 import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
+import { setupListeners } from "@reduxjs/toolkit/dist/query";
 import { aahaarApi } from "./services/aahaar";
 
 export const store = configureStore({
@@ -6,5 +7,10 @@ export const store = configureStore({
     [aahaarApi.reducerPath]: aahaarApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(aahaarApi.middleware),
+    getDefaultMiddleware({
+      immutableCheck: { warnAfter: 128 },
+      serializableCheck: { warnAfter: 128 },
+    }).concat(aahaarApi.middleware),
 });
+
+setupListeners(store.dispatch);

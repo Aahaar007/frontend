@@ -98,6 +98,7 @@ const SignUpLayout = () => {
 
   const checkExistingUser = async (data) => {
     const url = `${BACKEND_URL}/user/checkExisting`;
+    console.log(url);
     try {
       const res = await axios({
         method: "POST",
