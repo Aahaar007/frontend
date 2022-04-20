@@ -21,6 +21,8 @@ import * as ImagePicker from "expo-image-picker";
 import { useCreateFoodListingMutation } from "../../services/aahaar";
 import Spinner from "../../components/Spinner";
 
+import mime from "mime";
+
 const FoodDonationLayout = (props) => {
   const [isVeg, setIsVeg] = useState(false);
   const [isHygiene, setHygiene] = useState(false);
@@ -52,7 +54,7 @@ const FoodDonationLayout = (props) => {
       let result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
-        aspect: [1, 1],
+        aspect: [4, 3],
         quality: 1,
       });
 
@@ -75,15 +77,6 @@ const FoodDonationLayout = (props) => {
     } else {
       clearErrors("timeOfExpiry");
       let reqData = data;
-      // if (image) {
-      //   reqData.refImage = {
-      //     uri: image?.uri,
-      //     type: image?.type,
-      //     name: image?.uri?.slice(image?.uri?.lastIndexOf("/") + 1),
-      //   };
-      // } else {
-      //reqData.refImage = null;
-      console.log(data);
       reqData.isVeg = isVeg;
       reqData.typeOfDonor = "Individual";
       reqData.quantity = parseInt(reqData.quantity);
@@ -91,14 +84,22 @@ const FoodDonationLayout = (props) => {
       let selTime = new Date(reqData.timeOfExpiry);
       const currTime = Date.now();
       reqData.timeOfExpiry = Math.floor((selTime.getTime() - currTime) / 60000);
-      //reqData.timeOfExpiry = selTime;
-      //console.log(reqData);
-      // const fd = new FormData();
-      // for (let val in reqData) {
-      //   fd.append(val, reqData[val]);
-      // }
-      //console.log(fd);
-      createFoodListing(reqData);
+      // reqData.timeOfExpiry = selTime;
+      console.log(reqData);
+      const fd = new FormData();
+      Object.keys(reqData).forEach((key) => {
+        fd.append(key, reqData[key]);
+      });
+      if (image) {
+        const refImage = {
+          uri: image.uri,
+          name: image.uri.split("/").pop(),
+          type: mime.getType(image.uri),
+        };
+        fd.append("refImage", refImage);
+      }
+      // console.log(fd);
+      createFoodListing(fd);
     }
     //navigation.navigate("Listing");
   };

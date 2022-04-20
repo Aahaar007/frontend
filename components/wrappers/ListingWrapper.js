@@ -51,7 +51,13 @@ const ListingWrapper = (props) => {
                 pt={2}
                 mr={10}
               />
-              <Text fontSize={17} color="burgundy" mr={20}>
+              <Text
+                fontSize={17}
+                color="burgundy"
+                mr={20}
+                numberOfLines={1}
+                ellipsizeMode={"tail"}
+              >
                 {data?.user?.address ? data.user.address : "NA"}
               </Text>
               <Icon
