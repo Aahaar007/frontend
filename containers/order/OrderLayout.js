@@ -15,22 +15,29 @@ import Layout from "./../../components/wrappers/Layout";
 import DetailDiv from "./DetailDiv";
 import OrderDetail from "./OrderDetail";
 import FloatButtons from "./FloatButtons";
-import { useLazyVerifyUserProfileQuery } from "../../services/aahaar";
+import {
+  useGetUserDetailsByUidQuery,
+  useLazyVerifyUserProfileQuery,
+} from "../../services/aahaar";
 
 import { useNavigation } from "@react-navigation/native";
-import { useSelector } from "react-redux";
 import Spinner from "../../components/Spinner";
 import QueueCard from "./QueueCard";
 import ConfirmOrderOverlay from "./ConfirmOrderOverlay";
+import { getAuth } from "firebase/auth";
+
+const auth = getAuth();
 
 const OrderLayout = (props) => {
   const [trigger, result, lastQueryInfo] = useLazyVerifyUserProfileQuery();
   const navigator = useNavigation();
   const { typeOfDonor, description, requestQueue, _id, quantity } = props.data;
-  const user = useSelector((state) => state.auth);
+  const { data, error, isLoading } = useGetUserDetailsByUidQuery(
+    auth.currentUser?.uid
+  );
   //console.log(props.data);
   const onSubmit = () => {
-    if (!user.profileData?.name) trigger();
+    if (!data.user || !data.user.name) trigger();
     else console.log("booking order");
     toggleConfirm();
   };
@@ -56,7 +63,7 @@ const OrderLayout = (props) => {
         toggleConfirm={toggleConfirm}
         orderId={_id}
       />
-      <Spinner show={result?.isFetching} />
+      <Spinner show={result?.isFetching || isLoading} />
       <Card key={_id} donationData={props.data} shadow="" />
       <Button
         bg="#D5B029"

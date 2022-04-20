@@ -2,8 +2,7 @@ import { useNavigation } from "@react-navigation/native";
 import { getAuth } from "firebase/auth";
 import React, { useEffect } from "react";
 import { Avatar, Div, Text, Image, Button, Icon } from "react-native-magnus";
-import { useDispatch, useSelector } from "react-redux";
-import { clearState } from "../../features/auth/authSlice";
+import { useDispatch } from "react-redux";
 import moment from "moment";
 
 const auth = getAuth();
@@ -91,7 +90,6 @@ const ProfileForm = (props) => {
   const logoutUser = async () => {
     console.info("Pressed logout user");
     await auth.signOut();
-    dispatch(clearState());
   };
   useEffect(() => {
     console.log(auth.currentUser);

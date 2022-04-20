@@ -4,15 +4,12 @@ import { useNavigation } from "@react-navigation/core";
 import { Button, Div, Icon } from "react-native-magnus";
 import SubTitle from "../../components/SubTitle";
 import Title from "../../components/Title";
-import { clearState } from "../../features/auth/authSlice";
 import { getAuth } from "firebase/auth";
-import { useDispatch } from "react-redux";
 
 const auth = getAuth();
 
 const HeroSignUp = (props) => {
   const nav = useNavigation();
-  const dispatch = useDispatch();
   return (
     <Div {...props}>
       <Div flexDir="row" alignItems="center">
@@ -25,7 +22,6 @@ const HeroSignUp = (props) => {
           mr={15}
           onPress={async () => {
             if (auth.currentUser) await auth.signOut();
-            dispatch(clearState());
             nav.goBack();
           }}
         >

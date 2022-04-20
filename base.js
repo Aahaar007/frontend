@@ -18,22 +18,18 @@ import NavScreen from "./screens/NavScreen";
 
 const Stack = createNativeStackNavigator();
 
-import { useDispatch, useSelector } from "react-redux";
-
 import { getAuth } from "firebase/auth";
 import UserSetupScreen from "./screens/UserSetupScreen";
-import { clearState, setState } from "./features/auth/authSlice";
 import RequestDetailScreen from "./screens/RequestDetailScreen";
 import DonationDetailScreen from "./screens/DonationDetailScreen";
 
 const Base = () => {
-  const authState = useSelector((state) => state.auth);
-  const dispatch = useDispatch();
+  const [loggedIn, setLoggedIn] = useState(false);
   const onAuthStateChanged = (user) => {
     if (user && user?.providerData.length >= 2) {
-      dispatch(setState(true, user.accessToken));
+      setLoggedIn(true);
     } else {
-      dispatch(clearState);
+      setLoggedIn(false);
     }
   };
   useEffect(() => {
@@ -44,7 +40,7 @@ const Base = () => {
     <ThemeProvider theme={theme}>
       <NavigationContainer>
         <Stack.Navigator>
-          {authState.loggedIn ? (
+          {loggedIn ? (
             <Stack.Group screenOptions={{ headerShown: false }}>
               <Stack.Screen name="NavScreen" component={NavScreen} />
               {/* <Stack.Screen

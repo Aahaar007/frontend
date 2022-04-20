@@ -8,7 +8,7 @@ import {
   FIREBASE_MEASUREMENT_ID,
 } from "@env";
 
-export default firebaseConfig = {
+const firebaseConfig = {
   apiKey: FIREBASE_API_KEY,
   authDomain: FIREBASE_AUTH_DOMAIN,
   projectId: FIREBASE_PROJECT_ID,
@@ -17,3 +17,5 @@ export default firebaseConfig = {
   appId: FIREBASE_APP_ID,
   measurementId: FIREBASE_MEASUREMENT_ID,
 };
+
+export default firebaseConfig;

@@ -1,6 +1,5 @@
 import React from "react";
 import { Dimensions } from "react-native";
-import { useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 
 import { Button, Div, Icon, ScrollDiv, Text } from "react-native-magnus";
@@ -11,6 +10,10 @@ import { useForm } from "react-hook-form";
 import { theme } from "../../styles/theme";
 import ImageBox from "../ImageBox";
 import FormInput from "../form/FormInput";
+import { useGetUserDetailsByUidQuery } from "../../services/aahaar";
+import { getAuth } from "firebase/auth";
+
+const auth = getAuth();
 
 const ListingWrapper = (props) => {
   const navigation = useNavigation();
@@ -20,7 +23,10 @@ const ListingWrapper = (props) => {
   //   address: "420-Delhi, India",
   //   profile: "./img/default_pp.jpg",
   // });
-  const user = useSelector((state) => state.auth);
+
+  const { data, error, isLoading } = useGetUserDetailsByUidQuery(
+    auth.currentUser?.uid
+  );
 
   const { selected, setSelected } = props;
   const { control } = useForm();
@@ -46,9 +52,7 @@ const ListingWrapper = (props) => {
                 mr={10}
               />
               <Text fontSize={17} color="burgundy" mr={20}>
-                {user && user.profileData && user.profileData.address
-                  ? user.profileData.address
-                  : "Kothri Kalan, Bhopal"}
+                {data?.user?.address ? data.user.address : "NA"}
               </Text>
               <Icon
                 name="crosshairs"

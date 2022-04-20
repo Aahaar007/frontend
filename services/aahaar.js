@@ -8,8 +8,8 @@ const auth = getAuth();
 
 const baseQuery = fetchBaseQuery({
   baseUrl: BACKEND_URL,
-  prepareHeaders: (headers, { getState }) => {
-    const token = getState().auth.token;
+  prepareHeaders: async (headers, { getState }) => {
+    const token = await auth?.currentUser.getIdToken();
     if (token) {
       headers.set("authorization", `Bearer ${token}`);
     }

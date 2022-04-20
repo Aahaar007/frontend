@@ -1,5 +1,4 @@
 import React, { useState, useCallback, useEffect, useRef } from "react";
-import { useSelector, useDispatch } from "react-redux";
 import { Div, Button, Text } from "react-native-magnus";
 import { useNavigation } from "@react-navigation/core";
 import PhoneInput from "../../components/form/PhoneInput";
