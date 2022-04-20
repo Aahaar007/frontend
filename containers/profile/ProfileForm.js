@@ -2,7 +2,6 @@ import { useNavigation } from "@react-navigation/native";
 import { getAuth } from "firebase/auth";
 import React, { useEffect } from "react";
 import { Avatar, Div, Text, Image, Button, Icon } from "react-native-magnus";
-import { useDispatch } from "react-redux";
 import moment from "moment";
 
 const auth = getAuth();
@@ -85,8 +84,6 @@ const ProfileForm = (props) => {
   };
   const { canGoBack } = props;
 
-  const dispatch = useDispatch();
-
   const logoutUser = async () => {
     console.info("Pressed logout user");
     await auth.signOut();
@@ -97,12 +94,73 @@ const ProfileForm = (props) => {
   const nav = useNavigation();
 
   const { data, error, isLoading } = useGetUserDetailsByUidQuery(
-    auth.currentUser?.uid
+    auth.currentUser?.uid,
+    { refetchOnMountOrArgChange: true }
   );
 
   useEffect(() => {
     console.log(data);
   }, [data]);
+
+  const getGenderAvatar = () => {
+    return (
+      <Div {...infoValueStyle} row justifyContent="center" pb={0}>
+        {data?.user?.gender === "M" ? (
+          <Image
+            h={60}
+            w={60}
+            m={10}
+            p={0}
+            rounded="circle"
+            source={require("./img/toggled-male-symbol.png")}
+          />
+        ) : (
+          <Image
+            h={60}
+            w={60}
+            m={10}
+            p={0}
+            rounded="circle"
+            source={require("./img/untoggled-male-symbol.png")}
+          />
+        )}
+        {data?.user?.gender === "F" ? (
+          <Image
+            h={60}
+            w={60}
+            m={10}
+            rounded="circle"
+            source={require("./img/toggled-female-symbol.png")}
+          />
+        ) : (
+          <Image
+            h={60}
+            w={60}
+            m={10}
+            rounded="circle"
+            source={require("./img/untoggled-female-symbol.png")}
+          />
+        )}
+        {data?.user?.gender === "T" ? (
+          <Image
+            h={60}
+            w={60}
+            m={10}
+            rounded="circle"
+            source={require("./img/toggled-transgender-symbol.png")}
+          />
+        ) : (
+          <Image
+            h={60}
+            w={60}
+            m={10}
+            rounded="circle"
+            source={require("./img/untoggled-transgender-symbol.png")}
+          />
+        )}
+      </Div>
+    );
+  };
 
   return (
     <Div {...props}>
@@ -205,37 +263,14 @@ const ProfileForm = (props) => {
           </Div>
         </Div>
 
-        {/* <Div {...infoDivStyle}>
+        <Div {...infoDivStyle}>
           <Div {...infoDivLabelStyle} pb={10}>
             <Text {...infoLabelStyle}>Gender</Text>
           </Div>
           <Div {...infoDivValueStyle} borderColor="transparent">
-            <Div {...infoValueStyle} row justifyContent="center" pb={0}>
-              <Image
-                h={60}
-                w={60}
-                m={10}
-                p={0}
-                rounded="circle"
-                source={require("./img/toggled-male-symbol.png")}
-              />
-              <Image
-                h={60}
-                w={60}
-                m={10}
-                rounded="circle"
-                source={require("./img/untoggled-female-symbol.png")}
-              />
-              <Image
-                h={60}
-                w={60}
-                m={10}
-                rounded="circle"
-                source={require("./img/untoggled-transgender-symbol.png")}
-              />
-            </Div>
+            {getGenderAvatar()}
           </Div>
-        </Div> */}
+        </Div>
 
         <Div {...infoDivStyle} h={70}>
           <Div {...infoDivLabelStyle} flex={1}>
