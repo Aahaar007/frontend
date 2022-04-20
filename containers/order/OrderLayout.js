@@ -33,7 +33,8 @@ const OrderLayout = (props) => {
   const navigator = useNavigation();
   const { typeOfDonor, description, requestQueue, _id, quantity } = props.data;
   const { data, error, isLoading } = useGetUserDetailsByUidQuery(
-    auth.currentUser?.uid
+    auth.currentUser?.uid,
+    { refetchOnMountOrArgChange: true }
   );
   //console.log(props.data);
   const onSubmit = () => {

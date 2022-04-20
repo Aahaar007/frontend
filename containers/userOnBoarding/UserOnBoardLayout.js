@@ -8,6 +8,10 @@ import Title from "../../components/Title";
 import images from "./img";
 import { useNavigation } from "@react-navigation/native";
 import { Regex } from "../../constants/Regex";
+import { useUpdateUserDetailsMutation } from "../../services/aahaar";
+import { getAuth } from "firebase/auth";
+
+const auth = getAuth();
 
 const UserOnBoardLayout = (props) => {
   const navigation = useNavigation();
@@ -43,14 +47,26 @@ const UserOnBoardLayout = (props) => {
     },
   ];
   const [stage, setStage] = useState(0);
-  const next = (data) => {
+  const [trigger, res] = useUpdateUserDetailsMutation();
+  const next = async (data) => {
     if (stage < 3) {
       setStage(stage + 1);
     } else {
       console.log(data);
       //send data to backend API
       //fetch user
-      navigation.goBack();
+      const form = new FormData();
+      Object.keys(data).forEach((key) => {
+        form.append(key.toLowerCase(), data[key]);
+      });
+      console.log(form);
+      try {
+        const res = await trigger(form).unwrap();
+        console.log(res);
+        navigation.goBack();
+      } catch (e) {
+        console.log(e);
+      }
     }
   };
 
@@ -103,7 +119,7 @@ const UserOnBoardLayout = (props) => {
     return (
       <FormInput
         control={control}
-        name="Addres"
+        name="Address"
         rules={{
           required: true,
           pattern: Regex.addressPattern,

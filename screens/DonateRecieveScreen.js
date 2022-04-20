@@ -19,24 +19,29 @@ const DonateRecieveScreen = () => {
   const [isVerified, setIsVerified] = useState(false);
   const navigation = useNavigation();
 
-  const [trigger, result, lastPromiseInfo] = useLazyVerifyUserProfileQuery();
+  const [trigger, result, lastPromiseInfo] = useLazyVerifyUserProfileQuery({});
   const setSelectFunc = (val) => setSelect(val);
 
   const { data, error, isLoading } = useGetUserDetailsByUidQuery(
-    auth.currentUser?.uid
+    auth.currentUser?.uid,
+    { refetchOnMountOrArgChange: true }
   );
 
   useEffect(() => {
+    console.log("Profile data: ", data);
     if (select === "donate") {
       if (!data.user || !data.user.name) {
         //setSelectFunc("recieve");
         trigger();
+      } else {
+        setIsVerified(true);
       }
     }
     //if (select === "donate") navigation.navigate("DonationDetail");
-  }, [select]);
+  }, [select, data]);
 
   useEffect(() => {
+    console.log(result);
     if (result?.data === false) {
       navigation.navigate("UserSetup");
       setSelectFunc("recieve");
@@ -56,7 +61,7 @@ const DonateRecieveScreen = () => {
         {select === "recieve" ? (
           <FeedLayout />
         ) : (
-          result?.data && <FoodDonationLayout />
+          (isVerified || result?.data) && <FoodDonationLayout />
         )}
       </ListingWrapper>
     </>

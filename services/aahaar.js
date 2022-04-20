@@ -40,7 +40,7 @@ export const aahaarApi = createApi({
     verifyUserProfile: build.query({
       query: () => ({ url: "user/hasProfile", method: "GET" }),
     }),
-    updateUserDetails: build.query({
+    updateUserDetails: build.mutation({
       query: (body) => ({
         url: "user",
         method: "PATCH",
