@@ -18,12 +18,16 @@ const statNumStyle = {
   fontWeight: "700",
   textAlign: "center",
   letterSpacing: 0,
+  numberOfLines: 1,
+  ellipsizeMode: "tail",
 };
 
 const statLabelStyle = {
   color: "dimGray",
   textAlign: "center",
   pt: 10,
+  numberOfLines: 1,
+  ellipsizeMode: "tail",
 };
 
 const infoDivStyle = {
@@ -34,6 +38,8 @@ const infoDivStyle = {
 const infoDivLabelStyle = {
   flex: 2,
   justifyContent: "flex-end",
+  numberOfLines: 1,
+  ellipsizeMode: "tail",
 };
 
 const infoDivValueStyle = {
@@ -50,6 +56,8 @@ const infoLabelStyle = {
   fontWeight: "400",
   pl: 5,
   pb: 10,
+  numberOfLines: 1,
+  ellipsizeMode: "tail",
 };
 
 const infoValueStyle = {
@@ -57,6 +65,8 @@ const infoValueStyle = {
   color: "black",
   textAlign: "center",
   pb: 10,
+  numberOfLines: 1,
+  ellipsizeMode: "tail",
 };
 
 const ProfileForm = (props) => {
