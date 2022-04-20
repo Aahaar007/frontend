@@ -24,7 +24,7 @@ import moment from "moment";
 const DonationDetailLayout = (props) => {
   const route = useRoute();
   const { id } = route.params;
-  const { data, isError, isLoading } = useGetFoodListingByIdQuery(id || "");
+  const { data, error, isLoading } = useGetFoodListingByIdQuery(id || "");
   const [triggerGetRequestByCode, res] = useGetRequestByCodeMutation();
   const snackbarRef = useRef();
 
@@ -50,6 +50,10 @@ const DonationDetailLayout = (props) => {
   const toggleShowConfirm = () => {
     setShowConfirm(!showConfirm);
   };
+
+  useEffect(() => {
+    console.log(error);
+  }, [error]);
 
   const onSubmit = async (data) => {
     console.log(data);
@@ -95,7 +99,7 @@ const DonationDetailLayout = (props) => {
   return (
     <Div>
       <Spinner show={isLoading} />
-      {!isLoading && (
+      {!isLoading && !error && (
         <Div alignItems="center" px={40} pt={100} h="100%" w="100%">
           <ConfirmRequestOverlay
             show={showConfirm}
@@ -124,11 +128,11 @@ const DonationDetailLayout = (props) => {
           </Div>
           <Div bg="white" w="100%" rounded={10} p={10} mt={50}>
             <Text fontSize={40} fontWeight="bold">
-              {data?.foodListing?.description}
+              {data?.foodListing?.description || "Loading Description"}
             </Text>
             <Text fontSize={25}>For {data?.foodListing?.quantity} people</Text>
             <Text fontSize={20} fontWeight="100">
-              at {data?.foodListing?.address}
+              at {data?.foodListing?.address || "Loading Address"}
             </Text>
             <Div
               bg="white"
@@ -146,7 +150,7 @@ const DonationDetailLayout = (props) => {
                   ? moment(new Date(data.foodListing.timeOfExpiry)).format(
                       "DD/MM/YYYY hh:mm A"
                     )
-                  : "NA"}
+                  : "Loading Date"}
               </Text>
             </Div>
             <FormInput
@@ -184,6 +188,56 @@ const DonationDetailLayout = (props) => {
             </Button>
           </Div>
           {/* <Div w="100%" bg="bgGray" rounded={10} mt={40} p={5}></Div> */}
+          <Div
+            position="absolute"
+            bg="white"
+            bottom={0}
+            w={WINDOW_WIDTH}
+            p={10}
+            alignItems="center"
+            roundedTop={25}
+          >
+            <Text>Thank you for your contribution</Text>
+            <Text>in reducing food waste and hunger</Text>
+          </Div>
+          <Snackbar
+            ref={snackbarRef}
+            mb="150%"
+            borderWidth={1}
+            bg={"limeGreen"}
+            borderColor={"green"}
+          />
+        </Div>
+      )}
+      {error && error?.status === 404 && (
+        <Div alignItems="center" px={40} pt={100} h="100%" w="100%">
+          <Div
+            position="absolute"
+            bg="white"
+            w={WINDOW_WIDTH}
+            top={-40}
+            p={20}
+            pt={40}
+            roundedBottom={25}
+            alignItems="center"
+          >
+            <Text fontSize={30} color="black" fontWeight="bold">
+              Your Order has expired.
+            </Text>
+          </Div>
+          <Div bg="white" w="100%" rounded={20} p={0} mt={230}>
+            <Div
+              bg="white"
+              rounded={20}
+              borderWidth={2}
+              borderColor="red"
+              p={5}
+            >
+              <Text color="black" fontSize={35} textAlign="center">
+                Expired
+              </Text>
+            </Div>
+          </Div>
           <Div
             position="absolute"
             bg="white"

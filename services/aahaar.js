@@ -47,6 +47,18 @@ export const aahaarApi = createApi({
         body,
       }),
     }),
+    getUserFoodListings: build.query({
+      query: (body) => ({
+        url: "user/foodListings",
+        method: "GET",
+      }),
+    }),
+    getUserRequests: build.query({
+      query: (body) => ({
+        url: "user/requests",
+        method: "GET",
+      }),
+    }),
     createFoodListing: build.mutation({
       query: (body) => ({
         url: "foodListing",
@@ -100,6 +112,8 @@ export const {
   useLazyGetUserDetailsByUidQuery,
   useLazyVerifyUserProfileQuery,
   useUpdateUserDetailsMutation,
+  useGetUserFoodListingsQuery,
+  useGetUserRequestsQuery,
   useCreateFoodListingMutation,
   useGetFoodListingQuery,
   useGetFoodListingByIdQuery,
