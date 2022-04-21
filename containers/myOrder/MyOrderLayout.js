@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
+import { RefreshControl } from "react-native";
 import {
   Button,
   Checkbox,
   Div,
   Icon,
+  ScrollDiv,
   Text,
   WINDOW_HEIGHT,
   WINDOW_WIDTH,
@@ -11,77 +13,41 @@ import {
 import DonationCard from "./DonationCard";
 import ReqeustCard from "./ReqeustCard";
 
+import {
+  useGetUserFoodListingsQuery,
+  useGetUserRequestsQuery,
+} from "../../services/aahaar";
+
 const MyOrderLayout = () => {
   const [filter, setFilter] = useState({ donations: true, requests: true });
 
-  const data = [
+  const {
+    data: foodListingsData,
+    error: foodListingsError,
+    isLoading: foodListingsAreLoading,
+    refetch: refetchFoodListings,
+  } = useGetUserFoodListingsQuery(
+    {},
     {
-      _id: "6251544fef8426dd3ed1a7f5",
-      donorId: "rUAnHURGC2P4qKjwwK3EfWR0TzD2",
-      quantity: 55,
-      description: "Roti, chawal, makke da saag, macchi ki khichdi",
-      typeOfDonor: "Individual",
-      isVeg: true,
-      photos: [
-        {
-          name: "Screenshot (91).png",
-          link: "https://aahaar-bucket.s3.ap-south-1.amazonaws.com/1649497166438_Screenshot%20%2891%29.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIA5MTSIXQ6A6W5OBMD%2F20220409%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-Date=20220409T095408Z&X-Amz-Expires=300&X-Amz-Signature=67febf12417669e6fabd14c241ada3d5afe0ded6880011bbddd4564126638389&X-Amz-SignedHeaders=host",
-        },
-      ],
-      address: "69/420 Baked town, Snoop City, Madhya Pradesh, India",
-      timeOfExpiry: "2011-10-05T14:48:00.000Z",
-      requestQueue: [],
-      isActive: true,
-      createdAt: "2022-04-09T09:39:27.220Z",
-      updatedAt: "2022-04-09T09:39:27.220Z",
-      __v: 0,
-    },
+      refetchOnFocus: true,
+      refetchOnMountOrArgChange: true,
+      pollingInterval: 60000,
+    }
+  );
+
+  const {
+    data: requestsData,
+    error: requestsError,
+    isLoading: requestsAreLoading,
+    refetch: refetchRequests,
+  } = useGetUserRequestsQuery(
+    {},
     {
-      _id: "6252b7147d9d3acfd03d6332",
-      orderId: "6252b6e37d9d3acfd03d632f",
-      uid: "SUDgNUIQwIQoZoE6pSYKQHablNt2",
-      donorName: "Donor Pandey",
-      amount: 21,
-      description: "Roti, chawal, makke da saag, macchi ki khichdi",
-      status: "FULFILLED",
-      createdAt: "2022-04-10T10:53:08.833Z",
-      updatedAt: "2022-04-10T11:02:44.897Z",
-      __v: 0,
-    },
-    {
-      _id: "6251544fef8426dd3ed1a7f5",
-      donorId: "rUAnHURGC2P4qKjwwK3EfWR0TzD2",
-      quantity: 55,
-      description: "Roti, chawal, makke da saag, macchi ki khichdi",
-      typeOfDonor: "Individual",
-      isVeg: true,
-      photos: [
-        {
-          name: "Screenshot (91).png",
-          link: "https://aahaar-bucket.s3.ap-south-1.amazonaws.com/1649497166438_Screenshot%20%2891%29.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIA5MTSIXQ6A6W5OBMD%2F20220409%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-Date=20220409T095408Z&X-Amz-Expires=300&X-Amz-Signature=67febf12417669e6fabd14c241ada3d5afe0ded6880011bbddd4564126638389&X-Amz-SignedHeaders=host",
-        },
-      ],
-      address: "69/420 Baked town, Snoop City, Madhya Pradesh, India",
-      timeOfExpiry: "2011-10-05T14:48:00.000Z",
-      requestQueue: [],
-      isActive: false,
-      createdAt: "2022-04-09T09:39:27.220Z",
-      updatedAt: "2022-04-09T09:39:27.220Z",
-      __v: 0,
-    },
-    {
-      _id: "6252b7147d9d3acfd03d6332",
-      orderId: "6252b6e37d9d3acfd03d632f",
-      uid: "SUDgNUIQwIQoZoE6pSYKQHablNt2",
-      donorName: "Donor Pandey",
-      amount: 21,
-      description: "Roti, chawal, makke da saag, macchi ki khichdi",
-      status: "FULFILLED",
-      createdAt: "2022-04-10T10:53:08.833Z",
-      updatedAt: "2022-04-10T11:02:44.897Z",
-      __v: 0,
-    },
-  ];
+      refetchOnFocus: true,
+      refetchOnMountOrArgChange: true,
+      pollingInterval: 60000,
+    }
+  );
 
   const changeFilter = (val) => {
     console.log(val);
@@ -147,13 +113,33 @@ const MyOrderLayout = () => {
           </Checkbox.Group>
         </Div>
       </Div>
-      <Div>
-        {data.map((item) => {
-          return item.donorId
-            ? filter?.donations && <DonationCard data={item} />
-            : filter?.requests && <ReqeustCard data={item} />;
-        })}
-      </Div>
+      <ScrollDiv
+        refreshControl={
+          <RefreshControl
+            refreshing={
+              (filter?.donations && foodListingsAreLoading) ||
+              (filter?.requests && requestsAreLoading)
+            }
+            onRefresh={() => {
+              if (filter?.donations) refetchFoodListings();
+              if (filter?.requests) refetchRequests();
+            }}
+          />
+        }
+      >
+        {filter?.donations &&
+          foodListingsData &&
+          foodListingsData?.foodListings &&
+          foodListingsData.foodListings.map((foodListing) => {
+            return <DonationCard key={foodListing._id} data={foodListing} />;
+          })}
+        {filter?.requests &&
+          requestsData &&
+          requestsData?.requests &&
+          requestsData.requests.map((request) => {
+            return <ReqeustCard key={request._id} data={request} />;
+          })}
+      </ScrollDiv>
     </Div>
   );
 };
