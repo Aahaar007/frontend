@@ -16,7 +16,9 @@ const ReqeustCard = (props) => {
     <Button
       p={0}
       bg="transparent"
-      onPress={() => navigator.navigate("RequestDetail", props.data)}
+      onPress={() =>
+        navigator.navigate("RequestDetail", { data: { request: props.data } })
+      }
     >
       <Div
         borderColor="faintGray"
