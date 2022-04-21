@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import NavBar from "../components/wrappers/NavBar";
 import DonateRecieveScreen from "./DonateRecieveScreen";
 import ProfileScreen from "./ProfileScreen";
-import MyDonationsScreen from "./MyDonationsScreen";
+import MyOrderScreen from "./MyOrderScreen";
 
 const NavScreen = () => {
   // tabSelected can be "donate-recieve, volunteer, my-order, profile"
@@ -12,7 +12,7 @@ const NavScreen = () => {
     <NavBar selected={tabSelected} changeSelected={changeTab}>
       {tabSelected === "donate-recieve" && <DonateRecieveScreen />}
       {tabSelected === "profile" && <ProfileScreen />}
-      {tabSelected === "my-order" && <MyDonationsScreen />}
+      {tabSelected === "my-order" && <MyOrderScreen />}
     </NavBar>
   );
 };

@@ -93,7 +93,7 @@ const DonationDetailLayout = (props) => {
   }, [qrData]);
 
   useEffect(() => {
-    console.log(data);
+    console.log("DATA", data);
   }, [data]);
 
   return (
