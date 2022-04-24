@@ -1,13 +1,17 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Overlay, Text, Div, Toggle, Radio, Button } from "react-native-magnus";
 import FormInput from "../../components/form/FormInput";
 import PhoneInput from "../../components/form/PhoneInput";
+import { useCreateHotspotMutation } from "../../services/aahaar";
+import * as ImagePicker from "expo-image-picker";
+import mime from "mime";
 const CreateHotspotOverlay = (props) => {
   const { control, handleSubmit, formState: error } = useForm();
+  const [trigger, result] = useCreateHotspotMutation();
   const { show, toggleShow } = props;
-
   const [data, setData] = useState();
+  const [img, setImg] = useState(null);
   const modifyData = useCallback(
     (val) => {
       const temp = { ...data, ...val };
@@ -16,17 +20,61 @@ const CreateHotspotOverlay = (props) => {
     },
     [data]
   );
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
 
+    if (!result.cancelled) {
+      console.log(result);
+      setImg(result);
+    }
+  };
   const onSubmit = (val) => {
     console.log(val, data);
+    let reqData = val;
+    const fd = new FormData();
+    Object.keys(reqData).forEach((key) => {
+      fd.append(key, reqData[key]);
+    });
+
+    if (img) {
+      const imgSrc = {
+        uri: img.uri,
+        name: img.uri?.split("/").pop(),
+        type: mime.getType(img.uri),
+      };
+      fd.append("imgSrc", imgSrc);
+    }
+    // const contactNumber = {
+    //   region: data,
+    //   number: val.phone,
+    // };
+    // fd.append("contactNumber", data);
+    console.log(fd);
+    trigger(fd);
     toggleShow();
   };
+  useEffect(() => {
+    if (result.isSuccess) {
+      console.log("Success");
+    }
+    if (result.isError) {
+      console.log(result.error);
+    }
+  }, [result]);
 
   return (
     <Overlay visible={show} bg="bgGray">
       <Text textAlign="center" color="white" fontWeight="bold" fontSize={25}>
         Create Hotspot
       </Text>
+      <Button rounded="xl" alignSelf="center" onPress={pickImage}>
+        Upload Image
+      </Button>
       <Div>
         <Div mb={20}>
           <FormInput
@@ -58,7 +106,7 @@ const CreateHotspotOverlay = (props) => {
             errors={error}
           />
         </Div>
-        <Div row justifyContent="space-between" alignItems="center">
+        <Div row justifyContent="space-between" alignItems="center" mb={20}>
           <Div row alignItems="center" p={0}>
             <Text pt={8} mr={10} fontSize={15} color="white">
               Capacity
@@ -72,7 +120,8 @@ const CreateHotspotOverlay = (props) => {
               errors={error}
             />
           </Div>
-          <Div alignItems="center" pt={10}>
+        </Div>
+        {/* <Div alignItems="center" pt={10}>
             <Text mr={10} fontSize={15} color="white">
               Is this an NGO?
             </Text>
@@ -86,8 +135,7 @@ const CreateHotspotOverlay = (props) => {
                 }
               />
             </Radio.Group>
-          </Div>
-        </Div>
+          </Div> */}
         <PhoneInput
           overflow="hidden"
           control={control}
@@ -98,7 +146,9 @@ const CreateHotspotOverlay = (props) => {
         <Button
           w="100%"
           mt={20}
-          onPress={() => handleSubmit((data) => onSubmit(data))}
+          onPress={handleSubmit((data) => {
+            onSubmit(data);
+          })}
         >
           Submit
         </Button>

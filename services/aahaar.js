@@ -103,6 +103,19 @@ export const aahaarApi = createApi({
         method: "DELETE",
       }),
     }),
+    createHotspot: build.mutation({
+      query: (body) => ({
+        url: "hotspot",
+        method: "POST",
+        body,
+      }),
+    }),
+    readAllHotspots: build.query({
+      query: () => ({
+        url: "hotspot",
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -122,4 +135,6 @@ export const {
   useGetRequestByCodeMutation,
   useCancelRequestMutation,
   useFulfillRequestMutation,
+  useCreateHotspotMutation,
+  useReadAllHotspotsQuery,
 } = aahaarApi;
