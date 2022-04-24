@@ -1,10 +1,13 @@
 import React from "react";
-import { Div, Button, Icon, Text } from "react-native-magnus";
+import { useForm } from "react-hook-form";
+import { Div, Button, Icon, Text, Overlay } from "react-native-magnus";
+import FormInput from "../../components/form/FormInput";
 
 const Header = (props) => {
+  const { toggleOverlay } = props;
   return (
     <Div {...props}>
-      <Button w="100%" h={60} mb={2} bg="primary">
+      <Button w="100%" h={60} mb={2} bg="primary" onPress={toggleOverlay}>
         <Icon
           name="plus"
           fontFamily="FontAwesome"
