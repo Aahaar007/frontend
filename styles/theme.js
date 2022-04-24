@@ -15,5 +15,7 @@ export const theme = {
     dullWhite: "rgba(248,248,248,1.0)",
     dangerRed: "rgba(206,0,0,1)",
     oldYellow: "rgba(255,225,210,1)",
+    ngoBlue: "rgba(0, 128, 128, 1)",
+    gentlePink: "rgba(255,192,203,1)",
   },
 };

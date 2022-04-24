@@ -22,6 +22,7 @@ import { getAuth } from "firebase/auth";
 import UserSetupScreen from "./screens/UserSetupScreen";
 import RequestDetailScreen from "./screens/RequestDetailScreen";
 import DonationDetailScreen from "./screens/DonationDetailScreen";
+import HotspotDetailScreen from "./screens/HotspotDetailScreen";
 
 const Base = () => {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -63,6 +64,10 @@ const Base = () => {
               <Stack.Screen
                 name="DonationDetail"
                 component={DonationDetailScreen}
+              />
+              <Stack.Screen
+                name="HotspotDetail"
+                component={HotspotDetailScreen}
               />
             </Stack.Group>
           ) : (
