@@ -7,6 +7,11 @@ import UserOnBoardHeader from "./UserOnBoardHeader";
 import Title from "../../components/Title";
 import images from "./img";
 import { useNavigation } from "@react-navigation/native";
+import { Regex } from "../../constants/Regex";
+import { useUpdateUserDetailsMutation } from "../../services/aahaar";
+import { getAuth } from "firebase/auth";
+
+const auth = getAuth();
 
 const UserOnBoardLayout = (props) => {
   const navigation = useNavigation();
@@ -38,18 +43,30 @@ const UserOnBoardLayout = (props) => {
       src: images.Screen4,
       buttonText: "Submit",
       color: "#90b7c1",
-      placeHolder: "Enter Your Adress....",
+      placeHolder: "Enter Your Address....",
     },
   ];
   const [stage, setStage] = useState(0);
-  const next = (data) => {
+  const [trigger, res] = useUpdateUserDetailsMutation();
+  const next = async (data) => {
     if (stage < 3) {
       setStage(stage + 1);
     } else {
       console.log(data);
       //send data to backend API
       //fetch user
-      navigation.goBack();
+      const form = new FormData();
+      Object.keys(data).forEach((key) => {
+        form.append(key.toLowerCase(), data[key]);
+      });
+      console.log(form);
+      try {
+        const res = await trigger(form).unwrap();
+        console.log(res);
+        navigation.goBack();
+      } catch (e) {
+        console.log(e);
+      }
     }
   };
 
@@ -65,6 +82,7 @@ const UserOnBoardLayout = (props) => {
         name="Name"
         rules={{
           required: true,
+          pattern: Regex.namePattern,
         }}
         errors={errors}
         errorMessage="Field Required"
@@ -84,6 +102,7 @@ const UserOnBoardLayout = (props) => {
         name="DOB"
         rules={{
           required: true,
+          // pattern: Regex.dobPattern,
         }}
         errors={errors}
         errorMessage="Field Required"
@@ -100,9 +119,10 @@ const UserOnBoardLayout = (props) => {
     return (
       <FormInput
         control={control}
-        name="Addres"
+        name="Address"
         rules={{
           required: true,
+          pattern: Regex.addressPattern,
         }}
         errors={errors}
         errorMessage="Field Required"

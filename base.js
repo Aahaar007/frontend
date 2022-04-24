@@ -18,17 +18,19 @@ import NavScreen from "./screens/NavScreen";
 
 const Stack = createNativeStackNavigator();
 
-import { useSelector } from "react-redux";
-
 import { getAuth } from "firebase/auth";
 import UserSetupScreen from "./screens/UserSetupScreen";
+import RequestDetailScreen from "./screens/RequestDetailScreen";
+import DonationDetailScreen from "./screens/DonationDetailScreen";
 
 const Base = () => {
   const [loggedIn, setLoggedIn] = useState(false);
-  // const user = useSelector((state) => state.user);
   const onAuthStateChanged = (user) => {
-    if (user && user?.providerData.length >= 2) setLoggedIn(true);
-    else setLoggedIn(false);
+    if (user && user?.providerData.length >= 2) {
+      setLoggedIn(true);
+    } else {
+      setLoggedIn(false);
+    }
   };
   useEffect(() => {
     const subscriber = getAuth().onAuthStateChanged(onAuthStateChanged);
@@ -54,6 +56,14 @@ const Base = () => {
               <Stack.Screen name="UserSetup" component={UserSetupScreen} />
               <Stack.Screen name="BookFood" component={BookFoodScreen} />
               <Stack.Screen name="Profile" component={ProfileScreen} />
+              <Stack.Screen
+                name="RequestDetail"
+                component={RequestDetailScreen}
+              />
+              <Stack.Screen
+                name="DonationDetail"
+                component={DonationDetailScreen}
+              />
             </Stack.Group>
           ) : (
             <Stack.Group screenOptions={{ headerShown: false }}>

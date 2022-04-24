@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Button, Div, Text } from "react-native-magnus";
-import Expire from "./Expire";
-import { theme } from "../../styles/theme";
+import Expire from "../containers/feed/Expire";
+import { theme } from "../styles/theme";
 import { useNavigation } from "@react-navigation/core";
-const Card = (props) => {
+
+const DonationCard = (props) => {
   const navigation = useNavigation();
-  let { quantity, address, isVeg, photos, timeOfExpiry } = props.donationData;
+  let { quantity, address, isVeg, photos, timeOfExpiry } = props.foodListing;
 
   const selTime = new Date(timeOfExpiry);
   let currTime = Date.now();
@@ -20,7 +21,11 @@ const Card = (props) => {
     return () => clearInterval(interval);
   }, []);
 
-  return timer > 0 ? (
+  useEffect(() => {
+    console.log(timer);
+  }, [timer]);
+
+  return (
     <Button
       shadow="md"
       block
@@ -29,7 +34,7 @@ const Card = (props) => {
       rounded="xl"
       mt={20}
       onPress={() => {
-        navigation.navigate("BookFood", props.donationData);
+        navigation.navigate("DonationDetail", { id: props?.foodListing?._id });
       }}
       {...props}
     >
@@ -64,9 +69,7 @@ const Card = (props) => {
         </Div>
       </Div>
     </Button>
-  ) : (
-    <></>
   );
 };
 
-export default Card;
+export default DonationCard;

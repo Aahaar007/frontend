@@ -1,5 +1,4 @@
 import React, { useState, useCallback, useEffect, useRef } from "react";
-import { useSelector, useDispatch } from "react-redux";
 import { Div, Button, Text } from "react-native-magnus";
 import { useNavigation } from "@react-navigation/core";
 import PhoneInput from "../../components/form/PhoneInput";
@@ -23,8 +22,6 @@ import {
 } from "firebase/auth";
 
 import codes from "../../constants/countryCode.json";
-import { useGetUserDetailsByUidMutation } from "../../services/aahaar";
-import { clearState, setProfileData } from "../../features/user/userSlice";
 
 const auth = getAuth();
 
@@ -33,14 +30,6 @@ const SignInLayout = () => {
   const [userData, setUserData] = useState({});
   const recaptchaVerifier = useRef(null);
   const [touchSignIn, setTouchSignIn] = useState(false);
-
-  const user = useSelector((state) => state.user);
-  const [triggerFetchProfile, res] = useGetUserDetailsByUidMutation();
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    console.log("user global state: ", user);
-  }, [user]);
 
   const {
     control,
@@ -66,22 +55,13 @@ const SignInLayout = () => {
     console.log("userData: ", userData);
   }, [userData]);
 
-  useEffect(() => {
-    console.log("RES: ", res);
-    if (res.isUninitialized) return;
-    if (res.isSuccess) {
-      dispatch(setProfileData(res.data.user));
-    } else {
-      dispatch(clearState());
-    }
-  }, [res]);
-
   const formatCountryCode = (val) => {
     return val.length > 0 && !val.includes("+") ? "+" + val : val;
   };
 
   const checkExistingUser = async (data) => {
     const url = `${BACKEND_URL}/user/checkExisting`;
+    console.log(url);
     try {
       const res = await axios({
         method: "POST",
@@ -103,7 +83,7 @@ const SignInLayout = () => {
 
   const submitData = async (data) => {
     if (data["validOTP"]) {
-      triggerFetchProfile(auth.currentUser.uid);
+      //DO Something.
     } else if (data["phone"]) {
       if (isValidPhoneNumber(data["phone"], userData.code)) {
         const res = await checkExistingUser(data);

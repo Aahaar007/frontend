@@ -1,11 +1,20 @@
 import { useNavigation } from "@react-navigation/native";
 import { getAuth } from "firebase/auth";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Avatar, Div, Text, Image, Button, Icon } from "react-native-magnus";
-import { useDispatch, useSelector } from "react-redux";
-import { clearState } from "../../features/user/userSlice";
+import moment from "moment";
+import * as ImagePicker from "expo-image-picker";
+import FormInput from "../../components/form/FormInput";
+import { useUpdateUserDetailsMutation } from "../../services/aahaar";
+import { Regex } from "../../constants/Regex";
+import { useForm } from "react-hook-form";
+import mime from "mime";
+
+import Spinner from "../../components/Spinner";
 
 const auth = getAuth();
+
+import { useGetUserDetailsByUidQuery } from "../../services/aahaar";
 
 const statDivStyle = {
   flex: 1,
@@ -17,12 +26,16 @@ const statNumStyle = {
   fontWeight: "700",
   textAlign: "center",
   letterSpacing: 0,
+  numberOfLines: 1,
+  ellipsizeMode: "tail",
 };
 
 const statLabelStyle = {
   color: "dimGray",
   textAlign: "center",
   pt: 10,
+  numberOfLines: 1,
+  ellipsizeMode: "tail",
 };
 
 const infoDivStyle = {
@@ -33,6 +46,8 @@ const infoDivStyle = {
 const infoDivLabelStyle = {
   flex: 2,
   justifyContent: "flex-end",
+  numberOfLines: 1,
+  ellipsizeMode: "tail",
 };
 
 const infoDivValueStyle = {
@@ -49,6 +64,8 @@ const infoLabelStyle = {
   fontWeight: "400",
   pl: 5,
   pb: 10,
+  numberOfLines: 1,
+  ellipsizeMode: "tail",
 };
 
 const infoValueStyle = {
@@ -56,25 +73,104 @@ const infoValueStyle = {
   color: "black",
   textAlign: "center",
   pb: 10,
+  numberOfLines: 1,
+  ellipsizeMode: "tail",
 };
 
 const ProfileForm = (props) => {
-  const { canGoBack } = props;
+  const [trigger, result] = useUpdateUserDetailsMutation();
+  const { data, error, isLoading, refetch } = useGetUserDetailsByUidQuery(
+    auth.currentUser?.uid,
+    { refetchOnMountOrArgChange: true }
+  );
 
-  const dispatch = useDispatch();
-  const data = useSelector((state) => state.user?.profileData);
+  const [img, setImg] = useState(null);
+  const [toggle, setToggle] = useState(false);
+  const switchToggle = () => {
+    setToggle(!toggle);
+  };
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+    getValues,
+    setError,
+    clearErrors,
+    register,
+  } = useForm();
+
+  const submitData = async (data) => {
+    // console.log(data);
+    // console.log(img);
+    let reqData = data;
+    const fd = new FormData();
+    Object.keys(reqData).forEach((key) => {
+      fd.append(key, reqData[key]);
+    });
+    if (img) {
+      const profileURL = {
+        uri: img.uri,
+        name: img.uri?.split("/").pop(),
+        type: mime.getType(img.uri),
+      };
+      fd.append("avatar", profileURL);
+    }
+    trigger(fd);
+    // console.log(fd);
+    setToggle(!toggle);
+  };
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.cancelled) {
+      // console.log(result);
+      setImg(result);
+    }
+  };
+
+  const StatDiv = (props) => {
+    return (
+      <Div {...statDivStyle}>
+        <Text {...statNumStyle}>{props.num}</Text>
+        <Text {...statLabelStyle}>{props.data}</Text>
+      </Div>
+    );
+  };
+  const { canGoBack } = props;
 
   const logoutUser = async () => {
     console.info("Pressed logout user");
     await auth.signOut();
-    dispatch(clearState());
   };
   useEffect(() => {
-    console.log(auth.currentUser);
+    // console.log(auth.currentUser);
   }, [auth]);
   const nav = useNavigation();
+
+  useEffect(() => {
+    //console.log(data);
+    if (data?.user?.profileURL ? setImg(data?.user?.profileURL) : setImg(null));
+  }, [data]);
+
+  useEffect(() => {
+    if (result.isSuccess) {
+      refetch();
+    }
+    if (result.isError) {
+      console.log(result.error);
+    }
+  }, [result]);
+
   return (
     <Div {...props}>
+      <Spinner show={result.isLoading} />
       <Div row h={70} justifyContent="space-between">
         {canGoBack && (
           <Div flex={1} justifyContent="flex-start" row>
@@ -91,7 +187,7 @@ const ProfileForm = (props) => {
         )}
 
         <Div flex={1} justifyContent="flex-end" row>
-          <Button bg="transparent" rounded={15}>
+          <Button bg="transparent" rounded={15} onPress={switchToggle}>
             <Icon
               name="edit"
               fontFamily="Entypo"
@@ -107,7 +203,13 @@ const ProfileForm = (props) => {
         <Div flex={2} alignItems="center">
           <Avatar
             source={{
-              uri: "https://freesvg.org/img/abstract-user-flat-4.png",
+              uri:
+                data &&
+                data?.user?.profileURL &&
+                typeof data.user.profileURL === "object" &&
+                data.user.profileURL.link
+                  ? data.user.profileURL.link
+                  : "https://freesvg.org/img/abstract-user-flat-4.png",
             }}
             p={55}
             borderWidth={4}
@@ -120,36 +222,35 @@ const ProfileForm = (props) => {
           >
             A
           </Avatar>
+          {toggle && (
+            <Button rounded="xl" alignSelf="center" onPress={pickImage}>
+              Upload Image
+            </Button>
+          )}
         </Div>
         <Div flex={3} row>
           {/*TODO: Add K for thousand, H for hundred etc or the value will overflow */}
-          <Div {...statDivStyle}>
-            <Text {...statNumStyle}>
-              {data?.food ? data.food.listed.length() : "13"}
-            </Text>
-            <Text {...statLabelStyle}>Listed</Text>
-          </Div>
-          <Div {...statDivStyle}>
-            <Text {...statNumStyle}>
-              {data?.food ? data.food.donated.length() : "11"}
-            </Text>
-            <Text {...statLabelStyle}>Donated</Text>
-          </Div>
-          <Div {...statDivStyle}>
-            <Text {...statNumStyle}>
-              {data?.food ? data.food.recieved.length() : "1"}
-            </Text>
-            <Text {...statLabelStyle}>Recieved</Text>
-          </Div>
+          <StatDiv
+            arg="listed"
+            num={data.user.food.listed.length}
+            data="Listed"
+          />
+          <StatDiv
+            arg="donated"
+            num={data.user.food.donated.length}
+            data="Donated"
+          />
+          <StatDiv
+            arg="recieved"
+            num={data.user.food.recieved.length}
+            data="Recieved"
+          />
         </Div>
       </Div>
 
       <Div pt={20} pb={0}>
         <Text fontSize={45} color="black" fontWeight="700" pl={25}>
-          Meghan
-        </Text>
-        <Text fontSize={45} color="dimGray" fontWeight="300" pl={25} mt={-20}>
-          Gun Kelly
+          {data?.user?.name ? data.user.name : "-"}
         </Text>
       </Div>
 
@@ -159,41 +260,14 @@ const ProfileForm = (props) => {
             <Text {...infoLabelStyle}>Name</Text>
           </Div>
           <Div {...infoDivValueStyle}>
-            <Text {...infoValueStyle}>
-              {data?.name ? data.name : "Meghan Gun Kelly"}
-            </Text>
-          </Div>
-        </Div>
-
-        <Div {...infoDivStyle}>
-          <Div {...infoDivLabelStyle} pb={10}>
-            <Text {...infoLabelStyle}>Gender</Text>
-          </Div>
-          <Div {...infoDivValueStyle} borderColor="transparent">
-            <Div {...infoValueStyle} row justifyContent="center" pb={0}>
-              <Image
-                h={60}
-                w={60}
-                m={10}
-                p={0}
-                rounded="circle"
-                source={require("./img/toggled-male-symbol.png")}
-              />
-              <Image
-                h={60}
-                w={60}
-                m={10}
-                rounded="circle"
-                source={require("./img/untoggled-female-symbol.png")}
-              />
-              <Image
-                h={60}
-                w={60}
-                m={10}
-                rounded="circle"
-                source={require("./img/untoggled-transgender-symbol.png")}
-              />
-            </Div>
+            <FormInput
+              name="name"
+              control={control}
+              editable={toggle}
+              defaultValue={data?.user?.name ? data.user.name : "    -"}
+              inputProp={toggle ? { color: "primary" } : { color: "black" }}
+              fontSize={25}
+            />
           </Div>
         </Div>
 
@@ -202,9 +276,23 @@ const ProfileForm = (props) => {
             <Text {...infoLabelStyle}>Date of Birth</Text>
           </Div>
           <Div {...infoDivValueStyle} flex={1}>
-            <Text {...infoValueStyle}>
-              {data?.dob ? data.dob : "18/02/2022"}
-            </Text>
+            <FormInput
+              name="dob"
+              control={control}
+              editable={toggle}
+              rules={{
+                required: true,
+                // pattern: Regex.dobPattern,
+              }}
+              defaultValue={
+                data?.user?.dob
+                  ? moment(new Date(data.user.dob)).format("MM/DD/YYYY")
+                  : "          -"
+              }
+              inputProp={toggle ? { color: "primary" } : { color: "black" }}
+              fontSize={25}
+              placeholder="MM/DD/YYYY"
+            />
           </Div>
         </Div>
 
@@ -214,7 +302,7 @@ const ProfileForm = (props) => {
           </Div>
           <Div {...infoDivValueStyle}>
             <Text {...infoValueStyle}>
-              {data?.email ? data.email : "example@mail.com"}
+              {data?.user?.email ? data.user.email : "example@mail.com"}
             </Text>
           </Div>
         </Div>
@@ -225,8 +313,8 @@ const ProfileForm = (props) => {
           </Div>
           <Div {...infoDivValueStyle}>
             <Text {...infoValueStyle}>
-              {data?.phone
-                ? toString(data.phone?.region) + toString(data.phone?.number)
+              {data?.user?.phone
+                ? data?.user?.phone?.region + " " + data?.user?.phone?.number
                 : "+91 6789267281"}
             </Text>
           </Div>
@@ -249,9 +337,22 @@ const ProfileForm = (props) => {
             <Text {...infoValueStyle}>**************</Text>
           </Div>
         </Div>
-        <Button w="100%" mt={30} bg="dangerRed" onPress={logoutUser}>
-          LOGOUT
-        </Button>
+        {toggle ? (
+          <Button
+            w="100%"
+            mt={30}
+            bg="primary"
+            onPress={handleSubmit((data) => {
+              submitData(data);
+            })}
+          >
+            SUBMIT
+          </Button>
+        ) : (
+          <Button w="100%" mt={30} bg="dangerRed" onPress={logoutUser}>
+            LOGOUT
+          </Button>
+        )}
       </Div>
     </Div>
   );

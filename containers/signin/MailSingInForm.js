@@ -6,10 +6,6 @@ import FormInput from "../../components/form/FormInput";
 import { Regex } from "../../constants/Regex";
 
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { useDispatch, useSelector } from "react-redux";
-import { useGetUserDetailsByUidMutation } from "../../services/aahaar";
-
-import { setProfileData, clearState } from "../../features/user/userSlice";
 
 const auth = getAuth();
 
@@ -22,18 +18,6 @@ const MailSignInForm = (props) => {
   } = useForm();
 
   const navigation = useNavigation();
-  const [triggerFetchProfile, res] = useGetUserDetailsByUidMutation();
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    console.log("RES: ", res);
-    if (res.isUninitialized) return;
-    if (res.isSuccess) {
-      dispatch(setProfileData(res.data.user));
-    } else {
-      dispatch(clearState());
-    }
-  }, [res]);
 
   const submitData = async (data) => {
     const { email, password } = data;
@@ -45,7 +29,7 @@ const MailSignInForm = (props) => {
       );
       const user = userRecord.user;
       console.log("Account linking success", user);
-      triggerFetchProfile(user.uid);
+      // triggerFetchProfile(user.uid);
     } catch (error) {
       console.log("Account linking error", error);
     }
