@@ -102,7 +102,7 @@ const UserOnBoardLayout = (props) => {
         name="DOB"
         rules={{
           required: true,
-          pattern: Regex.dobPattern,
+          // pattern: Regex.dobPattern,
         }}
         errors={errors}
         errorMessage="Field Required"
