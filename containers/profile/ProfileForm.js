@@ -10,6 +10,8 @@ import { Regex } from "../../constants/Regex";
 import { useForm } from "react-hook-form";
 import mime from "mime";
 
+import Spinner from "../../components/Spinner";
+
 const auth = getAuth();
 
 import { useGetUserDetailsByUidQuery } from "../../services/aahaar";
@@ -77,6 +79,11 @@ const infoValueStyle = {
 
 const ProfileForm = (props) => {
   const [trigger, result] = useUpdateUserDetailsMutation();
+  const { data, error, isLoading, refetch } = useGetUserDetailsByUidQuery(
+    auth.currentUser?.uid,
+    { refetchOnMountOrArgChange: true }
+  );
+
   const [img, setImg] = useState(null);
   const [toggle, setToggle] = useState(false);
   const switchToggle = () => {
@@ -94,8 +101,8 @@ const ProfileForm = (props) => {
   } = useForm();
 
   const submitData = async (data) => {
-    console.log(data);
-    console.log(img);
+    // console.log(data);
+    // console.log(img);
     let reqData = data;
     const fd = new FormData();
     Object.keys(reqData).forEach((key) => {
@@ -104,17 +111,12 @@ const ProfileForm = (props) => {
     if (img) {
       const profileURL = {
         uri: img.uri,
-        name: img.uri.split("/").pop(),
+        name: img.uri?.split("/").pop(),
         type: mime.getType(img.uri),
       };
       fd.append("avatar", profileURL);
     }
-    try {
-      const res = await trigger(fd).unwrap();
-      console.log(res);
-    } catch (e) {
-      console.log(e);
-    }
+    trigger(fd);
     // console.log(fd);
     setToggle(!toggle);
   };
@@ -128,7 +130,7 @@ const ProfileForm = (props) => {
     });
 
     if (!result.cancelled) {
-      console.log(result);
+      // console.log(result);
       setImg(result);
     }
   };
@@ -141,18 +143,6 @@ const ProfileForm = (props) => {
       </Div>
     );
   };
-  const infoDiv = (props) => {
-    return (
-      <Div {...infoDivStyle}>
-        <Div {...infoDivLabelStyle}>
-          <Text {...infoLabelStyle}>{props.type}</Text>
-        </Div>
-        <Div {...infoDivValueStyle}>
-          <Text {...infoValueStyle}></Text>
-        </Div>
-      </Div>
-    );
-  };
   const { canGoBack } = props;
 
   const logoutUser = async () => {
@@ -160,82 +150,27 @@ const ProfileForm = (props) => {
     await auth.signOut();
   };
   useEffect(() => {
-    console.log(auth.currentUser);
+    // console.log(auth.currentUser);
   }, [auth]);
   const nav = useNavigation();
 
-  const { data, error, isLoading } = useGetUserDetailsByUidQuery(
-    auth.currentUser?.uid,
-    { refetchOnMountOrArgChange: true }
-  );
-
   useEffect(() => {
-    console.log(data);
+    //console.log(data);
     if (data?.user?.profileURL ? setImg(data?.user?.profileURL) : setImg(null));
   }, [data]);
 
-  const getGenderAvatar = () => {
-    return (
-      <Div {...infoValueStyle} row justifyContent="center" pb={0}>
-        {data?.user?.gender === "M" ? (
-          <Image
-            h={60}
-            w={60}
-            m={10}
-            p={0}
-            rounded="circle"
-            source={require("./img/toggled-male-symbol.png")}
-          />
-        ) : (
-          <Image
-            h={60}
-            w={60}
-            m={10}
-            p={0}
-            rounded="circle"
-            source={require("./img/untoggled-male-symbol.png")}
-          />
-        )}
-        {data?.user?.gender === "F" ? (
-          <Image
-            h={60}
-            w={60}
-            m={10}
-            rounded="circle"
-            source={require("./img/toggled-female-symbol.png")}
-          />
-        ) : (
-          <Image
-            h={60}
-            w={60}
-            m={10}
-            rounded="circle"
-            source={require("./img/untoggled-female-symbol.png")}
-          />
-        )}
-        {data?.user?.gender === "T" ? (
-          <Image
-            h={60}
-            w={60}
-            m={10}
-            rounded="circle"
-            source={require("./img/toggled-transgender-symbol.png")}
-          />
-        ) : (
-          <Image
-            h={60}
-            w={60}
-            m={10}
-            rounded="circle"
-            source={require("./img/untoggled-transgender-symbol.png")}
-          />
-        )}
-      </Div>
-    );
-  };
+  useEffect(() => {
+    if (result.isSuccess) {
+      refetch();
+    }
+    if (result.isError) {
+      console.log(result.error);
+    }
+  }, [result]);
 
   return (
     <Div {...props}>
+      <Spinner show={result.isLoading} />
       <Div row h={70} justifyContent="space-between">
         {canGoBack && (
           <Div flex={1} justifyContent="flex-start" row>
@@ -336,15 +271,6 @@ const ProfileForm = (props) => {
           </Div>
         </Div>
 
-        <Div {...infoDivStyle}>
-          <Div {...infoDivLabelStyle} pb={10}>
-            <Text {...infoLabelStyle}>Gender</Text>
-          </Div>
-          <Div {...infoDivValueStyle} borderColor="transparent">
-            {getGenderAvatar()}
-          </Div>
-        </Div>
-
         <Div {...infoDivStyle} h={70}>
           <Div {...infoDivLabelStyle} flex={1}>
             <Text {...infoLabelStyle}>Date of Birth</Text>
@@ -356,15 +282,16 @@ const ProfileForm = (props) => {
               editable={toggle}
               rules={{
                 required: true,
-                pattern: Regex.dobPattern,
+                // pattern: Regex.dobPattern,
               }}
               defaultValue={
                 data?.user?.dob
-                  ? moment(new Date(data.user.dob)).format("DD/MM/YYYY")
+                  ? moment(new Date(data.user.dob)).format("MM/DD/YYYY")
                   : "          -"
               }
               inputProp={toggle ? { color: "primary" } : { color: "black" }}
               fontSize={25}
+              placeholder="MM/DD/YYYY"
             />
           </Div>
         </Div>
