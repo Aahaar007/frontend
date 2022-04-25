@@ -234,17 +234,17 @@ const ProfileForm = (props) => {
           {/*TODO: Add K for thousand, H for hundred etc or the value will overflow */}
           <StatDiv
             arg="listed"
-            num={data.user.food.listed.length}
+            num={data?.user?.food?.listed?.length}
             data="Listed"
           />
           <StatDiv
             arg="donated"
-            num={data.user.food.donated.length}
+            num={data?.user?.food?.donated?.length}
             data="Donated"
           />
           <StatDiv
             arg="recieved"
-            num={data.user.food.recieved.length}
+            num={data?.user?.food?.recieved?.length}
             data="Recieved"
           />
         </Div>
