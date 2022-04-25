@@ -204,12 +204,14 @@ const ProfileForm = (props) => {
           <Avatar
             source={{
               uri:
-                data &&
-                data?.user?.profileURL &&
-                typeof data.user.profileURL === "object" &&
-                data.user.profileURL.link
-                  ? data.user.profileURL.link
-                  : "https://freesvg.org/img/abstract-user-flat-4.png",
+                // data &&
+                // data?.user?.profileURL &&
+                // typeof data.user.profileURL === "object" &&
+                // data.user.profileURL.link
+                //   ? data.user.profileURL.link
+                //   : "https://freesvg.org/img/abstract-user-flat-4.png",
+                data?.user?.profileURL?.link ||
+                "https://freesvg.org/img/abstract-user-flat-4.png",
             }}
             p={55}
             borderWidth={4}
