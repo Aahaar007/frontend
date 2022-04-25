@@ -20,7 +20,7 @@ import {
 
 const MyOrderLayout = () => {
   const [filter, setFilter] = useState({ donations: true, requests: true });
-
+  const [showFilter, setShowFilter] = useState(false);
   const {
     data: foodListingsData,
     error: foodListingsError,
@@ -82,36 +82,39 @@ const MyOrderLayout = () => {
           borderTopWidth={1}
           borderBottomWidth={1}
           color="black"
+          onPress={() => setShowFilter(!showFilter)}
         >
           <Text fontSize={20} fontWeight="bold">
             Filter
           </Text>
-          <Icon name="right" fontFamily="FontAwesome5" />
+          <Icon ml={5} name="filter" fontFamily="FontAwesome5" fontSize={15} />
         </Button>
-        <Div py={10}>
-          <Checkbox.Group
-            row
-            justifyContent="center"
-            onChange={(val) => changeFilter(val)}
-          >
-            <Checkbox
-              value={"donations"}
-              prefix={
-                <Text color="black" px={5} fontSize={20}>
-                  Donations
-                </Text>
-              }
-            />
-            <Checkbox
-              value={"requests"}
-              prefix={
-                <Text color="black" px={5} fontSize={20}>
-                  Requests
-                </Text>
-              }
-            />
-          </Checkbox.Group>
-        </Div>
+        {showFilter && (
+          <Div py={10}>
+            <Checkbox.Group
+              row
+              justifyContent="center"
+              onChange={(val) => changeFilter(val)}
+            >
+              <Checkbox
+                value={"donations"}
+                prefix={
+                  <Text color="black" px={5} fontSize={20}>
+                    Donations
+                  </Text>
+                }
+              />
+              <Checkbox
+                value={"requests"}
+                prefix={
+                  <Text color="black" px={5} fontSize={20}>
+                    Requests
+                  </Text>
+                }
+              />
+            </Checkbox.Group>
+          </Div>
+        )}
       </Div>
       <ScrollDiv
         refreshControl={
