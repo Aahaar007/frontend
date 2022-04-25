@@ -103,6 +103,10 @@ export const aahaarApi = createApi({
         method: "DELETE",
       }),
     }),
+    getHotspots: build.query({
+      url: "/hotpsot",
+      method: "GET",
+    }),
   }),
 });
 
@@ -122,4 +126,5 @@ export const {
   useGetRequestByCodeMutation,
   useCancelRequestMutation,
   useFulfillRequestMutation,
+  useGetHotspotsQuery,
 } = aahaarApi;
