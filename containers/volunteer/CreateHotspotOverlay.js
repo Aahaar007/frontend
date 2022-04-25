@@ -111,7 +111,7 @@ const CreateHotspotOverlay = (props) => {
           <FormInput
             name="description"
             control={control}
-            placeHolder="Lots of people depending on people's sympaty"
+            placeHolder="Describe briefly about the hotspot location"
             label="Description"
             color="white"
             errors={error}
