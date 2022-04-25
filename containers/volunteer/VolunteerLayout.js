@@ -12,8 +12,8 @@ const VolunteerLayout = () => {
   };
   return (
     <Div pb={145}>
-      <CreateHotspotOverlay show={showOverlay} toggleShow={toggleOverlay} />
       <Header toggleOverlay={toggleOverlay} />
+      <CreateHotspotOverlay show={showOverlay} toggleShow={toggleOverlay} />
       <HotspotListing />
     </Div>
   );
