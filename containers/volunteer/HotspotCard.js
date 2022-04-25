@@ -33,7 +33,7 @@ const HotspotCard = (props) => {
         <Div position="relative">
           <Image
             source={{
-              uri: data.imgSrc,
+              uri: data?.imgSrc?.link,
             }}
             w="100%"
             h={200}
@@ -52,8 +52,14 @@ const HotspotCard = (props) => {
             </Div>
           )}
         </Div>
-        <Div row justifyContent="space-between" pr={10} py={5}>
-          <Div>
+        <Div
+          row
+          justifyContent="space-between"
+          pr={10}
+          py={5}
+          alignItems="center"
+        >
+          <Div w="74%">
             <Text p={15} pb={0} fontSize={30} fontWeight="600" color="black">
               {data?.name}
             </Text>
@@ -61,7 +67,7 @@ const HotspotCard = (props) => {
               {data?.address}
             </Text>
           </Div>
-          <Div borderColor={hotspotColor} borderWidth={2} rounded="lg">
+          <Div borderColor={hotspotColor} borderWidth={2} rounded="lg" h={90}>
             <Div h={40} w={90} bg={hotspotColor}>
               <Text color="white" fontSize={30} textAlign="center">
                 {data?.capacity}

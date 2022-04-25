@@ -136,5 +136,5 @@ export const {
   useCancelRequestMutation,
   useFulfillRequestMutation,
   useCreateHotspotMutation,
-  useReadAllHotspotsQuery,
+  useLazyReadAllHotspotsQuery,
 } = aahaarApi;
