@@ -150,7 +150,7 @@ const ProfileForm = (props) => {
     await auth.signOut();
   };
   useEffect(() => {
-    // console.log(auth.currentUser);
+    console.log(auth.currentUser);
   }, [auth]);
   const nav = useNavigation();
 

@@ -6,12 +6,17 @@ import PhoneInput from "../../components/form/PhoneInput";
 import { useCreateHotspotMutation } from "../../services/aahaar";
 import * as ImagePicker from "expo-image-picker";
 import mime from "mime";
+import codes from "../../constants/countryCode.json";
+import Spinner from "../../components/Spinner";
+
 const CreateHotspotOverlay = (props) => {
   const { control, handleSubmit, formState: error } = useForm();
   const [trigger, result] = useCreateHotspotMutation();
   const { show, toggleShow } = props;
   const [data, setData] = useState();
   const [img, setImg] = useState(null);
+  const [isNgo, setIsNgo] = useState(false);
+
   const modifyData = useCallback(
     (val) => {
       const temp = { ...data, ...val };
@@ -34,11 +39,14 @@ const CreateHotspotOverlay = (props) => {
     }
   };
   const onSubmit = (val) => {
-    console.log(val, data);
+    // console.log(val);
+    // console.log("data:", data);
     let reqData = val;
     const fd = new FormData();
     Object.keys(reqData).forEach((key) => {
-      fd.append(key, reqData[key]);
+      if (key !== "phone") {
+        fd.append(key, reqData[key]);
+      }
     });
 
     if (img) {
@@ -49,32 +57,35 @@ const CreateHotspotOverlay = (props) => {
       };
       fd.append("imgSrc", imgSrc);
     }
-    // const contactNumber = {
-    //   region: data,
-    //   number: val.phone,
-    // };
-    // fd.append("contactNumber", data);
-    console.log(fd);
+    fd.append("isNGO", isNgo);
+    if (isNgo) {
+      fd.append("contactNumber[region]", codes[data?.code]);
+      fd.append("contactNumber[number]", val.phone);
+    }
+
+    // console.log(fd);
     trigger(fd);
     toggleShow();
   };
   useEffect(() => {
+    console.log(result);
     if (result.isSuccess) {
       console.log("Success");
+      //toggleShow();
     }
     if (result.isError) {
       console.log(result.error);
+      //toggleShow();
     }
   }, [result]);
 
   return (
     <Overlay visible={show} bg="bgGray">
+      <Spinner show={result.isLoading} />
       <Text textAlign="center" color="white" fontWeight="bold" fontSize={25}>
         Create Hotspot
       </Text>
-      <Button rounded="xl" alignSelf="center" onPress={pickImage}>
-        Upload Image
-      </Button>
+
       <Div>
         <Div mb={20}>
           <FormInput
@@ -120,29 +131,44 @@ const CreateHotspotOverlay = (props) => {
               errors={error}
             />
           </Div>
-        </Div>
-        {/* <Div alignItems="center" pt={10}>
+          <Div alignItems="center" pt={10}>
             <Text mr={10} fontSize={15} color="white">
               Is this an NGO?
             </Text>
-            <Radio.Group row>
-              <Radio prefix={<Text color="white">Yes</Text>} />
-              <Radio
-                prefix={
-                  <Text color="white" ml={20}>
-                    No
-                  </Text>
-                }
+            <Div row>
+              <Text color="white" mr={5}>
+                No
+              </Text>
+              <Toggle
+                on={isNgo}
+                onPress={() => {
+                  setIsNgo(!isNgo);
+                }}
+                mr={5}
               />
-            </Radio.Group>
-          </Div> */}
-        <PhoneInput
-          overflow="hidden"
-          control={control}
-          errors={error}
-          setData={modifyData}
-          color="white"
-        />
+              <Text color="white">Yes</Text>
+            </Div>
+          </Div>
+        </Div>
+        {isNgo && (
+          <PhoneInput
+            overflow="hidden"
+            control={control}
+            errors={error}
+            setData={modifyData}
+            color="white"
+          />
+        )}
+        <Button
+          w="100%"
+          bg="primary"
+          rounded="xl"
+          mt={20}
+          alignSelf="center"
+          onPress={pickImage}
+        >
+          Upload Image
+        </Button>
         <Button
           w="100%"
           mt={20}
