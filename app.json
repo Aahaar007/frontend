@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "frontend",
-    "slug": "frontend",
+    "slug": "aahaar",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -33,11 +33,14 @@
         "android.permission.WRITE_EXTERNAL_STORAGE",
         "android.permission.RECORD_AUDIO",
         "android.permission.INTERNET"
-      ]
+      ],
+      "versionCode": 1,
+      "package": "com.dark007.aahaar"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "plugins": ["expo-image-picker", "expo-camera"]
+    "plugins": ["expo-image-picker", "expo-camera"],
+    "owner": "dark007"
   }
 }
