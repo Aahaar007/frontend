@@ -1,3 +1,4 @@
+<div id="top"></div>
 <h1 align="center">
   <br>
   <a href="https://github.com/Aahaar007"><img src="./assets/logo.png" alt="Markdownify" width="200"></a>
@@ -40,11 +41,19 @@
   - Each donation can have multiple recieve requests for varaying amounts of food
   - QR code based transaction confirmation system for ease of use
 
+<p align="right">(<a href="#top">back to top</a>)</p>
+
 ## How To Use
 
-####Prequisites
+<h4>Prequisites</h4>
 
-To clone and run this application, you'll need [Git](https://git-scm.com) :
+- The project was built with Node v16.10.0, follow these <a href="https://nodejs.dev/learn/how-to-install-nodejs">instructions</a> to install Node
+
+- The project uses yarn as the package manager, follow these <a href="https://yarnpkg.com/getting-started/install">instructions</a> to install yarn
+
+- To clone and run this application, you'll also need [Git](https://git-scm.com)
+
+<h4>Install instructions</h4>
 
 ```bash
 # Clone this repository
@@ -52,24 +61,60 @@ $ git clone https://github.com/Aahaar007/frontend.git
 
 # Go into the repository
 $ cd frontend
+```
 
+> Follow <a href="#env-specs">environment variable specifications</a> and add the environment variables to the .env file
+> After adding the .env file follow the instructions below:
+
+```bash
 # Install dependencies
 $ yarn install
 
-#environment variables
-
 # Run the app
 $ yarn start
-
-# Follow expo instructions to run the app on an emulator/phone
 ```
+
+> Follow expo instructions to run the app on an emulator/phone
 
 > **Note**
 > The app does not work on the web. If you run the app on web it might have graphical glitches.
 
-## Download
+<h4 id="env-specs">Environment variable specifications</h4>
+```
+FIREBASE_API_KEY = <Your firebase api key>
+FIREBASE_AUTH_DOMAIN = <Firbase auth domain>
+FIREBASE_PROJECT_ID = <Firebase project id>
+FIREBASE_STORAGE_BUCKET = <firebase storage bucket>
+FIREBASE_MESSAGING_SENDER_ID = <firebase messaging sender id>
+FIREBASE_APP_ID = <firebase app id>
+FIREBASE_MEASUREMENT_ID = <firebase measurement id>
+BACKEND_URL = <aahaar backend url>
+```
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+<!-- CONTRIBUTING -->
+
+## Contributing
+
+Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+
+If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
+Don't forget to give the project a star! Thanks again!
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+<!-- ## Download
 
 You can [download](https://github.com/Aahaar007/frontend) the apk for android and install the app on your device.
+
+<p align="right">(<a href="#top">back to top</a>)</p> -->
 
 <!-- ## Emailware
 
@@ -106,7 +151,7 @@ This software uses the following open source packages:
 - [Pomolectron](https://github.com/amitmerchant1990/pomolectron) - A pomodoro app
 - [Correo](https://github.com/amitmerchant1990/correo) - A menubar/taskbar Gmail App for Windows and macOS -->
 
-##Team ✨
+## Team ✨
 
 |                                                                                                                                                                                                                                                                                |                                                                                                                                                                                                                |                                                                                                                                                                                                                                                                          |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -116,6 +161,8 @@ This software uses the following open source packages:
 | [Kshitiz Singh](https://www.linkedin.com/in/k4droid3/)                                                                                                                                                                                                                         | [Drishtdyumn Shrivastava](https://www.linkedin.com/in/drishtdyumn-shrivastava-645716199/)                                                                                                                      | [Anshul Sharma](https://www.linkedin.com/in/anshul-sharma-8438a619a)                                                                                                                                                                                                     |
 | [<img src="https://media-exp1.licdn.com/dms/image/C4D03AQH9Caa0RvahUw/profile-displayphoto-shrink_800_800/0/1621952338079?e=1663804800&v=beta&t=Igy-tU7cFO-xLjGtHAZlxDqUC3CXdP1aCzhTtlTLUAQ" alt="drawing" width="200"/>](https://www.linkedin.com/in/atharv-tiwari-871a73212) | [<img src="https://i.postimg.cc/D0XYvpcH/krishan.png" alt="drawing" width="200"/>](https://www.linkedin.com/in/krishan-mishra-833b35205/)                                                                      | [<img src="https://avatars.githubusercontent.com/u/63453782?v=4" alt="drawing" width="200"/>](https://www.linkedin.com/in/lohitaksh-kaushik/)                                                                                                                            |
 | [Atharv Tiwari](https://www.linkedin.com/in/atharv-tiwari-871a73212)                                                                                                                                                                                                           | [Krishan Mishra](https://www.linkedin.com/in/krishan-mishra-833b35205/)                                                                                                                                        | [Lohitaksh K.](https://www.linkedin.com/in/lohitaksh-kaushik/)                                                                                                                                                                                                           |
+
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 ## License
 
