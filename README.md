@@ -53,6 +53,8 @@
 
 - To clone and run this application, you'll also need [Git](https://git-scm.com)
 
+- Follow <a href="#firebase-setup"> firebase setup </a> to connect your project with the firebase.
+
 <h4>Install instructions</h4>
 
 ```bash
@@ -62,8 +64,7 @@ $ git clone https://github.com/Aahaar007/frontend.git
 # Go into the repository
 $ cd frontend
 ```
-
-> Follow <a href="#env-specs">environment variable specifications</a> and add the environment variables to the .env file
+- Follow <a href="#env-specs">environment variable specifications</a> and add the environment variables to the .env file
 > After adding the .env file follow the instructions below:
 
 ```bash
@@ -79,18 +80,27 @@ $ yarn start
 > **Note**
 > The app does not work on the web. If you run the app on web it might have graphical glitches.
 
+<h4 id="#firebase-setup">Firebase Setup</h4>
+
+- Follow the link to <a href="https://cloud.google.com/firestore/docs/client/get-firebase">connect your project with firebase</a>.
+- Select Web APP patform.
+- Register you app with the desired nickname.
+- Follow the futher steps as shown by Firebase.
+- From the Firebase console refer the firebaseConfig object to match the .env variable values to the object keys enclosed in `<>` 
 <h4 id="env-specs">Environment variable specifications</h4>
 
 ```
-FIREBASE_API_KEY = <Your firebase api key>
-FIREBASE_AUTH_DOMAIN = <Firbase auth domain>
-FIREBASE_PROJECT_ID = <Firebase project id>
-FIREBASE_STORAGE_BUCKET = <firebase storage bucket>
-FIREBASE_MESSAGING_SENDER_ID = <firebase messaging sender id>
-FIREBASE_APP_ID = <firebase app id>
-FIREBASE_MEASUREMENT_ID = <firebase measurement id>
-BACKEND_URL = <aahaar backend url>
+FIREBASE_API_KEY = <apiKey>
+FIREBASE_AUTH_DOMAIN = <authDomain>
+FIREBASE_PROJECT_ID = <projectId>
+FIREBASE_STORAGE_BUCKET = <storageBucket>
+FIREBASE_MESSAGING_SENDER_ID = <messagingSenderId>
+FIREBASE_APP_ID = <appId>
+FIREBASE_MEASUREMENT_ID = <measurementId>
+BACKEND_URL = <backend url>
 ```
+- setup the following without any quotes.
+- Refer the Backend README for instruction on how to obtain the BACKEND_URL for the .env file.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
