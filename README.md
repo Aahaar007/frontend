@@ -80,6 +80,7 @@ $ yarn start
 > The app does not work on the web. If you run the app on web it might have graphical glitches.
 
 <h4 id="env-specs">Environment variable specifications</h4>
+
 ```
 FIREBASE_API_KEY = <Your firebase api key>
 FIREBASE_AUTH_DOMAIN = <Firbase auth domain>
