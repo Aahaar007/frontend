@@ -13,12 +13,11 @@
   <a href="#key-features">Key Features</a> •
   <a href="#how-to-use">How To Use</a> •
   <a href="#download">Download</a> •
-  <a href="#credits">Credits</a> •
-  <a href="#related">Related</a> •
+  <a href="#team">Team</a> •
   <a href="#license">License</a>
 </p>
 
-![screenshot](https://raw.githubusercontent.com/amitmerchant1990/electron-markdownify/master/app/img/markdownify.gif)
+<!-- ![screenshot](https://raw.githubusercontent.com/amitmerchant1990/electron-markdownify/master/app/img/markdownify.gif) -->
 
 ## Key Features
 
@@ -57,6 +56,8 @@
 
 <h4>Install instructions</h4>
 
+Once the prequisites are met you can proceed with the following:
+
 ```bash
 # Clone this repository
 $ git clone https://github.com/Aahaar007/frontend.git
@@ -82,10 +83,10 @@ $ yarn start
 
 <h4 id="#firebase-setup">Firebase Setup</h4>
 
-- Follow the link to <a href="https://cloud.google.com/firestore/docs/client/get-firebase">connect your project with firebase</a>.
-- Select Web APP patform.
-- Register you app with the desired nickname.
-- Follow the futher steps as shown by Firebase.
+- Follow the link to <a href="https://cloud.google.com/firestore/docs/client/get-firebase">connect your project with firebase</a>
+- Select Web APP patform
+- Register you app with the desired nickname
+- Follow the futher steps as shown by Firebase
 - From the Firebase console refer the firebaseConfig object to match the .env variable values to the object keys enclosed in `<>` 
 <h4 id="env-specs">Environment variable specifications</h4>
 
@@ -99,8 +100,7 @@ FIREBASE_APP_ID = <appId>
 FIREBASE_MEASUREMENT_ID = <measurementId>
 BACKEND_URL = <backend url>
 ```
-- setup the following without any quotes.
-- Refer the Backend README for instruction on how to obtain the BACKEND_URL for the .env file.
+> Set the BACNEND_URL variable to your local/remote backend server for Aahaar
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -121,11 +121,11 @@ Don't forget to give the project a star! Thanks again!
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-<!-- ## Download
+ ## Download
 
-You can [download](https://github.com/Aahaar007/frontend) the apk for android and install the app on your device.
+You can [download](https://drive.google.com/drive/folders/1vIJXaPm-e7-ocYOrxyDEp4It1ss2w3An?usp=sharing) the apk for android and install the app on your device.
 
-<p align="right">(<a href="#top">back to top</a>)</p> -->
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 <!-- ## Emailware
 
@@ -162,7 +162,7 @@ This software uses the following open source packages:
 - [Pomolectron](https://github.com/amitmerchant1990/pomolectron) - A pomodoro app
 - [Correo](https://github.com/amitmerchant1990/correo) - A menubar/taskbar Gmail App for Windows and macOS -->
 
-## Team ✨
+<h1 id="team"> Team ✨</h1>
 
 |                                                                                                                                                                                                                                                                                |                                                                                                                                                                                                                |                                                                                                                                                                                                                                                                          |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
